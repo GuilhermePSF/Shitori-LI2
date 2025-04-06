@@ -97,7 +97,7 @@ int main()
                 {
                     if (r_idx >= 0 && r_idx < rows && c_idx >= 0 && c_idx < cols)
                     {
-                        board[r_idx][c_idx] = toupper(board[r_idx][c_idx]);
+                        board[r_idx][c_idx - 1] = toupper(board[r_idx][c_idx - 1]);
                         printBoard();
                     }
                     else
@@ -122,7 +122,7 @@ int main()
                 {
                     if (r_idx >= 0 && r_idx < rows && c_idx >= 0 && c_idx < cols)
                     {
-                        board[r_idx][c_idx] = '#';
+                        board[r_idx][c_idx - 1] = '#';
                         printBoard();
                     }
                     else
