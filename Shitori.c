@@ -95,7 +95,7 @@ int main()
             {
                 if (sscanf(coord, "%d,%d", &r_idx, &c_idx) == 2)
                 {
-                    if (r_idx >= 0 && r_idx < rows && c_idx >= 0 && c_idx < cols)
+                    if (r_idx >= 0 && r_idx < rows && c_idx >= 0 && c_idx <= cols)
                     {
                         board[r_idx][c_idx - 1] = toupper(board[r_idx][c_idx - 1]);
                         printBoard();
@@ -120,7 +120,7 @@ int main()
             {
                 if (sscanf(coord, "%d,%d", &r_idx, &c_idx) == 2)
                 {
-                    if (r_idx >= 0 && r_idx < rows && c_idx >= 0 && c_idx < cols)
+                    if (r_idx >= 0 && r_idx < rows && c_idx >= 0 && c_idx <= cols)
                     {
                         board[r_idx][c_idx - 1] = '#';
                         printBoard();
