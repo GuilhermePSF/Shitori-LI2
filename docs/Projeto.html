@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)https://eos.di.uminho.pt/~rui/projeto/enunciado.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="" data-lt-installed="true"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Projeto</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="./Projeto_files/solarized-light.min.css">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Projeto</h1>
+</header>
+<h1 id="contexto">Contexto</h1>
+<p>Pretende-se construir um programa que permita a um utilizador
+resolver um puzzle. As regras desse puzzle são as seguintes:</p>
+<ul>
+<li>Cada casa contém um símbolo (uma letra inicialmente minúscula);</li>
+<li>Em cada linha e coluna só pode existir uma única réplica de cada
+símbolo que é pintada a branco (coloca-se a letra em maiúsculas);</li>
+<li>Todas as outras réplicas desse símbolo têm que ser riscadas
+(substituídas por um cardinal);</li>
+<li>Se uma casa está riscada, todas as casas vizinhas ortogonais têm que
+estar pintadas a branco;</li>
+<li>É necessário existir um caminho ortogonal entre todas as casas
+brancas do tabuleiro.</li>
+</ul>
+<p>Eis um exemplo de um tabuleiro inicial:</p>
+<pre><code>e c a d c
+d c d e c
+b d d c e
+c d e e b
+a c c b b</code></pre>
+<p>E da sua solução:</p>
+<pre><code>E # A D C
+D C # E #
+B # D C E
+C D E # B
+A # C B #</code></pre>
+<h1 id="ilustração-das-regras">Ilustração das regras</h1>
+<p>Se olharmos para o canto inferior direito do tabuleiro, temos três B
+colados. Como dois B não podem estar na mesma linha ou coluna, sabemos
+que o canto teria que ser um dos seguintes casos:</p>
+<pre><code>e c a d c    e c a d c
+d c d e c    d c d e c
+b d d c e    b d d c e
+c d e e #    c d e e B
+a c c # B    a c c B #</code></pre>
+<p>Destes dois casos, só o segundo é válido porque no primeiro caso o B
+estaria isolado de todas as letras pintadas a branco (i.e., maiúsculas)
+do resto do tabuleiro. Logo ficamos com o seguinte:</p>
+<pre><code>e c a d c
+d c d e c
+b d d c e
+c d e e B
+a c c B #</code></pre>
+<p>Na quarta coluna temos as letras <code>e c e</code>. Se riscarmos a
+letra c que está no meio teríamos:</p>
+<pre><code>e c a d c
+d c d e c
+b d d # e
+c d e e B
+a c c B #</code></pre>
+<p>Pela regra das casas riscadas temos:</p>
+<pre><code>e c a d c
+d c d E c
+b d D # E
+c d e E B
+a c c B #</code></pre>
+<p>Mas isso faz com que ficam dois símbolos iguais, E, na mesma coluna,
+o que não é possível! Logo, o c tem que ser pintado de branco:</p>
+<pre><code>e c a d c
+d c d e c
+b d d C e
+c d e e B
+a c c B #</code></pre>
+<p>Temos um outro caso na segunda coluna, que contém três símbolos c,
+estando dois deles juntos. Logo, se o símbolo c isolado fosse pintado de
+branco:</p>
+<pre><code>e c a d c
+d c d e c
+b d d C e
+c d e e B
+a C c B #</code></pre>
+<p>Então, pela regra das peças brancas:</p>
+<pre><code>e # a d c
+d # d e c
+b d d C e
+c d e e B
+a C c B #</code></pre>
+<p>O que não é possível porque duas casas vizinhas ortogonais ficariam
+riscadas. Logo a peça isolada tem que ser riscada!</p>
+<pre><code>e c a d c
+d c d e c
+b d d C e
+c d e e B
+a # c B #</code></pre>
+<p>Pela regra das casas riscadas, as vizinhas teriam que ser
+brancas:</p>
+<pre><code>e c a d c
+d c d e c
+b d d C e
+c D e e B
+A # C B #</code></pre>
+<p>E seguidamente, pela regra das brancas:</p>
+<pre><code>e c a d c
+d c d e c
+b # d C e
+c D e e B
+A # C B #</code></pre>
+<p>E pela das riscadas:</p>
+<pre><code>e c a d c
+d C d e c
+B # D C e
+c D e e B
+A # C B #</code></pre>
+<p>E a seguir pela regra das brancas:</p>
+<pre><code>e # a d c
+d C # e #
+B # D C e
+c D e e B
+A # C B #</code></pre>
+<p>E pela regra das riscadas:</p>
+<pre><code>E # A d C
+d C # E #
+B # D C E
+c D e e B
+A # C B #</code></pre>
+<p>E pela das brancas:</p>
+<pre><code>E # A d C
+d C # E #
+B # D C E
+c D e # B
+A # C B #</code></pre>
+<p>E pela regra das riscadas:</p>
+<pre><code>E # A d C
+d C # E #
+B # D C E
+c D E # B
+A # C B #</code></pre>
+<p>As letras que sobram seguem todas a regra de que todas as peças
+brancas têm que ser atingíveis através de um caminho ortogonal de peças
+brancas.</p>
+<ul>
+<li>O d na primeira linha tem forçosamente que ser branco porque caso
+contrário o C no canto ficaria isolado;</li>
+<li>O mesmo para o d da segunda linha;</li>
+<li>E finalmente para o c da penúltima linha.</li>
+</ul>
+<h1 id="etapas">Etapas</h1>
+<p>O projeto é dividido em 5 etapas:</p>
+<ol type="1">
+<li>Motor básico que permite visualizar o jogo, selecionar uma casa e
+pintá-la de branco ou riscá-la;</li>
+<li>Permitir voltar atrás e verificar as restrições das casas brancas e
+casas riscadas;</li>
+<li>Verificar que há um caminho ortogonal entre quaisquer duas casas
+brancas no tabuleiro;</li>
+<li>Dar dicas e resolver o jogo;</li>
+<li>Entrega final.</li>
+</ol>
+<h1 id="critérios-para-cada-uma-das-entregas">Critérios para cada uma
+das entregas</h1>
+<ul>
+<li>Só são avaliados os alunos presentes aquando da entrega;</li>
+<li>Os alunos devem entregar o código e testes usando o CUnit;</li>
+<li>Os alunos devem ser capazes de explicar cada uma das linhas do
+código que escreveram;</li>
+<li>Se ninguém for capaz de explicar o código, a avaliação será
+nula.</li>
+</ul>
+<h1 id="o-que-entregar-em-cada-etapa">O que entregar em cada etapa</h1>
+<ul>
+<li>Uma makefile com os targets <strong>jogo</strong> e
+<strong>testar</strong></li>
+<li>Ao correr <code>make testar</code> devem ser executados todos os
+testes que devem testar todas as condições do programa;</li>
+<li>Deve ser utilizada uma ferramenta de cobertura de código,
+e.g.&nbsp;<strong>gcov</strong>, para garantir que todas as linhas de código
+são cobertas pelos testes;</li>
+<li>Ao correr <code>make jogo</code> deve passar a existir um executável
+chamado <strong>jogo</strong> que permite correr o programa;</li>
+<li>A compilação deve sempre utilizar as flags
+<code>-Wall -Wextra -pedantic -O1 -fsanitize=address -fno-omit-frame-pointer -g</code>
+e compilar na máquina virtual <strong>sem warnings nem
+erros</strong>.</li>
+</ul>
+<h1 id="pontuação-de-cada-etapa">Pontuação de cada etapa</h1>
+<p>Cada etapa vale dois pontos, sendo um dos pontos para a implementação
+de todas as funcionalidades e o outro para a implementação dos testes
+que cubram todas as possíveis eventualidades.</p>
+<h1 id="comandos-a-implementar">Comandos a implementar</h1>
+<p>O programa deve funcionar segundo o esquema REPL (read, execute,
+print, loop) e deve implementar os seguintes comandos:</p>
+<dl>
+<dt>g jogo</dt>
+<dd>
+gravar o estado atual do jogo num ficheiro
+</dd>
+<dt>l jogo</dt>
+<dd>
+ler o estado do jogo de um ficheiro
+</dd>
+<dt>&lt;coordenada&gt;</dt>
+<dd>
+no formato &lt;letra minúscula&gt;&lt;número&gt; onde a letra
+corresponde a uma coluna e o número a uma linha
+</dd>
+<dt>b &lt;coordenada&gt;</dt>
+<dd>
+colocar a letra da casa correspondente à coordenada em maiúsculas
+</dd>
+<dt>r &lt;coordenada&gt;</dt>
+<dd>
+colocar um # no local da letra
+</dd>
+<dt>v</dt>
+<dd>
+verificar o estado do jogo e apontar todas as restrições violadas
+</dd>
+<dt>a</dt>
+<dd>
+ajudar mudando o estado de todas as casas que se conseguem inferir
+através do estado atual do tabuleiro:
+</dd>
+</dl>
+<ul>
+<li>riscar todas as letras iguais a uma letra branca na mesma linha e/ou
+coluna</li>
+<li>pintar de branco todas as casas vizinhas de uma casa riscada</li>
+<li>pintar de branco uma casa quando seria impossível que esta fosse
+riscada por isolar casas brancas</li>
+</ul>
+<dl>
+<dt>A</dt>
+<dd>
+invocar o comando <strong>a</strong> enquanto o jogo sofrer alterações
+</dd>
+<dt>R</dt>
+<dd>
+resolver o jogo
+</dd>
+<dt>d</dt>
+<dd>
+desfazer o último comando executado
+</dd>
+<dt>s</dt>
+<dd>
+sair do programa
+</dd>
+</dl>
+<h1 id="formato-do-ficheiro">Formato do ficheiro</h1>
+<p>O formato do ficheiro será o seguinte:</p>
+<ul>
+<li>Uma linha com o número de linhas L e de colunas C;</li>
+<li>L linhas contendo cada uma C caracteres com as letras correspondendo
+a cada linha.</li>
+</ul>
+<p>Eis o exemplo usado neste enunciado:</p>
+<pre><code>5 5
+ecadc
+dcdec
+bddce
+cdeeb
+accbb</code></pre>
+
+
+</body></html>
