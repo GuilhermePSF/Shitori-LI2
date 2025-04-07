@@ -25,12 +25,6 @@ Para compilar o projeto, certifique-se de que possui **GCC** instalado. Execute 
 make jogo
 ```
 
-Para executar o jogo:
-
-```sh
-./jogo
-```
-
 ## Comandos
 O jogo opera no estilo **REPL (Read-Eval-Print Loop)** e suporta(rá) os seguintes comandos:
 
@@ -53,7 +47,6 @@ O projeto inclui testes unitários utilizando **CUnit**. Para compilar e executa
 
 ```sh
 make teste
-./test_runner
 ```
 
 Para verificar a cobertura de código, utilize:
