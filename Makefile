@@ -5,7 +5,8 @@ BIN_DIR := bin
 
 # Compilador
 CC := gcc
-CFLAGS := -Wall -Wextra -pedantic -O1 -fsanitize=address -fno-omit-frame-pointer -g
+CFLAGS := -Wall -Wextra -pedantic -O1 -fsanitize=address -fno-omit-frame-pointer -g -I$(SRC_DIR)
+LDFLAGS := lcunit
 
 # Arquivos fonte e de teste
 SRCS := $(wildcard $(SRC_DIR)/*.c)
@@ -18,7 +19,7 @@ TEST_EXEC := $(BIN_DIR)/testes
 # Compilar e executar o jogo
 jogo: $(EXEC)
 	$(EXEC)
-	
+
 $(EXEC): $(SRCS) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
