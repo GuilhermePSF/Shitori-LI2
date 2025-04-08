@@ -24,7 +24,7 @@ $(EXEC): $(SRCS) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 # Compilar e executar os testes
-teste: $(TEST_EXEC)
+testar: $(TEST_EXEC)
 	$(TEST_EXEC)
 
 $(TEST_EXEC): $(filter-out $(SRC_DIR)/main.c, $(SRCS)) $(TEST_SRCS) | $(BIN_DIR)
