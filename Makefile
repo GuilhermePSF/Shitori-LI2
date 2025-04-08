@@ -25,22 +25,10 @@ $(EXEC): $(SRCS) | $(BIN_DIR)
 
 # Compilar e executar os testes
 teste: $(TEST_EXEC)
-# Compilar e executar os testes
-testar: $(TEST_EXEC)
 	$(TEST_EXEC)
 
 $(TEST_EXEC): $(filter-out $(SRC_DIR)/main.c, $(SRCS)) $(TEST_SRCS) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
-
-# Compilar com cobertura de código
-cobertura: CFLAGS += -fprofile-arcs -ftest-coverage
-cobertura: $(TEST_EXEC)
-	$(TEST_EXEC)
-	@gcov -b -c $(SRC_DIR)/*.c > cobertura.txt
-
-# Criar diretório de binários, se não existir
-$(TEST_EXEC): $(SRCS) $(TEST_SRCS) | $(BIN_DIR)
-	$(CC) $(CFLAGS) -o $@ $^
 
 # Compilar com cobertura de código
 cobertura: CFLAGS += -fprofile-arcs -ftest-coverage
@@ -55,7 +43,5 @@ $(BIN_DIR):
 # Limpeza dos ficheiros gerados
 limpa:
 	rm -rf $(BIN_DIR) *.gcno *.gcda *.gcov cobertura.txt
-
-.PHONY: jogo testar cobertura limpa
 
 .PHONY: jogo teste cobertura limpa
