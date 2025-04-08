@@ -5,8 +5,8 @@ BIN_DIR := bin
 
 # Compilador
 CC := gcc
-CFLAGS := -Wall -Wextra -pedantic -O1 -g -I$(SRC_DIR)
-LDFLAGS := -lcunit
+CFLAGS := -Wall -Wextra -pedantic -O1 -fno-omit-frame-pointer -g -fsanitize=address -I$(SRC_DIR)
+LDFLAGS := -lcunit -fsanitize=address
 
 # Arquivos fonte e de teste
 SRCS := $(wildcard $(SRC_DIR)/*.c)
@@ -23,14 +23,20 @@ jogo: $(EXEC)
 $(EXEC): $(SRCS) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
-# Comando para compilar e rodar os testes
+# Compilar e executar os testes
 teste: $(TEST_EXEC)
 	$(TEST_EXEC)
 
 $(TEST_EXEC): $(filter-out $(SRC_DIR)/main.c, $(SRCS)) $(TEST_SRCS) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
-    
-# Criação do diretório binário
+
+# Compilar com cobertura de código
+cobertura: CFLAGS += -fprofile-arcs -ftest-coverage
+cobertura: $(TEST_EXEC)
+	$(TEST_EXEC)
+	@gcov -b -c $(SRC_DIR)/*.c > cobertura.txt
+
+# Criar diretório de binários, se não existir
 $(BIN_DIR):
 	@mkdir -p $@
 
@@ -38,4 +44,4 @@ $(BIN_DIR):
 limpa:
 	rm -rf $(BIN_DIR)
 
-.PHONY: jogo teste limpa
+.PHONY: jogo teste cobertura limpa
