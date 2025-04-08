@@ -5,8 +5,8 @@ BIN_DIR := bin
 
 # Compilador
 CC := gcc
-CFLAGS := -Wall -Wextra -pedantic -O1 -fsanitize=address -fno-omit-frame-pointer -g -I$(SRC_DIR)
-LDFLAGS := lcunit
+CFLAGS := -Wall -Wextra -pedantic -O1 -fno-omit-frame-pointer -g -fsanitize=address -I$(SRC_DIR)
+LDFLAGS := -lcunit -fsanitize=address
 
 # Arquivos fonte e de teste
 SRCS := $(wildcard $(SRC_DIR)/*.c)
@@ -24,9 +24,21 @@ $(EXEC): $(SRCS) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 # Compilar e executar os testes
+teste: $(TEST_EXEC)
+# Compilar e executar os testes
 testar: $(TEST_EXEC)
 	$(TEST_EXEC)
 
+$(TEST_EXEC): $(filter-out $(SRC_DIR)/main.c, $(SRCS)) $(TEST_SRCS) | $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+# Compilar com cobertura de código
+cobertura: CFLAGS += -fprofile-arcs -ftest-coverage
+cobertura: $(TEST_EXEC)
+	$(TEST_EXEC)
+	@gcov -b -c $(SRC_DIR)/*.c > cobertura.txt
+
+# Criar diretório de binários, se não existir
 $(TEST_EXEC): $(SRCS) $(TEST_SRCS) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
@@ -45,3 +57,5 @@ limpa:
 	rm -rf $(BIN_DIR) *.gcno *.gcda *.gcov cobertura.txt
 
 .PHONY: jogo testar cobertura limpa
+
+.PHONY: jogo teste cobertura limpa
