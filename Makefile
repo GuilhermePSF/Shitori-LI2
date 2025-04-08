@@ -5,7 +5,8 @@ BIN_DIR := bin
 
 # Compilador
 CC := gcc
-CFLAGS := -Wall -Wextra -pedantic -O1 -g
+CFLAGS := -Wall -Wextra -pedantic -O1 -g -I$(SRC_DIR)
+LDFLAGS := -lcunit
 
 # Arquivos fonte e de teste
 SRCS := $(wildcard $(SRC_DIR)/*.c)
@@ -14,8 +15,6 @@ TEST_SRCS := $(wildcard $(TESTES_DIR)/*.c)
 # Nome dos executáveis
 EXEC := $(BIN_DIR)/jogo
 TEST_EXEC := $(BIN_DIR)/testes
-
-# Comandos principais
 
 # Comando para criar e rodar o jogo
 jogo: $(EXEC)
@@ -28,9 +27,9 @@ $(EXEC): $(SRCS) | $(BIN_DIR)
 teste: $(TEST_EXEC)
 	$(TEST_EXEC)
 
-$(TEST_EXEC): $(SRCS) $(TEST_SRCS) | $(BIN_DIR)
-	$(CC) $(CFLAGS) -o $@ $^
-
+$(TEST_EXEC): $(filter-out $(SRC_DIR)/main.c, $(SRCS)) $(TEST_SRCS) | $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+    
 # Criação do diretório binário
 $(BIN_DIR):
 	@mkdir -p $@
