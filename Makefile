@@ -8,7 +8,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -O1 -fno-omit-frame-pointer -g -fsanitize=address -I$(SRC_DIR)
 LDFLAGS = -lcunit -fsanitize=address
 
-SRC = $(wildcard $(SRC_DIR)/*.c)
+SRC = $(wildcard $(SRC_DIR)/*.c) $(SRC_DIR)/verifica.c
 SRC_NO_MAIN = $(filter-out $(SRC_DIR)/main.c, $(SRC))
 TEST_SRC = $(wildcard $(TEST_DIR)/*.c)
 
