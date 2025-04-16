@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define MAX_ROWS 26
 #define MAX_COLS 126
-#define BOARD_DIR "boards/"  // Diretório onde os arquivos de tabuleiro estão armazenados
+#define BOARD_DIR "boards/" // Diretório onde os arquivos de tabuleiro estão armazenados
 
 char board[MAX_ROWS][MAX_COLS];
 int rows = 0, cols = 0;
@@ -65,6 +66,87 @@ int letterToColumn(char letter)
     return tolower(letter) - 'a';
 }
 
+// Função auxiliar para imprimir posição
+void imprimir_posicao(int linha, int coluna)
+{
+    printf("Posição violada: %c%d\n", 'a' + coluna, linha + 1);
+}
+
+// Verifica o estado do jogo
+void verificar_estado()
+{
+    bool violacao = false;
+
+    // --- Regra 1: Apenas uma letra maiúscula por linha/coluna ---
+    for (char letra = 'A'; letra <= 'Z'; letra++)
+    {
+        // Verifica linhas
+        for (int i = 0; i < rows; i++)
+        {
+            int count = 0;
+            for (int j = 0; j < cols; j++)
+            {
+                if (board[i][j] == letra)
+                    count++;
+            }
+            if (count > 1)
+            {
+                printf("Violação: Letra '%c' aparece %d vezes na linha %d\n", letra, count, i + 1);
+                violacao = true;
+            }
+        }
+
+        // Verifica colunas
+        for (int j = 0; j < cols; j++)
+        {
+            int count = 0;
+            for (int i = 0; i < rows; i++)
+            {
+                if (board[i][j] == letra)
+                    count++;
+            }
+            if (count > 1)
+            {
+                printf("Violação: Letra '%c' aparece %d vezes na coluna %c\n", letra, count, 'a' + j);
+                violacao = true;
+            }
+        }
+    }
+
+    // --- Regra 2: Vizinho de # deve ser branco ---
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            if (board[i][j] == '#')
+            {
+                // Verifica vizinhos ortogonais
+                int dirs[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+                for (int d = 0; d < 4; d++)
+                {
+                    int ni = i + dirs[d][0];
+                    int nj = j + dirs[d][1];
+                    if (ni >= 0 && ni < rows && nj >= 0 && nj < cols)
+                    {
+                        char c = board[ni][nj];
+                        if (!isupper(c) && c != ' ')
+                        {
+                            printf("Violação: Vizinho de casa riscada em %c%d não é branco.\n", 'a' + j, i + 1);
+                            imprimir_posicao(ni, nj);
+                            violacao = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (!violacao)
+    {
+        printf("Nenhuma violação encontrada!\n");
+    }
+}
+
 int main()
 {
     char command[256];
@@ -73,6 +155,7 @@ int main()
     printf("  l <ficheiro>       Carregar tabuleiro\n");
     printf("  b <coordenada>     Colocar letra em maiúscula\n");
     printf("  r <coordenada>     Colocar '#' na posição\n");
+    printf("  v                  Verificar estado do jogo\n");
     printf("Digite os comandos:\n\n");
 
     while (fgets(command, sizeof(command), stdin) != NULL)
@@ -103,11 +186,11 @@ int main()
             char coord[50];
             if (sscanf(command, "b %s", coord) == 1)
             {
-                if (strlen(coord) > 1) 
+                if (strlen(coord) > 1)
                 {
                     // A primeira letra é a coluna e o número é a linha
                     char col_char = coord[0];
-                    int row_idx = atoi(&coord[1]); // Convertendo o número para índice (começando de 0)
+                    int row_idx = atoi(&coord[1]);          // Convertendo o número para índice (começando de 0)
                     int col_idx = letterToColumn(col_char); // Convertendo a letra para índice
 
                     // Verificando se as coordenadas estão dentro dos limites
@@ -137,7 +220,7 @@ int main()
                 {
                     // A primeira letra é a coluna e o número é a linha
                     char col_char = coord[0];
-                    int row_idx = atoi(&coord[1]); // Convertendo o número para índice (começando de 0)
+                    int row_idx = atoi(&coord[1]);          // Convertendo o número para índice (começando de 0)
                     int col_idx = letterToColumn(col_char); // Convertendo a letra para índice
 
                     // Verificando se as coordenadas estão dentro dos limites
@@ -156,6 +239,11 @@ int main()
                     printf("Formato da coordenada inválido. Use: letra<número>\n");
                 }
             }
+        }
+        // Se o comando for para verificar o estado do jogo
+        else if (command[0] == 'v')
+        {
+            verificar_estado();
         }
         // Se o comando não for reconhecido
         else
