@@ -18,8 +18,11 @@ int main() {
 
         if (cmd[0] == 'l') {
             char ficheiro[256];
-            if (sscanf(cmd, "l %s", ficheiro) == 1)
-                carregarTabuleiro(&tab, &hist, ficheiro);
+            if (sscanf(cmd, "l %s", ficheiro) == 1) {
+                if (carregarTabuleiro(&tab, &hist, ficheiro) == -1) {
+                    printf("Erro ao carregar o tabuleiro.\n");
+                }
+            }
         } else if (cmd[0] == 'g') {
             char ficheiro[256];
             if (sscanf(cmd, "g %s", ficheiro) == 1) {
