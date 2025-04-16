@@ -46,21 +46,26 @@ COVERAGE_SRCS := board.c game.c io.c undo.c solver.c
 
 # Cobertura
 cobertura: limpa $(TEST_EXEC_GAME) $(TEST_EXEC_IO)
-	# Executa os testes
+# Executa os testes
 	./$(TEST_EXEC_GAME)
 	./$(TEST_EXEC_IO)
 	
-	# Copia os arquivos fonte para o diretório bin para ajudar o gcov
+# Copia os arquivos fonte para o diretório bin para ajudar o gcov
 	mkdir -p $(BIN_DIR)/src
 	cp $(SRC_DIR)/*.c $(SRC_DIR)/*.h $(BIN_DIR)/src/ 2>/dev/null || true
 	
-	# Gera os relatórios de cobertura para cada arquivo fonte
+# Gera os relatórios de cobertura para cada arquivo fonte
 	cd $(BIN_DIR) && gcov -b -c test_game-board > ../cobertura_board.txt
 	cd $(BIN_DIR) && gcov -b -c test_game-game > ../cobertura_game.txt
 	cd $(BIN_DIR) && gcov -b -c test_game-io > ../cobertura_io.txt
 	cd $(BIN_DIR) && gcov -b -c test_game-undo > ../cobertura_undo.txt
-	
-	# Move os arquivos .gcov para o diretório raiz
+
+	cd $(BIN_DIR) && gcov -b -c test_io-board >> ../cobertura_board.txt
+	cd $(BIN_DIR) && gcov -b -c test_io-game >> ../cobertura_game.txt
+	cd $(BIN_DIR) && gcov -b -c test_io-io >> ../cobertura_io.txt
+	cd $(BIN_DIR) && gcov -b -c test_io-undo >> ../cobertura_undo.txt
+
+# Move os arquivos .gcov para o diretório raiz
 	mv $(BIN_DIR)/*.gcov . 2>/dev/null || true
 
 # HTML report
