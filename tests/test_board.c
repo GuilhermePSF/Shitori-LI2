@@ -5,7 +5,6 @@
 #include "game.h"
 #include "undo.h"
 
-
 void test_carregarTabuleiro_valido(void)
 {
     Tabuleiro tab;

@@ -4,7 +4,8 @@
 #define MAX_ROWS 26
 #define MAX_COLS 126
 
-typedef struct {
+typedef struct
+{
     char grelha[MAX_ROWS][MAX_COLS];
     int linhas, colunas;
 } Tabuleiro;

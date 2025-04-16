@@ -8,7 +8,7 @@ void guardar_estado(Historico *hist, const Tabuleiro *atual)
     {
         return;
     }
-    
+
     if (hist->topo < MAX_HISTORY)
     {
         hist->estados[hist->topo++] = *atual;
@@ -26,7 +26,7 @@ int desfazer(Historico *hist, Tabuleiro *atual)
         printf("Erro: Ponteiros inválidos.\n");
         return 0;
     }
-    
+
     if (hist->topo == 0)
     {
         printf("Nada para desfazer.\n");

@@ -5,7 +5,8 @@
 
 #define MAX_HISTORY 100
 
-typedef struct {
+typedef struct
+{
     Tabuleiro estados[MAX_HISTORY];
     int topo;
 } Historico;
