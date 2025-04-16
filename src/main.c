@@ -22,8 +22,13 @@ int main() {
                 carregarTabuleiro(&tab, &hist, ficheiro);
         } else if (cmd[0] == 'g') {
             char ficheiro[256];
-            if (sscanf(cmd, "g %s", ficheiro) == 1)
-                gravarTabuleiro(&tab, ficheiro);
+            if (sscanf(cmd, "g %s", ficheiro) == 1) {
+                if (gravarTabuleiro(&tab, ficheiro) == -1) {
+                    printf("Erro ao gravar o tabuleiro.\n");
+                } else {
+                    printf("Tabuleiro gravado com sucesso.\n");
+                }
+            }
         } else if (cmd[0] == 'b' || cmd[0] == 'r') {
             char coord[50];
             if (sscanf(cmd, "%*c %s", coord) == 1)
