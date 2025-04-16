@@ -16,11 +16,9 @@ void test_carregarTabuleiro_invalido(void) {
     Tabuleiro tab;
     int resultado = carregarTabuleiro(&tab, "tabuleiroerrado.txt");
     CU_ASSERT_EQUAL(resultado, -1);
-    CU_ASSERT(tab.linhas > 0 && tab.colunas > 0);
-    CU_ASSERT(strlen(tab.grelha[0]) > 0);
 }
 
-void test_modificarTabuleiro_bloquear(void) {
+void test_modificarTabuleiro_pintardebranco(void) {
     Tabuleiro tab = {
         .linhas = 3,
         .colunas = 3,
@@ -34,7 +32,7 @@ void test_modificarTabuleiro_bloquear(void) {
     CU_ASSERT_EQUAL(tab.grelha[1][1], 'E');
 }
 
-void test_modificarTabuleiro_remover(void) {
+void test_modificarTabuleiro_risca(void) {
     Tabuleiro tab = {
         .linhas = 3,
         .colunas = 3,
@@ -78,8 +76,8 @@ int main() {
 
     CU_add_test(suite, "Carregar tabuleiro válido", test_carregarTabuleiro_valido);
     CU_add_test(suite, "Carregar tabuleiro inválido", test_carregarTabuleiro_invalido);
-    CU_add_test(suite, "Modificar tabuleiro - bloquear", test_modificarTabuleiro_bloquear);
-    CU_add_test(suite, "Modificar tabuleiro - remover", test_modificarTabuleiro_remover);
+    CU_add_test(suite, "Modificar tabuleiro - pintardebranco", test_modificarTabuleiro_pintardebranco);
+    CU_add_test(suite, "Modificar tabuleiro - risca", test_modificarTabuleiro_risca);
     CU_add_test(suite, "Gravar tabuleiro", test_gravarTabuleiro);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);

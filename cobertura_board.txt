@@ -1,0 +1,4 @@
+        -:    0:Source:src/board.c
+        -:    0:Graph:testes-board.gcno
+        -:    0:Data:testes-board.gcda
+        -:    0:Runs:1
