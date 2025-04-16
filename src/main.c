@@ -6,6 +6,14 @@
 #include "game.h"
 #include "undo.h"
 
+/**
+ * @brief Runs the command-line interface for board manipulation with undo support.
+ *
+ * Continuously reads user commands to load, save, modify, or undo changes to a game board.
+ * Supports loading and saving board states from files, modifying board cells, undoing the last modification, and exiting the program.
+ *
+ * @return int Returns 0 upon successful program termination.
+ */
 int main() {
     Tabuleiro tab;
     Historico hist = {.topo = 0};

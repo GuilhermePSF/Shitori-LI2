@@ -6,6 +6,11 @@
 #include "undo.h"
 
 
+/**
+ * @brief Unit test for loading a valid board from file.
+ *
+ * Verifies that carregarTabuleiro successfully loads a board from "teste.txt" and that the resulting board has valid dimensions and a non-empty first row.
+ */
 void test_carregarTabuleiro_valido(void)
 {
     Tabuleiro tab;
@@ -16,6 +21,11 @@ void test_carregarTabuleiro_valido(void)
     CU_ASSERT(strlen(tab.grelha[0]) > 0);
 }
 
+/**
+ * @brief Unit test for loading an invalid board file.
+ *
+ * Verifies that carregarTabuleiro returns -1 when attempting to load an invalid board from "tabuleiroerrado.txt", and asserts that the board's dimensions and first row are set to nonzero and non-empty values.
+ */
 void test_carregarTabuleiro_invalido(void)
 {
     Tabuleiro tab;
@@ -26,6 +36,11 @@ void test_carregarTabuleiro_invalido(void)
     CU_ASSERT(strlen(tab.grelha[0]) > 0);
 }
 
+/**
+ * @brief Unit test for blocking a cell on the board using modificarTabuleiro.
+ *
+ * Initializes a 3x3 board, applies the block operation to cell "b2", and asserts that the targeted cell is converted to uppercase.
+ */
 void test_modificarTabuleiro_bloquear(void)
 {
     Tabuleiro tab = {
@@ -40,6 +55,11 @@ void test_modificarTabuleiro_bloquear(void)
     CU_ASSERT_EQUAL(tab.grelha[1][1], 'E');
 }
 
+/**
+ * @brief Unit test for removing a cell from the board using modificarTabuleiro.
+ *
+ * Initializes a 3x3 board, applies the remove operation at position "c3", and asserts that the cell is replaced by '#'.
+ */
 void test_modificarTabuleiro_remover(void)
 {
     Tabuleiro tab = {
@@ -54,6 +74,11 @@ void test_modificarTabuleiro_remover(void)
     CU_ASSERT_EQUAL(tab.grelha[2][2], '#');
 }
 
+/**
+ * @brief Unit test for saving a board to a file.
+ *
+ * Verifies that gravarTabuleiro correctly writes the board dimensions to the specified file and that the file can be opened and read as expected.
+ */
 void test_gravarTabuleiro(void)
 {
     Tabuleiro tab = {
@@ -77,6 +102,13 @@ void test_gravarTabuleiro(void)
     }
 }
 
+/**
+ * @brief Runs all unit tests for board and history operations using the CUnit framework.
+ *
+ * Initializes the CUnit test registry, adds test cases for board loading, modification, and saving, executes the tests in verbose mode, and cleans up the registry.
+ *
+ * @return int Always returns 0.
+ */
 int main()
 {
     CU_initialize_registry();

@@ -3,6 +3,14 @@
 #include <ctype.h>
 #include "game.h"
 
+/**
+ * @brief Modifies a board cell based on a command and coordinate.
+ *
+ * Updates the specified cell on the board according to the command: converts the cell to uppercase if the command is 'b', or replaces it with '#' if the command is 'r'. The current board state is saved to history before modification. If the coordinate is invalid, an error message is displayed and no changes are made.
+ *
+ * @param cmd Command character ('b' for uppercase, 'r' for replacement).
+ * @param coord Coordinate string indicating the target cell (e.g., "a1").
+ */
 void modificarTabuleiro(Tabuleiro *tab, Historico *hist, char cmd, const char *coord) {
     int linha = atoi(&coord[1]) - 1;
     int coluna = tolower(coord[0]) - 'a';
