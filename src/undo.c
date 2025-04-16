@@ -4,9 +4,18 @@
 
 void guardar_estado(Historico *hist, const Tabuleiro *atual)
 {
+    if (hist == NULL || atual == NULL)
+    {
+        return;
+    }
+    
     if (hist->topo < MAX_HISTORY)
     {
         hist->estados[hist->topo++] = *atual;
+    }
+    else
+    {
+        printf("Aviso: Histórico cheio, não é possível guardar mais estados.\n");
     }
 }
 
