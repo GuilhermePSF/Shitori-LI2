@@ -35,7 +35,7 @@ $(TEST_EXEC): $(SRC_NO_MAIN) $(TEST_SRC) | $(BIN_DIR)
 cobertura: CFLAGS += -fprofile-arcs -ftest-coverage
 cobertura: $(TEST_EXEC)
 	$(TEST_EXEC)
-	@gcov -b -c $(SRC_DIR)/*.c > cobertura.txt
+	@gcov -b -c $(BIN_DIR)/*.c > cobertura.txt
 
 # Criar diretoria para os executaveis
 $(BIN_DIR):
