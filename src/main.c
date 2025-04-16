@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "board.h"
+#include "io.h"
+#include "game.h"
+#include "undo.h"
 
 int main()
 {
@@ -20,13 +23,27 @@ int main()
         {
             char ficheiro[256];
             if (sscanf(cmd, "l %s", ficheiro) == 1)
-                carregarTabuleiro(&tab, &hist, ficheiro);
+            {
+                if (carregarTabuleiro(&tab, &hist, ficheiro) == -1)
+                {
+                    printf("Erro ao carregar o tabuleiro.\n");
+                }
+            }
         }
         else if (cmd[0] == 'g')
         {
             char ficheiro[256];
             if (sscanf(cmd, "g %s", ficheiro) == 1)
-                gravarTabuleiro(&tab, ficheiro);
+            {
+                if (gravarTabuleiro(&tab, ficheiro) == -1)
+                {
+                    printf("Erro ao gravar o tabuleiro.\n");
+                }
+                else
+                {
+                    printf("Tabuleiro gravado com sucesso.\n");
+                }
+            }
         }
         else if (cmd[0] == 'b' || cmd[0] == 'r')
         {

@@ -1,8 +1,9 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
-#include <stdio.h>
-#include <string.h>
 #include "board.h"
+#include "io.h"
+#include "game.h"
+#include "undo.h"
 
 void test_carregarTabuleiro_valido(void)
 {
@@ -69,7 +70,11 @@ void test_gravarTabuleiro(void)
     if (f)
     {
         char linha[10];
-        fgets(linha, sizeof(linha), f);
+        if (fgets(linha, sizeof(linha), f) == NULL)
+        {
+            fprintf(stderr, "Erro ao ler linha do arquivo\n");
+        }
+
         CU_ASSERT_STRING_EQUAL(linha, "2 3\n");
         fclose(f);
     }
