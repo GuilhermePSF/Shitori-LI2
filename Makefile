@@ -1,36 +1,34 @@
-# Diretórios
-SRC_DIR := src
-TESTES_DIR := tests
-BIN_DIR := bin
+# Diretorias
+SRC_DIR = src
+TEST_DIR = tests
+BIN_DIR = bin
 
-# Compilador
-CC := gcc
-CFLAGS := -Wall -Wextra -pedantic -O1 -fno-omit-frame-pointer -g -fsanitize=address -fprofile-arcs -ftest-coverage -g -O0 --coverage -fprofile-prefix-path=. -I$(SRC_DIR)
-LDFLAGS := -lcunit -fsanitize=address -fprofile-arcs -ftest-coverage --coverage
+# Compilador e flags
+CC = gcc
+CFLAGS = -Wall -Wextra -pedantic -O1 -fno-omit-frame-pointer -g -fsanitize=address -I$(SRC_DIR)
+LDFLAGS = -lcunit -fsanitize=address
 
-# Arquivo executável de teste
-TEST_EXEC := bin/testes
+SRC = $(wildcard $(SRC_DIR)/*.c)
+SRC_NO_MAIN = $(filter-out $(SRC_DIR)/main.c, $(SRC))
+TEST_SRC = $(wildcard $(TEST_DIR)/*.c)
 
-# Arquivos fonte e de teste
-SRCS := $(wildcard $(SRC_DIR)/*.c)
-TEST_SRCS := $(wildcard $(TESTES_DIR)/*.c)
+# Executáveis
+EXEC = $(BIN_DIR)/jogo
+TEST_EXEC = $(BIN_DIR)/testes
 
-# Nome dos executáveis
-EXEC := $(BIN_DIR)/jogo
-TEST_EXEC := $(BIN_DIR)/testes
-
-# Compilar e executar o jogo
+# Target principal
 jogo: $(EXEC)
 	$(EXEC)
 
-$(EXEC): $(SRCS) | $(BIN_DIR)
+# Compilar jogo
+$(EXEC): $(SRC) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
-# Compilar e executar os testes
+# Compilar testes
 testar: $(TEST_EXEC)
 	$(TEST_EXEC)
 
-$(TEST_EXEC): $(filter-out $(SRC_DIR)/main.c, $(SRCS)) $(TEST_SRCS) | $(BIN_DIR)
+$(TEST_EXEC): $(SRC_NO_MAIN) $(TEST_SRC) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 # HTML report directory
@@ -54,9 +52,9 @@ cobertura: limpa
 	cat board.c.gcov > cobertura_board.txt
 
 $(BIN_DIR):
-	@mkdir -p $@
+	@mkdir -p $(BIN_DIR)
 
-# Limpeza dos ficheiros gerados
+# Limpar
 limpa:
 	rm -rf $(BIN_DIR) *.gcno *.gcda *.gcov cobertura_board.txt
 	rm -f bin/board.gcno bin/board.gcda	

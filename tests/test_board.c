@@ -1,20 +1,25 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
-#include <stdio.h>
-#include <string.h>
 #include "board.h"
+#include "io.h"
+#include "game.h"
+#include "undo.h"
 
-void test_carregarTabuleiro_valido(void) {
+void test_carregarTabuleiro_valido(void)
+{
     Tabuleiro tab;
-    int resultado = carregarTabuleiro(&tab, "teste.txt");  
+    Historico hist;
+    int resultado = carregarTabuleiro(&tab, &hist, "teste.txt");
     CU_ASSERT_EQUAL(resultado, 0);
     CU_ASSERT(tab.linhas > 0 && tab.colunas > 0);
     CU_ASSERT(strlen(tab.grelha[0]) > 0);
 }
 
-void test_carregarTabuleiro_invalido(void) {
+void test_carregarTabuleiro_invalido(void)
+{
     Tabuleiro tab;
-    int resultado = carregarTabuleiro(&tab, "tabuleiroerrado.txt");
+    Historico hist;
+    int resultado = carregarTabuleiro(&tab, &hist, "tabuleiroerrado.txt");
     CU_ASSERT_EQUAL(resultado, -1);
 }
 
@@ -25,10 +30,9 @@ void test_modificarTabuleiro_pintardebranco(void) {
         .grelha = {
             "abc",
             "def",
-            "ghi"
-        }
-    };
-    modificarTabuleiro(&tab, 'b', "b2"); // Deveria tornar 'e' maiúsculo
+            "ghi"}};
+    Historico hist;
+    modificarTabuleiro(&tab, &hist, 'b', "b2"); // Deveria tornar 'e' maiúsculo
     CU_ASSERT_EQUAL(tab.grelha[1][1], 'E');
 }
 
@@ -39,37 +43,41 @@ void test_modificarTabuleiro_risca(void) {
         .grelha = {
             "abc",
             "def",
-            "ghi"
-        }
-    };
-    modificarTabuleiro(&tab, 'r', "c3"); // Deveria substituir 'i' por '#'
+            "ghi"}};
+    Historico hist;
+    modificarTabuleiro(&tab, &hist, 'r', "c3"); // Deveria substituir 'i' por '#'
     CU_ASSERT_EQUAL(tab.grelha[2][2], '#');
 }
 
-void test_gravarTabuleiro(void) {
+void test_gravarTabuleiro(void)
+{
     Tabuleiro tab = {
         .linhas = 2,
         .colunas = 3,
         .grelha = {
             "abc",
-            "def"
-        }
-    };
+            "def"}};
 
     int resultado = gravarTabuleiro(&tab, "saida_test.txt");
     CU_ASSERT_EQUAL(resultado, 0);
 
     FILE *f = fopen("boards/saida_test.txt", "r");
     CU_ASSERT_PTR_NOT_NULL(f);
-    if (f) {
+    if (f)
+    {
         char linha[10];
-        fgets(linha, sizeof(linha), f);
+        if (fgets(linha, sizeof(linha), f) == NULL)
+        {
+            fprintf(stderr, "Erro ao ler linha do arquivo\n");
+        }
+
         CU_ASSERT_STRING_EQUAL(linha, "2 3\n");
         fclose(f);
     }
 }
 
-int main() {
+int main()
+{
     CU_initialize_registry();
 
     CU_pSuite suite = CU_add_suite("Testes_Tabuleiro", NULL, NULL);
