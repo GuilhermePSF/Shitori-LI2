@@ -8,6 +8,10 @@
 int carregarTabuleiro(Tabuleiro *tab, Historico *hist, const char *ficheiro) {
     char caminho[512];
     snprintf(caminho, sizeof(caminho), "%s%s", BOARD_DIR, ficheiro);
+    // Check if path was truncated
+    if (strlen(BOARD_DIR) + strlen(ficheiro) >= sizeof(caminho)) {
+        return -2; // Path too long
+    }
     FILE *f = fopen(caminho, "r");
     if (!f) return -1;
 
@@ -15,11 +19,23 @@ int carregarTabuleiro(Tabuleiro *tab, Historico *hist, const char *ficheiro) {
         fclose(f);
         return -1;
     }
+    
+    // Validate dimensions
+    if (tab->linhas <= 0 || tab->linhas > MAX_LINHAS || 
+        tab->colunas <= 0 || tab->colunas > MAX_COLUNAS) {
+        fclose(f);
+        return -3; // Invalid dimensions
+    }
 
     for (int i = 0; i < tab->linhas; i++) {
         if (fscanf(f, "%s", tab->grelha[i]) != 1) {
             fclose(f);
             return -1;
+        }
+        // Validate line length
+        if (strlen(tab->grelha[i]) != tab->colunas) {
+            fclose(f);
+            return -4; // Inconsistent line length
         }
     }
 
