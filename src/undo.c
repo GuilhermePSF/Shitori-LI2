@@ -12,6 +12,12 @@ void guardar_estado(Historico *hist, const Tabuleiro *atual)
 
 int desfazer(Historico *hist, Tabuleiro *atual)
 {
+    if (hist == NULL || atual == NULL)
+    {
+        printf("Erro: Ponteiros inválidos.\n");
+        return 0;
+    }
+    
     if (hist->topo == 0)
     {
         printf("Nada para desfazer.\n");
