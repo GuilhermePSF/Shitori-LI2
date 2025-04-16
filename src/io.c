@@ -42,7 +42,7 @@ int carregarTabuleiro(Tabuleiro *tab, Historico *hist, const char *ficheiro)
             return -1;
         }
         // Validate line length
-        if (strlen(tab->grelha[i]) != tab->colunas)
+        if ((int)strlen(tab->grelha[i]) != tab->colunas)
         {
             fclose(f);
             return -4; // Inconsistent line length
