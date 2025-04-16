@@ -1,0 +1,132 @@
+        -:    0:Source:src/io.c
+        -:    0:Graph:test_game-io.gcno
+        -:    0:Data:test_game-io.gcda
+        -:    0:Runs:1
+        -:    1:#include <stdio.h>
+        -:    2:#include <stdlib.h>
+        -:    3:#include <string.h>
+        -:    4:#include "io.h"
+        -:    5:
+        -:    6:#define BOARD_DIR "boards/"
+        -:    7:#define MAX_LINHAS 128
+        -:    8:#define MAX_COLUNAS 26
+        -:    9:
+function carregarTabuleiro called 0 returned 0% blocks executed 0%
+    #####:   10:int carregarTabuleiro(Tabuleiro *tab, Historico *hist, const char *ficheiro) {
+    #####:   11:    char caminho[512];
+call    0 never executed
+    #####:   12:    int len = snprintf(caminho, sizeof(caminho), "%s%s", BOARD_DIR, ficheiro);
+branch  0 never executed
+branch  1 never executed
+    #####:   13:    if (len < 0 || (size_t)len >= sizeof(caminho))
+branch  0 never executed
+branch  1 never executed
+        -:   14:        return -2;
+        -:   15:
+    #####:   16:    FILE *f = fopen(caminho, "r");
+call    0 never executed
+    #####:   17:    if (!f) return -1;
+branch  0 never executed
+branch  1 never executed
+        -:   18:
+    #####:   19:    if (fscanf(f, "%d %d\n", &tab->linhas, &tab->colunas) != 2 ||
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   20:        tab->linhas <= 0 || tab->linhas > MAX_LINHAS ||
+branch  0 never executed
+branch  1 never executed
+branch  2 never executed
+branch  3 never executed
+    #####:   21:        tab->colunas <= 0 || tab->colunas > MAX_COLUNAS) {
+branch  0 never executed
+branch  1 never executed
+branch  2 never executed
+branch  3 never executed
+    #####:   22:        fclose(f);
+    #####:   23:        return -3;
+call    0 never executed
+        -:   24:    }
+        -:   25:
+    #####:   26:    for (int i = 0; i < tab->linhas; i++) {
+branch  0 never executed
+branch  1 never executed
+    #####:   27:        if (!fgets(tab->grelha[i], tab->colunas + 2, f)) {
+branch  0 never executed
+branch  1 never executed
+branch  2 never executed
+branch  3 never executed
+    #####:   28:            fclose(f);
+    #####:   29:            return -1;
+call    0 never executed
+        -:   30:        }
+        -:   31:
+    #####:   32:        size_t len = strlen(tab->grelha[i]);
+    #####:   33:        if (len > 0 && tab->grelha[i][len - 1] == '\n')
+branch  0 never executed
+branch  1 never executed
+branch  2 never executed
+branch  3 never executed
+    #####:   34:            tab->grelha[i][len - 1] = '\0';
+        -:   35:
+    #####:   36:        if ((int)strlen(tab->grelha[i]) != tab->colunas) {
+branch  0 never executed
+branch  1 never executed
+    #####:   37:            fclose(f);
+    #####:   38:            return -4;
+call    0 never executed
+        -:   39:        }
+        -:   40:    }
+        -:   41:
+    #####:   42:    fclose(f);
+call    0 never executed
+    #####:   43:    hist->topo = 0;
+    #####:   44:    mostrarTabuleiro(tab);
+    #####:   45:    return 0;
+call    0 never executed
+        -:   46:}
+        -:   47:
+function gravarTabuleiro called 0 returned 0% blocks executed 0%
+    #####:   48:int gravarTabuleiro(const Tabuleiro *tab, const char *ficheiro) {
+    #####:   49:    char caminho[512];
+call    0 never executed
+    #####:   50:    int len = snprintf(caminho, sizeof(caminho), "%s%s", BOARD_DIR, ficheiro);
+branch  0 never executed
+branch  1 never executed
+    #####:   51:    if (len < 0 || (size_t)len >= sizeof(caminho))
+branch  0 never executed
+branch  1 never executed
+        -:   52:        return -2;
+        -:   53:
+    #####:   54:    FILE *f = fopen(caminho, "w");
+call    0 never executed
+    #####:   55:    if (!f) return -1;
+branch  0 never executed
+branch  1 never executed
+        -:   56:
+    #####:   57:    if (fprintf(f, "%d %d\n", tab->linhas, tab->colunas) < 0) {
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   58:        fclose(f);
+    #####:   59:        return -3;
+call    0 never executed
+        -:   60:    }
+        -:   61:
+    #####:   62:    for (int i = 0; i < tab->linhas; i++) {
+branch  0 never executed
+branch  1 never executed
+    #####:   63:        if (fprintf(f, "%s\n", tab->grelha[i]) < 0) {
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   64:            fclose(f);
+    #####:   65:            return -3;
+call    0 never executed
+        -:   66:        }
+        -:   67:    }
+        -:   68:
+    #####:   69:    fclose(f);
+    #####:   70:    return 0;
+call    0 never executed
+        -:   71:}

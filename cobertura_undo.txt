@@ -1,0 +1,14 @@
+File 'src/undo.c'
+Lines executed:26.67% of 15
+Branches executed:50.00% of 8
+Taken at least once:25.00% of 8
+Calls executed:0.00% of 6
+Creating 'undo.c.gcov'
+
+File '/usr/include/x86_64-linux-gnu/bits/stdio2.h'
+Lines executed:0.00% of 2
+No branches
+Calls executed:0.00% of 3
+Creating 'stdio2.h.gcov'
+
+Lines executed:23.53% of 17

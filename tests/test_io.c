@@ -23,32 +23,6 @@ void test_carregarTabuleiro_invalido(void)
     CU_ASSERT_EQUAL(resultado, -1);
 }
 
-void test_modificarTabuleiro_pintardebranco(void) {
-    Tabuleiro tab = {
-        .linhas = 3,
-        .colunas = 3,
-        .grelha = {
-            "abc",
-            "def",
-            "ghi"}};
-    Historico hist;
-    modificarTabuleiro(&tab, &hist, 'b', "b2"); // Deveria tornar 'e' maiúsculo
-    CU_ASSERT_EQUAL(tab.grelha[1][1], 'E');
-}
-
-void test_modificarTabuleiro_risca(void) {
-    Tabuleiro tab = {
-        .linhas = 3,
-        .colunas = 3,
-        .grelha = {
-            "abc",
-            "def",
-            "ghi"}};
-    Historico hist;
-    modificarTabuleiro(&tab, &hist, 'r', "c3"); // Deveria substituir 'i' por '#'
-    CU_ASSERT_EQUAL(tab.grelha[2][2], '#');
-}
-
 void test_gravarTabuleiro(void)
 {
     Tabuleiro tab = {
@@ -84,8 +58,6 @@ int main()
 
     CU_add_test(suite, "Carregar tabuleiro válido", test_carregarTabuleiro_valido);
     CU_add_test(suite, "Carregar tabuleiro inválido", test_carregarTabuleiro_invalido);
-    CU_add_test(suite, "Modificar tabuleiro - pintardebranco", test_modificarTabuleiro_pintardebranco);
-    CU_add_test(suite, "Modificar tabuleiro - risca", test_modificarTabuleiro_risca);
     CU_add_test(suite, "Gravar tabuleiro", test_gravarTabuleiro);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);

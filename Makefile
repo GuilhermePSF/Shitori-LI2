@@ -5,16 +5,19 @@ BIN_DIR = bin
 
 # Compilador e flags
 CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -O1 -fno-omit-frame-pointer -g -fsanitize=address -I$(SRC_DIR)
-LDFLAGS = -lcunit -fsanitize=address
+CFLAGS = -Wall -Wextra -pedantic -O1 -fno-omit-frame-pointer -g -fsanitize=address -fprofile-arcs -ftest-coverage -I$(SRC_DIR)
+LDFLAGS = -lcunit -fsanitize=address -fprofile-arcs -ftest-coverage
 
+# Arquivos fonte
 SRC = $(wildcard $(SRC_DIR)/*.c)
 SRC_NO_MAIN = $(filter-out $(SRC_DIR)/main.c, $(SRC))
-TEST_SRC = $(wildcard $(TEST_DIR)/*.c)
 
-# Executáveis
+# Executável principal
 EXEC = $(BIN_DIR)/jogo
-TEST_EXEC = $(BIN_DIR)/testes
+
+# Executáveis de teste
+TEST_EXEC_GAME = $(BIN_DIR)/test_game
+TEST_EXEC_IO = $(BIN_DIR)/test_io
 
 # Target principal
 jogo: $(EXEC)
@@ -24,39 +27,54 @@ jogo: $(EXEC)
 $(EXEC): $(SRC) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
-# Compilar testes
-testar: $(TEST_EXEC)
-	$(TEST_EXEC)
+# Compilar testes separadamente
+testar: $(TEST_EXEC_GAME) $(TEST_EXEC_IO)
+	$(TEST_EXEC_GAME)
+	$(TEST_EXEC_IO)
 
-$(TEST_EXEC): $(SRC_NO_MAIN) $(TEST_SRC) | $(BIN_DIR)
+$(TEST_EXEC_GAME): $(SRC_NO_MAIN) $(TEST_DIR)/test_game.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-# HTML report directory
+$(TEST_EXEC_IO): $(SRC_NO_MAIN) $(TEST_DIR)/test_io.c | $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+# Diretório de relatórios de cobertura
 COVERAGE_DIR := coverage-report
 
-# Target for HTML coverage report
+# Lista de arquivos fonte para cobertura (sem main.c)
+COVERAGE_SRCS := board.c game.c io.c undo.c solver.c
+
+# Cobertura
+cobertura: limpa $(TEST_EXEC_GAME) $(TEST_EXEC_IO)
+	# Executa os testes
+	./$(TEST_EXEC_GAME)
+	./$(TEST_EXEC_IO)
+	
+	# Copia os arquivos fonte para o diretório bin para ajudar o gcov
+	mkdir -p $(BIN_DIR)/src
+	cp $(SRC_DIR)/*.c $(SRC_DIR)/*.h $(BIN_DIR)/src/ 2>/dev/null || true
+	
+	# Gera os relatórios de cobertura para cada arquivo fonte
+	cd $(BIN_DIR) && gcov -b -c test_game-board > ../cobertura_board.txt
+	cd $(BIN_DIR) && gcov -b -c test_game-game > ../cobertura_game.txt
+	cd $(BIN_DIR) && gcov -b -c test_game-io > ../cobertura_io.txt
+	cd $(BIN_DIR) && gcov -b -c test_game-undo > ../cobertura_undo.txt
+	
+	# Move os arquivos .gcov para o diretório raiz
+	mv $(BIN_DIR)/*.gcov . 2>/dev/null || true
+
+# HTML report
 html-coverage: cobertura
 	mkdir -p $(COVERAGE_DIR)
 	lcov --capture --directory . --output-file $(COVERAGE_DIR)/coverage.info
 	genhtml $(COVERAGE_DIR)/coverage.info --output-directory $(COVERAGE_DIR)
 	@echo "HTML coverage report generated in $(COVERAGE_DIR)/index.html"
 
-
-# Regra de teste + cobertura
-cobertura: limpa
-	mkdir -p $(BIN_DIR)
-	$(CC) $(CFLAGS) -o $(TEST_EXEC) $(filter-out $(SRC_DIR)/main.c, $(SRCS)) $(TEST_SRCS) $(LDFLAGS)
-	./$(TEST_EXEC)
-	cd $(BIN_DIR) && gcov -b -c testes-board -s ../$(SRC_DIR)
-	mv $(BIN_DIR)/board.c.gcov . 2>/dev/null || true
-	cat board.c.gcov > cobertura_board.txt
-
 $(BIN_DIR):
-	@mkdir -p $(BIN_DIR)
+	@mkdir -p $@
 
 # Limpar
 limpa:
-	rm -rf $(BIN_DIR) *.gcno *.gcda *.gcov cobertura_board.txt
-	rm -f bin/board.gcno bin/board.gcda	
+	rm -rf $(BIN_DIR) *.gcno *.gcda *.gcov cobertura_*.txt $(COVERAGE_DIR)
 
-.PHONY: jogo testar cobertura limpa
+.PHONY: jogo testar cobertura html-coverage limpa

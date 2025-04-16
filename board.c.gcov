@@ -1,4 +1,18 @@
         -:    0:Source:src/board.c
-        -:    0:Graph:testes-board.gcno
-        -:    0:Data:testes-board.gcda
+        -:    0:Graph:test_game-board.gcno
+        -:    0:Data:test_game-board.gcda
         -:    0:Runs:1
+        -:    1:#include <stdio.h>
+        -:    2:#include "board.h"
+        -:    3:
+function mostrarTabuleiro called 2 returned 100% blocks executed 100%
+        2:    4:void mostrarTabuleiro(const Tabuleiro *tab)
+        -:    5:{
+        8:    6:    for (int i = 0; i < tab->linhas; i++)
+branch  0 taken 6
+branch  1 taken 2 (fallthrough)
+        -:    7:    {
+        6:    8:        printf("%s\n", tab->grelha[i]);
+call    0 returned 6
+        -:    9:    }
+        2:   10:}

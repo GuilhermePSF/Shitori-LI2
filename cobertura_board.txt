@@ -1,4 +1,14 @@
-        -:    0:Source:src/board.c
-        -:    0:Graph:testes-board.gcno
-        -:    0:Data:testes-board.gcda
-        -:    0:Runs:1
+File 'src/board.c'
+Lines executed:100.00% of 4
+Branches executed:100.00% of 2
+Taken at least once:100.00% of 2
+Calls executed:100.00% of 1
+Creating 'board.c.gcov'
+
+File '/usr/include/x86_64-linux-gnu/bits/stdio2.h'
+Lines executed:100.00% of 2
+No branches
+Calls executed:100.00% of 1
+Creating 'stdio2.h.gcov'
+
+Lines executed:100.00% of 6
