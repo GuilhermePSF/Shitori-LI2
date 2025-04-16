@@ -34,10 +34,15 @@ int carregarTabuleiro(Tabuleiro *tab, Historico *hist, const char *ficheiro)
 
     for (int i = 0; i < tab->linhas; i++)
     {
-        if (fscanf(f, "%s", tab->grelha[i]) != 1)
+        if (!fgets(tab->grelha[i], tab->colunas + 1, f)) // Read a full line
         {
             fclose(f);
-            return -1;
+            return -1; // Read error
+        }
+        size_t len = strlen(tab->grelha[i]);
+        if (len > 0 && tab->grelha[i][len - 1] == '\n')
+        {
+            tab->grelha[i][len - 1] = '\0';
         }
 
         if ((int)strlen(tab->grelha[i]) != tab->colunas)
@@ -71,6 +76,7 @@ int gravarTabuleiro(const Tabuleiro *tab, const char *ficheiro)
         fclose(f);
         return -3;
     }
+
     for (int i = 0; i < tab->linhas; i++)
     {
         if (fprintf(f, "%s\n", tab->grelha[i]) < 0)
