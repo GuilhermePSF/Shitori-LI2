@@ -55,6 +55,10 @@ int main()
         {
             desfazer(&hist, &tab);
         }
+        else if (cmd[0] == 'v')
+        {
+            mostrarTabuleiro(&tab);
+        }
         else if (cmd[0] == 's')
         {
             break;
