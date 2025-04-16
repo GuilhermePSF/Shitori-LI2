@@ -48,12 +48,22 @@ int carregarTabuleiro(Tabuleiro *tab, Historico *hist, const char *ficheiro) {
 int gravarTabuleiro(const Tabuleiro *tab, const char *ficheiro) {
     char caminho[512];
     snprintf(caminho, sizeof(caminho), "%s%s", BOARD_DIR, ficheiro);
+    // Check if path was truncated
+    if (strlen(BOARD_DIR) + strlen(ficheiro) >= sizeof(caminho)) {
+        return -2; // Path too long
+    }
     FILE *f = fopen(caminho, "w");
     if (!f) return -1;
 
-    fprintf(f, "%d %d\n", tab->linhas, tab->colunas);
+    if (fprintf(f, "%d %d\n", tab->linhas, tab->colunas) < 0) {
+        fclose(f);
+        return -3; // Write error
+    }
     for (int i = 0; i < tab->linhas; i++) {
-        fprintf(f, "%s\n", tab->grelha[i]);
+        if (fprintf(f, "%s\n", tab->grelha[i]) < 0) {
+            fclose(f);
+            return -3; // Write error
+        }
     }
 
     fclose(f);
