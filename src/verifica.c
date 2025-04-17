@@ -1,55 +1,95 @@
 #include <stdio.h>
-#include <ctype.h>
-#include "board.h"
+#include <stdbool.h>
+#include "verifica.h"
+
+/*
+ verificarRestricoes:
+   - Regra 1: Em cada linha, não pode haver duas letras maiúsculas iguais.
+   - Regra 2: Em cada coluna, não pode haver duas letras maiúsculas iguais.
+   - Regra 3: Para cada célula riscada ('#'), todos os vizinhos ortogonais dentro do tabuleiro
+     devem ser letras brancas (maiúsculas) ou espaço em branco (' ').
+
+ */
 
 int verificarRestricoes(const Tabuleiro *tab)
 {
-    int valido = 1;
+    int rows = tab->linhas;
+    int cols = tab->colunas;
+    int ok = 1;
 
-    // Verificar se há letras repetidas em linhas ou colunas
-    for (int i = 0; i < tab->linhas; i++)
+    // Regra 1:
+    for (int i = 0; i < rows; i++)
     {
-        for (int j = 0; j < tab->colunas; j++)
+        bool seen[26] = {false};
+        for (int j = 0; j < cols; j++)
         {
-            char atual = tab->grelha[i][j];
-            if (isupper(atual)) // Apenas verifica letras brancas
+            char c = tab->grelha[i][j];
+            if (c >= 'A' && c <= 'Z')
             {
-                // Verificar na linha
-                for (int k = 0; k < tab->colunas; k++)
+                int idx = c - 'A';
+                if (seen[idx])
                 {
-                    if (k != j && toupper(tab->grelha[i][k]) == atual)
-                    {
-                        printf("Restrição violada: '%c' repetido na linha %d.\n", atual, i + 1);
-                        valido = 0;
-                    }
+                    char col_label = 'a' + j;
+                    printf("Violação: letra '%c' repetida na linha %d, coluna %c\n", c, i + 1, col_label);
+                    ok = 0;
                 }
-
-                // Verificar na coluna
-                for (int k = 0; k < tab->linhas; k++)
+                else
                 {
-                    if (k != i && toupper(tab->grelha[k][j]) == atual)
-                    {
-                        printf("Restrição violada: '%c' repetido na coluna %d.\n", atual, j + 1);
-                        valido = 0;
-                    }
+                    seen[idx] = true;
                 }
             }
+        }
+    }
 
-            // Verificar casas riscadas (#) e suas vizinhas
-            if (atual == '#')
+    // Regra 2:
+    for (int j = 0; j < cols; j++)
+    {
+        bool seen[26] = {false};
+        for (int i = 0; i < rows; i++)
+        {
+            char c = tab->grelha[i][j];
+            if (c >= 'A' && c <= 'Z')
             {
-                int dx[] = {-1, 1, 0, 0};
-                int dy[] = {0, 0, -1, 1};
+                int idx = c - 'A';
+                if (seen[idx])
+                {
+                    char col_label = 'a' + j;
+                    printf("Violação: letra '%c' repetida na coluna %c, linha %d\n", c, col_label, i + 1);
+                    ok = 0;
+                }
+                else
+                {
+                    seen[idx] = true;
+                }
+            }
+        }
+    }
+
+    // Regra 3:
+    int dr[4] = {-1, 1, 0, 0};
+    int dc[4] = {0, 0, -1, 1};
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            if (tab->grelha[i][j] == '#')
+            {
+                char self_col = 'a' + j;
+                int self_row = i + 1;
                 for (int d = 0; d < 4; d++)
                 {
-                    int ni = i + dx[d];
-                    int nj = j + dy[d];
-                    if (ni >= 0 && ni < tab->linhas && nj >= 0 && nj < tab->colunas)
+                    int ni = i + dr[d];
+                    int nj = j + dc[d];
+                    if (ni >= 0 && ni < rows && nj >= 0 && nj < cols)
                     {
-                        if (tab->grelha[ni][nj] != toupper(tab->grelha[ni][nj]))
+                        char nb = tab->grelha[ni][nj];
+                        if (!(nb >= 'A' && nb <= 'Z') && nb != ' ')
                         {
-                            printf("Restrição violada: Casa riscada (%d, %d) tem vizinho não branco.\n", i + 1, j + 1);
-                            valido = 0;
+                            char neigh_col = 'a' + nj;
+                            int neigh_row = ni + 1;
+                            printf("Violação: célula riscada em %c%d tem vizinho inválido em %c%d: '%c'\n",
+                                   self_col, self_row, neigh_col, neigh_row, nb);
+                            ok = 0;
                         }
                     }
                 }
@@ -57,5 +97,5 @@ int verificarRestricoes(const Tabuleiro *tab)
         }
     }
 
-    return valido;
+    return ok;
 }
