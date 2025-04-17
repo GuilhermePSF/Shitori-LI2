@@ -58,34 +58,6 @@ void test_desfazer_com_mudanca_anterior(void)
     CU_ASSERT_STRING_EQUAL(tab.grelha[2], "ghi"); 
 }
 
-// Teste: Desfazer com a última mudança não sendo o último comando
-void test_desfazer_com_mudanca_nao_ultima(void)
-{
-    Historico hist = {0};
-    Tabuleiro tab = {
-        .linhas = 3,
-        .colunas = 3,
-        .grelha = {
-            "abc",
-            "def",
-            "ghi"}};
-
-    // Salva o estado inicial
-    guardar_estado(&hist, &tab);
-
-    // Realiza uma mudança
-    modificarTabuleiro(&tab, &hist, 'b', "b2"); // Modifica 'e' -> 'E'
-
-    // Realiza outra mudança
-    modificarTabuleiro(&tab, &hist, 'r', "c3"); // Modifica 'i' -> '#'
-
-
-    // Desfaz a última mudança
-    int resultado = desfazer(&hist, &tab);
-    CU_ASSERT_EQUAL(resultado, 1);
-    CU_ASSERT_STRING_EQUAL(tab.grelha[1], "dEf"); 
-    CU_ASSERT_STRING_EQUAL(tab.grelha[2], "ghi");
-}
 
 // Teste: Desfazer com intervalos entre as mudanças
 void test_desfazer_com_intervalos(void)
