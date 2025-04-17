@@ -8,8 +8,11 @@ CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -O1 -fno-omit-frame-pointer -g -fsanitize=address -fprofile-arcs -ftest-coverage -I$(SRC_DIR)
 LDFLAGS = -lcunit -fsanitize=address -fprofile-arcs -ftest-coverage
 
+
+SRC = $(wildcard $(SRC_DIR)/*.c) $(SRC_DIR)/verifica.c
+
 # Arquivos fonte
-SRC = $(wildcard $(SRC_DIR)/*.c)
+
 SRC_NO_MAIN = $(filter-out $(SRC_DIR)/main.c, $(SRC))
 
 # Executável principal
