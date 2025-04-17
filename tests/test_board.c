@@ -13,12 +13,12 @@ void test_mostrarTabuleiro_sem_carregar(void)
     freopen("/dev/tty", "w", stdout); // Restaura a saída padrão
 
     // Verifica o conteúdo do arquivo
-    FILE *file = fopen("output.txt", "r");
+    FILE *file = fopen("boards/output.txt", "r");
     CU_ASSERT_PTR_NOT_NULL(file);
     if (file)
     {
         char linha[10];
-        CU_ASSERT_PTR_NULL(fgets(linha, sizeof(linha), file)); // Não deve haver saída
+        CU_ASSERT_PTR_NULL(fgets(linha, sizeof(linha), file)); 
         fclose(file);
     }
 }
@@ -69,7 +69,7 @@ void test_mostrarTabuleiro_com_mudancas(void)
     // Redireciona a saída padrão para um arquivo temporário
     freopen("output.txt", "w", stdout);
     mostrarTabuleiro(&tab);
-    freopen("/dev/tty", "w", stdout); // Restaura a saída padrão
+    freopen("/dev/tty", "w", stdout);
 
     // Verifica o conteúdo do arquivo
     FILE *file = fopen("output.txt", "r");

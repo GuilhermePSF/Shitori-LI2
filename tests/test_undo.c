@@ -8,7 +8,7 @@
 void test_desfazer_sem_tabuleiro(void)
 {
     Historico hist = {0};
-    Tabuleiro tab = {0}; // Tabuleiro não inicializado
+    Tabuleiro tab = {0}; 
 
     int resultado = desfazer(&hist, &tab);
     CU_ASSERT_EQUAL(resultado, 0); // Não deve ser possível desfazer

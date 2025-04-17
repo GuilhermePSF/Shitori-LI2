@@ -7,7 +7,7 @@
    - Regra 1: Em cada linha, não pode haver duas letras maiúsculas iguais.
    - Regra 2: Em cada coluna, não pode haver duas letras maiúsculas iguais.
    - Regra 3: Para cada célula riscada ('#'), todos os vizinhos ortogonais dentro do tabuleiro
-     devem ser letras brancas (maiúsculas) ou espaço em branco (' ').
+     devem ser letras brancas (maiúsculas).
 
  */
 

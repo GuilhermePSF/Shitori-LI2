@@ -5,7 +5,7 @@
 #include "game.h"
 #include "undo.h"
 
-#define MAX_COLS 26 // máx. número de colunas úteis
+#define MAX_COLS 26 
 #define MAX_LINHAS 128
 
 void test_carregarTabuleiro_ficheiro_existente(void)
@@ -42,7 +42,7 @@ void test_gravar_sem_carregar(void)
     CU_ASSERT_EQUAL(resultado, -1); // Deve retornar erro
 }
 
-void test_gravar_com_mudancas(void)
+void test_gravar_com_mudancas (void)
 {
     Tabuleiro tab = {
         .linhas = 3,
@@ -51,18 +51,21 @@ void test_gravar_com_mudancas(void)
             "abc",
             "def",
             "ghi"}};
-    Historico hist;
 
-    // Realiza algumas mudanças no tabuleiro
-    modificarTabuleiro(&tab, &hist, 'b', "b2"); // Torna 'e' maiúsculo
-    modificarTabuleiro(&tab, &hist, 'r', "c3"); // Substitui 'i' por '#'
+    // Realiza mudanças diretamente na grelha
+    tab.grelha[1][1] = 'E'; // Torna 'e' maiúsculo
+    tab.grelha[2][2] = '#'; // Substitui 'i' por '#'
+
+    // Verifica o estado do tabuleiro antes de gravar
+    CU_ASSERT_STRING_EQUAL(tab.grelha[1], "dEf"); // Segunda linha modificada
+    CU_ASSERT_STRING_EQUAL(tab.grelha[2], "gh#"); // Terceira linha modificada
 
     // Grava o tabuleiro modificado
-    int resultado = gravarTabuleiro(&tab, "boards/saida_test.txt");
+    int resultado = gravarTabuleiro(&tab, "saida_test_sem_modificar.txt");
     CU_ASSERT_EQUAL(resultado, 0); // Deve gravar com sucesso
 
     // Verifica o conteúdo do ficheiro gravado
-    FILE *f = fopen("boards/saida_test.txt", "r");
+    FILE *f = fopen("boards/saida_test_sem_modificar.txt", "r");
     CU_ASSERT_PTR_NOT_NULL(f);
     if (f)
     {
@@ -78,6 +81,8 @@ void test_gravar_com_mudancas(void)
         fclose(f);
     }
 }
+
+
 int main()
 {
     CU_initialize_registry();
