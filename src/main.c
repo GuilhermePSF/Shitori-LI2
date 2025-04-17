@@ -5,6 +5,7 @@
 #include "io.h"
 #include "game.h"
 #include "undo.h"
+#include "verifica.h"
 
 int main()
 {
@@ -57,7 +58,14 @@ int main()
         }
         else if (cmd[0] == 'v')
         {
-            mostrarTabuleiro(&tab);
+            if (verificarRestricoes(&tab))
+            {
+                printf("Todas as restrições estão satisfeitas.\n");
+            }
+            else
+            {
+                printf("Existem restrições violadas.\n");
+            }
         }
         else if (cmd[0] == 's')
         {
