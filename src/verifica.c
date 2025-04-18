@@ -7,7 +7,7 @@
    - Regra 1: Em cada linha, não pode haver duas letras maiúsculas iguais.
    - Regra 2: Em cada coluna, não pode haver duas letras maiúsculas iguais.
    - Regra 3: Para cada célula riscada ('#'), todos os vizinhos ortogonais dentro do tabuleiro
-     devem ser letras brancas (maiúsculas) ou espaço em branco (' ').
+     devem ser letras brancas (maiúsculas).
 
  */
 
@@ -83,7 +83,7 @@ int verificarRestricoes(const Tabuleiro *tab)
                     if (ni >= 0 && ni < rows && nj >= 0 && nj < cols)
                     {
                         char nb = tab->grelha[ni][nj];
-                        if (!(nb >= 'A' && nb <= 'Z') && nb != ' ')
+                        if (!(nb >= 'A' && nb <= 'Z'))
                         {
                             char neigh_col = 'a' + nj;
                             int neigh_row = ni + 1;

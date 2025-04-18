@@ -9,7 +9,7 @@ CFLAGS = -Wall -Wextra -pedantic -O1 -fno-omit-frame-pointer -g -fsanitize=addre
 LDFLAGS = -lcunit -fsanitize=address -fprofile-arcs -ftest-coverage
 
 
-SRC = $(wildcard $(SRC_DIR)/*.c) $(SRC_DIR)/verifica.c
+SRC = $(wildcard $(SRC_DIR)/*.c) 
 
 # Arquivos fonte
 
@@ -21,6 +21,9 @@ EXEC = $(BIN_DIR)/jogo
 # Executáveis de teste
 TEST_EXEC_GAME = $(BIN_DIR)/test_game
 TEST_EXEC_IO = $(BIN_DIR)/test_io
+TEST_EXEC_BOARD = $(BIN_DIR)/test_board
+TEST_EXEC_UNDO = $(BIN_DIR)/test_undo
+TEST_EXEC_VERIFICA = $(BIN_DIR)/test_verifica
 
 # Target principal
 jogo: $(EXEC)
@@ -30,15 +33,28 @@ jogo: $(EXEC)
 $(EXEC): $(SRC) | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
-# Compilar testes separadamente
-testar: $(TEST_EXEC_GAME) $(TEST_EXEC_IO)
+# Target principal para testes
+testar: $(TEST_EXEC_GAME) $(TEST_EXEC_IO) $(TEST_EXEC_BOARD) $(TEST_EXEC_UNDO) $(TEST_EXEC_VERIFICA)
 	$(TEST_EXEC_GAME)
 	$(TEST_EXEC_IO)
+	$(TEST_EXEC_BOARD)
+	$(TEST_EXEC_UNDO)
+	$(TEST_EXEC_VERIFICA)
 
+# Compilar testes separadamente
 $(TEST_EXEC_GAME): $(SRC_NO_MAIN) $(TEST_DIR)/test_game.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_IO): $(SRC_NO_MAIN) $(TEST_DIR)/test_io.c | $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+$(TEST_EXEC_BOARD): $(SRC_NO_MAIN) $(TEST_DIR)/test_board.c | $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+$(TEST_EXEC_UNDO): $(SRC_NO_MAIN) $(TEST_DIR)/test_undo.c | $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+$(TEST_EXEC_VERIFICA): $(SRC_NO_MAIN) $(TEST_DIR)/test_verifica.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 # Diretório de relatórios de cobertura
@@ -47,26 +63,43 @@ COVERAGE_DIR := coverage-report
 # Lista de arquivos fonte para cobertura (sem main.c)
 COVERAGE_SRCS := board.c game.c io.c undo.c solver.c
 
-# Cobertura
-cobertura: limpa $(TEST_EXEC_GAME) $(TEST_EXEC_IO)
+cobertura: limpa $(TEST_EXEC_GAME) $(TEST_EXEC_IO) $(TEST_EXEC_BOARD) $(TEST_EXEC_UNDO) $(TEST_EXEC_VERIFICA)
 # Executa os testes
 	./$(TEST_EXEC_GAME)
 	./$(TEST_EXEC_IO)
-	
+	./$(TEST_EXEC_BOARD)
+	./$(TEST_EXEC_UNDO)	
+	./$(TEST_EXEC_VERIFICA)
+
 # Copia os arquivos fonte para o diretório bin para ajudar o gcov
 	mkdir -p $(BIN_DIR)/src
-	cp $(SRC_DIR)/*.c $(SRC_DIR)/*.h $(BIN_DIR)/src/ 2>/dev/null || true
-	
+	cp $(SRC_DIR)/*.c $(SRC_DIR)/*.h $(BIN_DIR)/src/ 2>/dev/null || true	
 # Gera os relatórios de cobertura para cada arquivo fonte
 	cd $(BIN_DIR) && gcov -b -c test_game-board > ../cobertura_board.txt
 	cd $(BIN_DIR) && gcov -b -c test_game-game > ../cobertura_game.txt
 	cd $(BIN_DIR) && gcov -b -c test_game-io > ../cobertura_io.txt
-	cd $(BIN_DIR) && gcov -b -c test_game-undo > ../cobertura_undo.txt
+	cd $(BIN_DIR) && gcov -b -c test_game-undo > ../cobertura_undo.txt	
 
 	cd $(BIN_DIR) && gcov -b -c test_io-board >> ../cobertura_board.txt
 	cd $(BIN_DIR) && gcov -b -c test_io-game >> ../cobertura_game.txt
 	cd $(BIN_DIR) && gcov -b -c test_io-io >> ../cobertura_io.txt
 	cd $(BIN_DIR) && gcov -b -c test_io-undo >> ../cobertura_undo.txt
+	
+	cd $(BIN_DIR) && gcov -b -c test_board-board >> ../cobertura_board.txt
+	cd $(BIN_DIR) && gcov -b -c test_board-game >> ../cobertura_game.txt
+	cd $(BIN_DIR) && gcov -b -c test_board-io >> ../cobertura_io.txt
+	cd $(BIN_DIR) && gcov -b -c test_board-undo >> ../cobertura_undo.txt
+
+	cd $(BIN_DIR) && gcov -b -c test_undo-board >> ../cobertura_board.txt
+	cd $(BIN_DIR) && gcov -b -c test_undo-game >> ../cobertura_game.txt
+	cd $(BIN_DIR) && gcov -b -c test_undo-io >> ../cobertura_io.txt
+	cd $(BIN_DIR) && gcov -b -c test_undo-undo >> ../cobertura_undo.txt	
+
+	cd $(BIN_DIR) && gcov -b -c test_verifica-board >> ../cobertura_board.txt
+	cd $(BIN_DIR) && gcov -b -c test_verifica-game >> ../cobertura_game.txt
+	cd $(BIN_DIR) && gcov -b -c test_verifica-io >> ../cobertura_io.txt
+	cd $(BIN_DIR) && gcov -b -c test_verifica-undo >> ../cobertura_undo.txt
+	cd $(BIN_DIR) && gcov -b -c test_verifica-verifica >> ../cobertura_verifica.txt
 
 # Move os arquivos .gcov para o diretório raiz
 	mv $(BIN_DIR)/*.gcov . 2>/dev/null || true
