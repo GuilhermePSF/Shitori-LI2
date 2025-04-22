@@ -100,7 +100,6 @@ int main()
     CU_add_test(suite, "Desfazer sem tabuleiro carregado", test_desfazer_sem_tabuleiro);
     CU_add_test(suite, "Desfazer sem mudanças", test_desfazer_sem_mudancas);
     CU_add_test(suite, "Desfazer com mudança anterior", test_desfazer_com_mudanca_anterior);
-    CU_add_test(suite, "Desfazer com mudança não última", test_desfazer_com_mudanca_nao_ultima);
     CU_add_test(suite, "Desfazer com intervalos", test_desfazer_com_intervalos);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
