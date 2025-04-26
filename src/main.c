@@ -12,9 +12,8 @@ int main()
     Tabuleiro tab;
     Historico hist = {.topo = 0};
     char cmd[256];
-    int a_correr = 1;
 
-    while (a_correr)
+    while (1)
     {
         printf("> ");
         if (!fgets(cmd, sizeof(cmd), stdin))
@@ -70,7 +69,7 @@ int main()
         }
         else if (cmd[0] == 's')
         {
-            a_correr = 0;
+            break;
         }
         else
         {
