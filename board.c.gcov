@@ -1,0 +1,18 @@
+        -:    0:Source:src/board.c
+        -:    0:Graph:test_verifica-board.gcno
+        -:    0:Data:test_verifica-board.gcda
+        -:    0:Runs:1
+        -:    1:#include <stdio.h>
+        -:    2:#include "board.h"
+        -:    3:
+function mostrarTabuleiro called 0 returned 0% blocks executed 0%
+    #####:    4:void mostrarTabuleiro(const Tabuleiro *tab)
+        -:    5:{
+    #####:    6:    for (int i = 0; i < tab->linhas; i++)
+branch  0 never executed
+branch  1 never executed
+        -:    7:    {
+    #####:    8:        printf("%s\n", tab->grelha[i]);
+call    0 never executed
+        -:    9:    }
+    #####:   10:}

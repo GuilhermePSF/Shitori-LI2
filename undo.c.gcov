@@ -1,0 +1,59 @@
+        -:    0:Source:src/undo.c
+        -:    0:Graph:test_verifica-undo.gcno
+        -:    0:Data:test_verifica-undo.gcda
+        -:    0:Runs:1
+        -:    1:#include <stdio.h>
+        -:    2:#include "board.h"
+        -:    3:#include "undo.h"
+        -:    4:
+function guardar_estado called 0 returned 0% blocks executed 0%
+    #####:    5:void guardar_estado(Historico *hist, const Tabuleiro *atual)
+        -:    6:{
+    #####:    7:    if (hist == NULL || atual == NULL)
+branch  0 never executed
+branch  1 never executed
+        -:    8:    {
+        -:    9:        return;
+        -:   10:    }
+        -:   11:
+    #####:   12:    if (hist->topo < MAX_HISTORY)
+branch  0 never executed
+branch  1 never executed
+        -:   13:    {
+    #####:   14:        hist->estados[hist->topo++] = *atual;
+        -:   15:    }
+        -:   16:    else
+        -:   17:    {
+    #####:   18:        printf("Aviso: Histórico cheio, não é possível guardar mais estados.\n");
+call    0 never executed
+        -:   19:    }
+        -:   20:}
+        -:   21:
+function desfazer called 0 returned 0% blocks executed 0%
+    #####:   22:int desfazer(Historico *hist, Tabuleiro *atual)
+        -:   23:{
+    #####:   24:    if (hist == NULL || atual == NULL)
+branch  0 never executed
+branch  1 never executed
+        -:   25:    {
+    #####:   26:        printf("Erro: Ponteiros inválidos.\n");
+call    0 never executed
+    #####:   27:        return 0;
+call    0 never executed
+        -:   28:    }
+        -:   29:
+    #####:   30:    if (hist->topo == 0)
+branch  0 never executed
+branch  1 never executed
+        -:   31:    {
+    #####:   32:        printf("Nada para desfazer.\n");
+call    0 never executed
+    #####:   33:        return 0;
+call    0 never executed
+        -:   34:    }
+        -:   35:
+    #####:   36:    *atual = hist->estados[--hist->topo];
+    #####:   37:    mostrarTabuleiro(atual);
+    #####:   38:    return 1;
+call    0 never executed
+        -:   39:}
