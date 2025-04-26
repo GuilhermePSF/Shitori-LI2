@@ -2,7 +2,7 @@
 #define BOARD_H
 
 #define MAX_ROWS 26
-#define MAX_COLS 126
+#define MAX_COLS 26
 
 typedef struct
 {
