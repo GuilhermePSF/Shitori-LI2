@@ -9,6 +9,6 @@ typedef struct
     int linhas, colunas;
 } Tabuleiro;
 
-void mostrarTabuleiro(Tabuleiro *tab);
+void mostrarTabuleiro(const Tabuleiro *tab);
 
 #endif

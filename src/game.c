@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include "game.h"
 
-void modificarTabuleiro(Tabuleiro *tab, Historico *hist, char cmd, char *coord)
+void modificarTabuleiro(Tabuleiro *tab, Historico *hist, char cmd, const char *coord)
 {
     int linha = atoi(&coord[1]) - 1;
     int coluna = tolower(coord[0]) - 'a';
