@@ -3,6 +3,10 @@
 
 #include "board.h"
 
-int verificarRestricoes(const Tabuleiro *tab);
+typedef struct {
+    int ln, col;
+} Coord;
+
+int verificarRestricoes(Tabuleiro *tab);
 
 #endif // VERIFICA_H
