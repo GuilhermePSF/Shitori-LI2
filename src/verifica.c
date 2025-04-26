@@ -11,17 +11,18 @@
 
  */
 
-int verificarRestricoes(const Tabuleiro *tab)
+// Regra 1
+int verificarLinhas(Tabuleiro *tab)
 {
+    int ok = 1;
     int rows = tab->linhas;
     int cols = tab->colunas;
-    int ok = 1;
+    int i, j;
 
-    // Regra 1:
-    for (int i = 0; i < rows; i++)
+    for (i = 0; i < rows; i++)
     {
         bool seen[26] = {false};
-        for (int j = 0; j < cols; j++)
+        for (j = 0; j < cols; j++)
         {
             char c = tab->grelha[i][j];
             if (c >= 'A' && c <= 'Z')
@@ -41,11 +42,21 @@ int verificarRestricoes(const Tabuleiro *tab)
         }
     }
 
-    // Regra 2:
-    for (int j = 0; j < cols; j++)
+    return ok;
+}
+
+// Regra 2
+int verificarColunas(Tabuleiro *tab)
+{
+    int ok = 1;
+    int rows = tab->linhas;
+    int cols = tab->colunas;
+    int i, j;
+
+    for (j = 0; j < cols; j++)
     {
         bool seen[26] = {false};
-        for (int i = 0; i < rows; i++)
+        for (i = 0; i < rows; i++)
         {
             char c = tab->grelha[i][j];
             if (c >= 'A' && c <= 'Z')
@@ -65,18 +76,29 @@ int verificarRestricoes(const Tabuleiro *tab)
         }
     }
 
-    // Regra 3:
+    return ok;
+}
+
+// Regra 3
+int verificarCelulasRiscadas(Tabuleiro *tab)
+{
+    int ok = 1;
+    int rows = tab->linhas;
+    int cols = tab->colunas;
+    int i, j, d;
+
     int dr[4] = {-1, 1, 0, 0};
     int dc[4] = {0, 0, -1, 1};
-    for (int i = 0; i < rows; i++)
+
+    for (i = 0; i < rows; i++)
     {
-        for (int j = 0; j < cols; j++)
+        for (j = 0; j < cols; j++)
         {
             if (tab->grelha[i][j] == '#')
             {
                 char self_col = 'a' + j;
                 int self_row = i + 1;
-                for (int d = 0; d < 4; d++)
+                for (d = 0; d < 4; d++)
                 {
                     int ni = i + dr[d];
                     int nj = j + dc[d];
