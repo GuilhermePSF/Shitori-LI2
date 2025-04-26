@@ -2,7 +2,7 @@
 #include "board.h"
 #include "undo.h"
 
-void guardar_estado(Historico *hist, const Tabuleiro *atual)
+void guardar_estado(Historico *hist, Tabuleiro *atual)
 {
     if (hist == NULL || atual == NULL)
     {

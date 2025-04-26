@@ -7,7 +7,7 @@
 #define MAX_LINHAS 128
 #define MAX_COLUNAS 26
 
-int carregarTabuleiro(Tabuleiro *tab, Historico *hist, const char *ficheiro)
+int carregarTabuleiro(Tabuleiro *tab, Historico *hist, char *ficheiro)
 {
     char caminho[512];
     int len = snprintf(caminho, sizeof(caminho), "%s%s", BOARD_DIR, ficheiro);
@@ -51,7 +51,7 @@ int carregarTabuleiro(Tabuleiro *tab, Historico *hist, const char *ficheiro)
     return 0;
 }
 
-int gravarTabuleiro(const Tabuleiro *tab, const char *ficheiro)
+int gravarTabuleiro(Tabuleiro *tab, char *ficheiro)
 {
     char caminho[512];
     int len = snprintf(caminho, sizeof(caminho), "%s%s", BOARD_DIR, ficheiro);

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "board.h"
 
-void mostrarTabuleiro(const Tabuleiro *tab)
+void mostrarTabuleiro(Tabuleiro *tab)
 {
     for (int i = 0; i < tab->linhas; i++)
     {
