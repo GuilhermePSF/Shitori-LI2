@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <board.h>
 #include "verifica.h"
 
 /*
@@ -21,7 +22,7 @@ int verificarLinhas(Tabuleiro *tab)
 
     for (i = 0; i < linhas; i++)
     {
-        bool seen[26] = {false};
+        bool seen[MAX_SIDE] = {false};
         for (j = 0; j < cols; j++)
         {
             char c = tab->grelha[i][j];
@@ -55,7 +56,7 @@ int verificarColunas(Tabuleiro *tab)
 
     for (j = 0; j < cols; j++)
     {
-        bool seen[26] = {false};
+        bool seen[MAX_SIDE] = {false};
         for (i = 0; i < linhas; i++)
         {
             char c = tab->grelha[i][j];
@@ -122,7 +123,7 @@ int verificarCelulasRiscadas(Tabuleiro *tab)
     return ok;
 }
 
-void inicializarVisitadas(bool visitada[26][26], int linhas, int colunas)
+void inicializarVisitadas(bool visitada[MAX_SIDE][MAX_SIDE], int linhas, int colunas)
 {
     int i, j;
     for (i = 0; i < linhas; i++)
@@ -169,9 +170,9 @@ int contarCasasNaoRiscadas(Tabuleiro *tab)
     return total;
 }
 
-bool BFS(Tabuleiro *tab, bool visitada[26][26], int linha_inicial, int coluna_inicial, int *visitados)
+bool BFS(Tabuleiro *tab, bool visitada[MAX_SIDE][MAX_SIDE], int linha_inicial, int coluna_inicial, int *visitados)
 {
-    Coord queue[26 * 26];
+    Coord queue[MAX_SIDE * MAX_SIDE];
     int front = 0, rear = 0;
     queue[rear++] = (Coord){linha_inicial, coluna_inicial};
     visitada[linha_inicial][coluna_inicial] = true;
@@ -207,7 +208,7 @@ bool BFS(Tabuleiro *tab, bool visitada[26][26], int linha_inicial, int coluna_in
 
 int verificarConectividade(Tabuleiro *tab)
 {
-    bool visitada[26][26];
+    bool visitada[MAX_SIDE][MAX_SIDE];
     int linha_inicial, coluna_inicial;
     int visitados;
     int total_nao_riscadas;

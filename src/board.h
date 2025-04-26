@@ -1,12 +1,11 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#define MAX_ROWS 26
-#define MAX_COLS 26
+#define MAX_SIDE 26
 
 typedef struct
 {
-    char grelha[MAX_ROWS][MAX_COLS];
+    char grelha[MAX_SIDE][MAX_SIDE];
     int linhas, colunas;
 } Tabuleiro;
 
