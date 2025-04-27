@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "board.h"
 #include "io.h"
 #include "game.h"
@@ -12,8 +13,9 @@ int main()
     Tabuleiro tab;
     Historico hist = {.topo = 0};
     char cmd[256];
+    bool a_correr = true;
 
-    while (1)
+    while (a_correr)
     {
         printf("> ");
         if (!fgets(cmd, sizeof(cmd), stdin))
@@ -69,7 +71,7 @@ int main()
         }
         else if (cmd[0] == 's')
         {
-            break;
+            a_correr = false;
         }
         else
         {
