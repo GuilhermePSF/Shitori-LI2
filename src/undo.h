@@ -12,6 +12,6 @@ typedef struct
 } Historico;
 
 void guardar_estado(Historico *hist, Tabuleiro *tabAtual);
-int desfazer(Historico *hist, Tabuleiro *atual, Tabuleiro *tabIO);
+int desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char *coord);
 
 #endif

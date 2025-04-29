@@ -20,26 +20,34 @@ int main()
     {
         printf("> ");
         if (!fgets(cmd, sizeof(cmd), stdin))
-            printf("erro");
+        {
+            printf("Erro ao ler comando.\n");
+            a_correr = 0;
+        }
+
         cmd[strcspn(cmd, "\n")] = '\0';
 
         if (cmd[0] == 'l')
         {
             char ficheiro[256];
-            if (sscanf(cmd, "l %s", ficheiro) == 1)
+            if (sscanf(cmd, "l %255s", ficheiro) == 1)
             {
-                if (carregarTabuleiro(&tabAtual, &tabIO, &hist, ficheiro) == -1)
+                if (carregarTabuleiro(&tabAtual, &tabIO, &hist, ficheiro) != 0)
                 {
                     printf("Erro ao carregar o tabuleiro.\n");
                 }
+            }
+            else
+            {
+                printf("Comando inválido. Uso: l <ficheiro>\n");
             }
         }
         else if (cmd[0] == 'g')
         {
             char ficheiro[256];
-            if (sscanf(cmd, "g %s", ficheiro) == 1)
+            if (sscanf(cmd, "g %255s", ficheiro) == 1)
             {
-                if (gravarTabuleiro(&tabAtual, &tabIO, ficheiro) == -1)
+                if (gravarTabuleiro(&tabAtual, ficheiro) != 0)
                 {
                     printf("Erro ao gravar o tabuleiro.\n");
                 }
@@ -48,16 +56,31 @@ int main()
                     printf("Tabuleiro gravado com sucesso.\n");
                 }
             }
+            else
+            {
+                printf("Comando inválido. Uso: g <ficheiro>\n");
+            }
         }
         else if (cmd[0] == 'b' || cmd[0] == 'r')
         {
             char coord[50];
-            if (sscanf(cmd, "%*c %s", coord) == 1)
+            if (sscanf(cmd, "%*c %49s", coord) == 1)
                 modificarTabuleiro(&tabAtual, &hist, cmd[0], coord);
+            else
+                printf("Comando inválido. Uso: %c <coordenada>\n", cmd[0]);
         }
         else if (cmd[0] == 'd')
         {
-            desfazer(&hist, &tabAtual, &tabIO);
+            char cmdChar;
+            char coord[50] = {0};
+            int parsed = sscanf(cmd, " %c %49s", &cmdChar, coord);
+
+            if (parsed == 2)
+                desfazer(&hist, &tabAtual, &tabIO, coord);
+            else if (parsed == 1)
+                desfazer(&hist, &tabAtual, &tabIO, NULL);
+            else
+                printf("Comando inválido. Uso: d [<coordenada>]\n");
         }
         else if (cmd[0] == 'v')
         {

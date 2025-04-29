@@ -6,7 +6,7 @@
 
 #define BOARD_DIR "boards/"
 
-int carregarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char *ficheiro)
+int carregarTabuleiro(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, char *ficheiro)
 {
     char caminho[512];
     int len = snprintf(caminho, sizeof(caminho), "%s%s", BOARD_DIR, ficheiro);
@@ -33,9 +33,9 @@ int carregarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char *ficheiro)
             return -1;
         }
 
-        size_t len = strlen(tabAtual->grelha[i]);
-        if (len > 0 && tabAtual->grelha[i][len - 1] == '\n')
-            tabAtual->grelha[i][len - 1] = '\0';
+        size_t lenLinha = strlen(tabAtual->grelha[i]);
+        if (lenLinha > 0 && tabAtual->grelha[i][lenLinha - 1] == '\n')
+            tabAtual->grelha[i][lenLinha - 1] = '\0';
 
         if ((int)strlen(tabAtual->grelha[i]) != tabAtual->colunas)
         {
@@ -45,6 +45,14 @@ int carregarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char *ficheiro)
     }
 
     fclose(f);
+
+    tabIO->linhas = tabAtual->linhas;
+    tabIO->colunas = tabAtual->colunas;
+    for (int i = 0; i < tabAtual->linhas; i++)
+    {
+        strcpy(tabIO->grelha[i], tabAtual->grelha[i]);
+    }
+
     hist->topo = 0;
     mostrarTabuleiro(tabAtual);
     return 0;
