@@ -6,7 +6,7 @@
 
 #define BOARD_DIR "boards/"
 
-int carregarTabuleiro(Tabuleiro *tab, Historico *hist, char *ficheiro)
+int carregarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char *ficheiro)
 {
     char caminho[512];
     int len = snprintf(caminho, sizeof(caminho), "%s%s", BOARD_DIR, ficheiro);
@@ -17,27 +17,27 @@ int carregarTabuleiro(Tabuleiro *tab, Historico *hist, char *ficheiro)
     if (!f)
         return -1;
 
-    if (fscanf(f, "%d %d\n", &tab->linhas, &tab->colunas) != 2 ||
-        tab->linhas <= 0 || tab->linhas > MAX_SIDE ||
-        tab->colunas <= 0 || tab->colunas > MAX_SIDE)
+    if (fscanf(f, "%d %d\n", &tabAtual->linhas, &tabAtual->colunas) != 2 ||
+        tabAtual->linhas <= 0 || tabAtual->linhas > MAX_SIDE ||
+        tabAtual->colunas <= 0 || tabAtual->colunas > MAX_SIDE)
     {
         fclose(f);
         return -3;
     }
 
-    for (int i = 0; i < tab->linhas; i++)
+    for (int i = 0; i < tabAtual->linhas; i++)
     {
-        if (!fgets(tab->grelha[i], tab->colunas + 2, f))
+        if (!fgets(tabAtual->grelha[i], tabAtual->colunas + 2, f))
         {
             fclose(f);
             return -1;
         }
 
-        size_t len = strlen(tab->grelha[i]);
-        if (len > 0 && tab->grelha[i][len - 1] == '\n')
-            tab->grelha[i][len - 1] = '\0';
+        size_t len = strlen(tabAtual->grelha[i]);
+        if (len > 0 && tabAtual->grelha[i][len - 1] == '\n')
+            tabAtual->grelha[i][len - 1] = '\0';
 
-        if ((int)strlen(tab->grelha[i]) != tab->colunas)
+        if ((int)strlen(tabAtual->grelha[i]) != tabAtual->colunas)
         {
             fclose(f);
             return -4;
@@ -46,11 +46,11 @@ int carregarTabuleiro(Tabuleiro *tab, Historico *hist, char *ficheiro)
 
     fclose(f);
     hist->topo = 0;
-    mostrarTabuleiro(tab);
+    mostrarTabuleiro(tabAtual);
     return 0;
 }
 
-int gravarTabuleiro(Tabuleiro *tab, char *ficheiro)
+int gravarTabuleiro(Tabuleiro *tabAtual, char *ficheiro)
 {
     char caminho[512];
     int len = snprintf(caminho, sizeof(caminho), "%s%s", BOARD_DIR, ficheiro);
@@ -61,15 +61,15 @@ int gravarTabuleiro(Tabuleiro *tab, char *ficheiro)
     if (!f)
         return -1;
 
-    if (fprintf(f, "%d %d\n", tab->linhas, tab->colunas) < 0)
+    if (fprintf(f, "%d %d\n", tabAtual->linhas, tabAtual->colunas) < 0)
     {
         fclose(f);
         return -3;
     }
 
-    for (int i = 0; i < tab->linhas; i++)
+    for (int i = 0; i < tabAtual->linhas; i++)
     {
-        if (fprintf(f, "%s\n", tab->grelha[i]) < 0)
+        if (fprintf(f, "%s\n", tabAtual->grelha[i]) < 0)
         {
             fclose(f);
             return -3;

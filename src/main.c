@@ -10,7 +10,7 @@
 
 int main()
 {
-    Tabuleiro tab;
+    Tabuleiro tabAtual;
     Historico hist = {.topo = 0};
     char cmd[256];
     bool a_correr = true;
@@ -27,7 +27,7 @@ int main()
             char ficheiro[256];
             if (sscanf(cmd, "l %s", ficheiro) == 1)
             {
-                if (carregarTabuleiro(&tab, &hist, ficheiro) == -1)
+                if (carregarTabuleiro(&tabAtual, &hist, ficheiro) == -1)
                 {
                     printf("Erro ao carregar o tabuleiro.\n");
                 }
@@ -38,7 +38,7 @@ int main()
             char ficheiro[256];
             if (sscanf(cmd, "g %s", ficheiro) == 1)
             {
-                if (gravarTabuleiro(&tab, ficheiro) == -1)
+                if (gravarTabuleiro(&tabAtual, ficheiro) == -1)
                 {
                     printf("Erro ao gravar o tabuleiro.\n");
                 }
@@ -52,15 +52,15 @@ int main()
         {
             char coord[50];
             if (sscanf(cmd, "%*c %s", coord) == 1)
-                modificarTabuleiro(&tab, &hist, cmd[0], coord);
+                modificarTabuleiro(&tabAtual, &hist, cmd[0], coord);
         }
         else if (cmd[0] == 'd')
         {
-            desfazer(&hist, &tab);
+            desfazer(&hist, &tabAtual);
         }
         else if (cmd[0] == 'v')
         {
-            if (verificarRestricoes(&tab))
+            if (verificarRestricoes(&tabAtual))
             {
                 printf("Todas as restrições estão satisfeitas.\n");
             }
