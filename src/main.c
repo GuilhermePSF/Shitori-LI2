@@ -11,6 +11,7 @@
 int main()
 {
     Tabuleiro tabAtual;
+    Tabuleiro tabIO;
     Historico hist = {.topo = 0};
     char cmd[256];
     bool a_correr = true;
@@ -27,7 +28,7 @@ int main()
             char ficheiro[256];
             if (sscanf(cmd, "l %s", ficheiro) == 1)
             {
-                if (carregarTabuleiro(&tabAtual, &hist, ficheiro) == -1)
+                if (carregarTabuleiro(&tabAtual, &tabIO, &hist, ficheiro) == -1)
                 {
                     printf("Erro ao carregar o tabuleiro.\n");
                 }
@@ -38,7 +39,7 @@ int main()
             char ficheiro[256];
             if (sscanf(cmd, "g %s", ficheiro) == 1)
             {
-                if (gravarTabuleiro(&tabAtual, ficheiro) == -1)
+                if (gravarTabuleiro(&tabAtual, &tabIO, ficheiro) == -1)
                 {
                     printf("Erro ao gravar o tabuleiro.\n");
                 }
@@ -56,7 +57,7 @@ int main()
         }
         else if (cmd[0] == 'd')
         {
-            desfazer(&hist, &tabAtual);
+            desfazer(&hist, &tabAtual, &tabIO);
         }
         else if (cmd[0] == 'v')
         {
