@@ -3,14 +3,14 @@
 
 void mostrarTabuleiro(const Tabuleiro *tab)
 {
-    printf("╔═════════════════════╗\n");
-    printf("║       SHITORI       ║\n");
-    printf("╚═════════════════════╝\n\n");
+    printf("   ╔═══════════════════╗\n");
+    printf("   ║      \033[1;3mSHITORI\033[0m      ║\n");
+    printf("   ╚═══════════════════╝\n\n");
 
     printf("    ");
     for (int col = 0; col < tab->colunas; col++)
     {
-        printf(" %c  ", 'A' + col);
+        printf(" %c  ", 'a' + col);
     }
     printf("\n");
 
@@ -33,7 +33,7 @@ void mostrarTabuleiro(const Tabuleiro *tab)
 
             if (c >= 'a' && c <= 'z')
             {
-                printf("\033[1;30m %c \033[0m", c - 32);
+                printf("\033[1;30m %c \033[0m", c );
             }
             else if (c == '#')
             {
