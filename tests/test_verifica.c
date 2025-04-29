@@ -82,6 +82,21 @@ void test_verificarRestricoes_riscada_valida(void)
     CU_ASSERT_EQUAL(resultado, 1);
 }
 
+// Teste: Violação da Regra 4 (casas não riscadas desconectadas)
+void test_verificarRestricoes_regra4(void)
+{
+    Tabuleiro tab = {
+        .linhas = 3,
+        .colunas = 3,
+        .grelha = {
+            "A#B",
+            "###",
+            "CDE"}};
+
+    int resultado = verificarRestricoes(&tab);
+    CU_ASSERT_EQUAL(resultado, 0); // Deve haver violação
+}
+
 // Teste: Tabuleiro vazio
 void test_verificarRestricoes_tabuleiro_vazio(void)
 {
@@ -94,7 +109,6 @@ void test_verificarRestricoes_tabuleiro_vazio(void)
     CU_ASSERT_EQUAL(resultado, 1);
 }
 
-
 int main()
 {
     CU_initialize_registry();
@@ -106,6 +120,7 @@ int main()
     CU_add_test(suite, "Violação da Regra 2", test_verificarRestricoes_regra2);
     CU_add_test(suite, "Violação da Regra 3", test_verificarRestricoes_regra3);
     CU_add_test(suite, "Célula riscada com vizinhos válidos", test_verificarRestricoes_riscada_valida);
+    CU_add_test(suite,"Violação da Regra 4", test_verificarRestricoes_regra4);
     CU_add_test(suite, "Tabuleiro vazio", test_verificarRestricoes_tabuleiro_vazio);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);

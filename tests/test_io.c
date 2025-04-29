@@ -5,9 +5,6 @@
 #include "game.h"
 #include "undo.h"
 
-#define MAX_COLS 26 
-#define MAX_LINHAS 128
-
 void test_carregarTabuleiro_ficheiro_existente(void)
 {
     Tabuleiro tab;
@@ -34,6 +31,7 @@ void test_carregar_ficheiro_inexistente(void)
     int resultado = carregarTabuleiro(&tab, &hist, "boards/inexistente.txt");
     CU_ASSERT_EQUAL(resultado, -1); // Deve retornar erro
 }
+
 void test_gravar_sem_carregar(void)
 {
     Tabuleiro tab = {0}; // Tabuleiro não inicializado
@@ -42,7 +40,7 @@ void test_gravar_sem_carregar(void)
     CU_ASSERT_EQUAL(resultado, -1); // Deve retornar erro
 }
 
-void test_gravar_com_mudancas (void)
+void test_gravar_com_mudancas(void)
 {
     Tabuleiro tab = {
         .linhas = 3,
@@ -61,7 +59,7 @@ void test_gravar_com_mudancas (void)
     CU_ASSERT_STRING_EQUAL(tab.grelha[2], "gh#"); // Terceira linha modificada
 
     // Grava o tabuleiro modificado
-    int resultado = gravarTabuleiro(&tab, "saida_test_sem_modificar.txt");
+    int resultado = gravarTabuleiro(&tab, "boards/saida_test_sem_modificar.txt");
     CU_ASSERT_EQUAL(resultado, 0); // Deve gravar com sucesso
 
     // Verifica o conteúdo do ficheiro gravado
@@ -70,18 +68,29 @@ void test_gravar_com_mudancas (void)
     if (f)
     {
         char linha[10];
-        fgets(linha, sizeof(linha), f);
+        if (fgets(linha, sizeof(linha), f) == NULL) {
+            CU_FAIL("Erro ao ler o arquivo");
+        }
         CU_ASSERT_STRING_EQUAL(linha, "3 3\n"); // Dimensões corretas
-        fgets(linha, sizeof(linha), f);
+
+        if (fgets(linha, sizeof(linha), f) == NULL) {
+            CU_FAIL("Erro ao ler o arquivo");
+        }
         CU_ASSERT_STRING_EQUAL(linha, "abc\n"); // Primeira linha
-        fgets(linha, sizeof(linha), f);
+
+        if (fgets(linha, sizeof(linha), f) == NULL) {
+            CU_FAIL("Erro ao ler o arquivo");
+        }
         CU_ASSERT_STRING_EQUAL(linha, "dEf\n"); // Segunda linha modificada
-        fgets(linha, sizeof(linha), f);
+
+        if (fgets(linha, sizeof(linha), f) == NULL) {
+            CU_FAIL("Erro ao ler o arquivo");
+        }
         CU_ASSERT_STRING_EQUAL(linha, "gh#\n"); // Terceira linha modificada
+
         fclose(f);
     }
 }
-
 
 int main()
 {
