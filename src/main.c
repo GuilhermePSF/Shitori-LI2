@@ -19,7 +19,7 @@ int main()
     {
         printf("> ");
         if (!fgets(cmd, sizeof(cmd), stdin))
-            break;
+            printf("erro");
         cmd[strcspn(cmd, "\n")] = '\0';
 
         if (cmd[0] == 'l')
