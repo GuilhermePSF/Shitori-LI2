@@ -15,8 +15,11 @@ bool modificarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char cmd, const ch
         return false;
     }
 
-    guardar_estado(hist, tabAtual);
-
+    if (!guardar_estado(hist, tabAtual)) {
+        printf("Erro ao guardar estado do tabuleiro.\n");
+    return false;
+    
+    }
     if (cmd == 'b') // Pintar de branco
     {
         if (tabAtual->grelha[linha][coluna] == '#')
