@@ -7,6 +7,7 @@
 #include "game.h"
 #include "undo.h"
 #include "verifica.h"
+#include "tip.h"
 
 int main()
 {
@@ -92,6 +93,10 @@ int main()
             {
                 printf("Existem restrições violadas.\n");
             }
+        }
+        else if (cmd[0] == 'a') {
+            printf("%d",has_adjacent_hash(&tabAtual));
+
         }
         else if (cmd[0] == 's')
         {
