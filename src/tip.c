@@ -43,3 +43,33 @@ bool tem_riscado_adjacaente(const Tabuleiro *tab)
     }
     return false;
 }
+
+bool existe_maiuscula_igual_na_linha_ou_coluna(Tabuleiro *tab, int linha, int coluna)
+{
+    char atual = tab->grelha[linha][coluna];
+
+    if (!isalpha((unsigned char)atual))
+        return false;
+
+    char alvo = toupper((unsigned char)atual);
+
+    // Verificar linha
+    for (int j = 0; j < tab->colunas; j++)
+    {
+        if (j != coluna && tab->grelha[linha][j] == alvo && isupper((unsigned char)tab->grelha[linha][j]))
+        {
+            return true;
+        }
+    }
+
+    // Verificar coluna
+    for (int i = 0; i < tab->linhas; i++)
+    {
+        if (i != linha && tab->grelha[i][coluna] == alvo && isupper((unsigned char)tab->grelha[i][coluna]))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
