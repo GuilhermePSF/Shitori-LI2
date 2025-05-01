@@ -8,9 +8,9 @@
 void test_desfazer_sem_tabuleiro(void)
 {
     Historico hist = {0};
-    Tabuleiro tab = {0}; 
+    Tabuleiro tabAtual = {0};
 
-    int resultado = desfazer(&hist, &tab);
+    int resultado = desfazer(&hist, &tabAtual);
     CU_ASSERT_EQUAL(resultado, 0); // Não deve ser possível desfazer
 }
 
@@ -18,7 +18,7 @@ void test_desfazer_sem_tabuleiro(void)
 void test_desfazer_sem_mudancas(void)
 {
     Historico hist = {0};
-    Tabuleiro tab = {
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
@@ -26,7 +26,7 @@ void test_desfazer_sem_mudancas(void)
             "def",
             "ghi"}};
 
-    int resultado = desfazer(&hist, &tab);
+    int resultado = desfazer(&hist, &tabAtual);
     CU_ASSERT_EQUAL(resultado, 0); // Não deve ser possível desfazer
 }
 
@@ -34,7 +34,7 @@ void test_desfazer_sem_mudancas(void)
 void test_desfazer_com_mudanca_anterior(void)
 {
     Historico hist = {0};
-    Tabuleiro tab = {
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
@@ -43,27 +43,26 @@ void test_desfazer_com_mudanca_anterior(void)
             "ghi"}};
 
     // Salva o estado inicial
-    guardar_estado(&hist, &tab);
+    guardar_estado(&hist, &tabAtual);
 
     // Realiza uma mudança
-    modificarTabuleiro(&tab, &hist, 'b', "b2"); // Modifica 'e' -> 'E'
+    modificarTabuleiro(&tabAtual, &hist, 'b', "b2"); // Modifica 'e' -> 'E'
 
     // Realiza outra mudança
-    modificarTabuleiro(&tab, &hist, 'r', "c3"); // Modifica 'i' -> '#'
+    modificarTabuleiro(&tabAtual, &hist, 'r', "c3"); // Modifica 'i' -> '#'
 
     // Desfaz a última mudança
-    int resultado = desfazer(&hist, &tab);
-    CU_ASSERT_EQUAL(resultado, 1); 
-    CU_ASSERT_STRING_EQUAL(tab.grelha[1], "dEf"); 
-    CU_ASSERT_STRING_EQUAL(tab.grelha[2], "ghi"); 
+    int resultado = desfazer(&hist, &tabAtual);
+    CU_ASSERT_EQUAL(resultado, 1);
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "dEf");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
 }
-
 
 // Teste: Desfazer com intervalos entre as mudanças
 void test_desfazer_com_intervalos(void)
 {
     Historico hist = {0};
-    Tabuleiro tab = {
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
@@ -72,23 +71,23 @@ void test_desfazer_com_intervalos(void)
             "ghi"}};
 
     // Salva o estado inicial
-    guardar_estado(&hist, &tab);
+    guardar_estado(&hist, &tabAtual);
 
     // Realiza uma mudança
-    modificarTabuleiro(&tab, &hist, 'r', "b2"); // Modifica 'e' -> '#'
+    modificarTabuleiro(&tabAtual, &hist, 'r', "b2"); // Modifica 'e' -> '#'
 
     // Realiza outra mudança
-    modificarTabuleiro(&tab, &hist, 'b', "c3"); // Modifica 'i' -> 'I'
+    modificarTabuleiro(&tabAtual, &hist, 'b', "c3"); // Modifica 'i' -> 'I'
 
     // Realiza outra mudança
-    modificarTabuleiro(&tab, &hist, 'b', "a1"); // Modifica 'a' -> 'A'
+    modificarTabuleiro(&tabAtual, &hist, 'b', "a1"); // Modifica 'a' -> 'A'
 
     // Desfaz a última mudança
-    int resultado = desfazer(&hist, &tab);
-    CU_ASSERT_EQUAL(resultado, 1); 
-    CU_ASSERT_STRING_EQUAL(tab.grelha[0], "abc"); 
-    CU_ASSERT_STRING_EQUAL(tab.grelha[1], "d#f"); 
-    CU_ASSERT_STRING_EQUAL(tab.grelha[2], "ghI"); 
+    int resultado = desfazer(&hist, &tabAtual);
+    CU_ASSERT_EQUAL(resultado, 1);
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "abc");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "d#f");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghI");
 }
 
 int main()

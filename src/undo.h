@@ -3,7 +3,7 @@
 
 #include "board.h"
 
-#define MAX_HISTORY 100
+#define MAX_HISTORY 1000
 
 typedef struct
 {
@@ -11,7 +11,7 @@ typedef struct
     int topo;
 } Historico;
 
-void guardar_estado(Historico *hist, Tabuleiro *atual);
-int desfazer(Historico *hist, Tabuleiro *atual);
+void guardar_estado(Historico *hist, Tabuleiro *tabAtual);
+int desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char *coord);
 
 #endif

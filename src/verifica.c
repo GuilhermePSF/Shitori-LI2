@@ -13,11 +13,11 @@
  */
 
 // Regra 1
-int verificarLinhas(Tabuleiro *tab)
+int verificarLinhas(Tabuleiro *tabAtual)
 {
     int ok = 1;
-    int linhas = tab->linhas;
-    int cols = tab->colunas;
+    int linhas = tabAtual->linhas;
+    int cols = tabAtual->colunas;
     int i, j;
 
     for (i = 0; i < linhas; i++)
@@ -25,7 +25,7 @@ int verificarLinhas(Tabuleiro *tab)
         bool seen[MAX_SIDE] = {false};
         for (j = 0; j < cols; j++)
         {
-            char c = tab->grelha[i][j];
+            char c = tabAtual->grelha[i][j];
             if (c >= 'A' && c <= 'Z')
             {
                 int idx = c - 'A';
@@ -47,11 +47,11 @@ int verificarLinhas(Tabuleiro *tab)
 }
 
 // Regra 2
-int verificarColunas(Tabuleiro *tab)
+int verificarColunas(Tabuleiro *tabAtual)
 {
     int ok = 1;
-    int linhas = tab->linhas;
-    int cols = tab->colunas;
+    int linhas = tabAtual->linhas;
+    int cols = tabAtual->colunas;
     int i, j;
 
     for (j = 0; j < cols; j++)
@@ -59,7 +59,7 @@ int verificarColunas(Tabuleiro *tab)
         bool seen[MAX_SIDE] = {false};
         for (i = 0; i < linhas; i++)
         {
-            char c = tab->grelha[i][j];
+            char c = tabAtual->grelha[i][j];
             if (c >= 'A' && c <= 'Z')
             {
                 int idx = c - 'A';
@@ -81,11 +81,11 @@ int verificarColunas(Tabuleiro *tab)
 }
 
 // Regra 3
-int verificarCelulasRiscadas(Tabuleiro *tab)
+int verificarCelulasRiscadas(Tabuleiro *tabAtual)
 {
     int ok = 1;
-    int linhas = tab->linhas;
-    int cols = tab->colunas;
+    int linhas = tabAtual->linhas;
+    int cols = tabAtual->colunas;
     int i, j, d;
 
     int dr[4] = {-1, 1, 0, 0};
@@ -95,7 +95,7 @@ int verificarCelulasRiscadas(Tabuleiro *tab)
     {
         for (j = 0; j < cols; j++)
         {
-            if (tab->grelha[i][j] == '#')
+            if (tabAtual->grelha[i][j] == '#')
             {
                 char self_col = 'a' + j;
                 int self_linha = i + 1;
@@ -105,7 +105,7 @@ int verificarCelulasRiscadas(Tabuleiro *tab)
                     int nj = j + dc[d];
                     if (ni >= 0 && ni < linhas && nj >= 0 && nj < cols)
                     {
-                        char nb = tab->grelha[ni][nj];
+                        char nb = tabAtual->grelha[ni][nj];
                         if (!(nb >= 'A' && nb <= 'Z'))
                         {
                             char neigh_col = 'a' + nj;
@@ -135,14 +135,14 @@ void inicializarVisitadas(bool visitada[MAX_SIDE][MAX_SIDE], int linhas, int col
     }
 }
 
-bool encontrarCasaInicial(Tabuleiro *tab, int *linha, int *coluna)
+bool encontrarCasaInicial(Tabuleiro *tabAtual, int *linha, int *coluna)
 {
     int i, j;
-    for (i = 0; i < tab->linhas; i++)
+    for (i = 0; i < tabAtual->linhas; i++)
     {
-        for (j = 0; j < tab->colunas; j++)
+        for (j = 0; j < tabAtual->colunas; j++)
         {
-            if (tab->grelha[i][j] != '#')
+            if (tabAtual->grelha[i][j] != '#')
             {
                 *linha = i;
                 *coluna = j;
@@ -153,15 +153,15 @@ bool encontrarCasaInicial(Tabuleiro *tab, int *linha, int *coluna)
     return false;
 }
 
-int contarCasasNaoRiscadas(Tabuleiro *tab)
+int contarCasasNaoRiscadas(Tabuleiro *tabAtual)
 {
     int total = 0;
     int i, j;
-    for (i = 0; i < tab->linhas; i++)
+    for (i = 0; i < tabAtual->linhas; i++)
     {
-        for (j = 0; j < tab->colunas; j++)
+        for (j = 0; j < tabAtual->colunas; j++)
         {
-            if (tab->grelha[i][j] != '#')
+            if (tabAtual->grelha[i][j] != '#')
             {
                 total++;
             }
@@ -170,7 +170,7 @@ int contarCasasNaoRiscadas(Tabuleiro *tab)
     return total;
 }
 
-bool BFS(Tabuleiro *tab, bool visitada[MAX_SIDE][MAX_SIDE], int linha_inicial, int coluna_inicial, int *visitados)
+bool BFS(Tabuleiro *tabAtual, bool visitada[MAX_SIDE][MAX_SIDE], int linha_inicial, int coluna_inicial, int *visitados)
 {
     Coord queue[MAX_SIDE * MAX_SIDE];
     int front = 0, rear = 0;
@@ -191,9 +191,9 @@ bool BFS(Tabuleiro *tab, bool visitada[MAX_SIDE][MAX_SIDE], int linha_inicial, i
             int novalinha = current.ln + linhaDirs[dir];
             int novaColuna = current.col + colunaDirs[dir];
 
-            if (novalinha >= 0 && novalinha < tab->linhas && novaColuna >= 0 && novaColuna < tab->colunas)
+            if (novalinha >= 0 && novalinha < tabAtual->linhas && novaColuna >= 0 && novaColuna < tabAtual->colunas)
             {
-                if (tab->grelha[novalinha][novaColuna] != '#' && !visitada[novalinha][novaColuna])
+                if (tabAtual->grelha[novalinha][novaColuna] != '#' && !visitada[novalinha][novaColuna])
                 {
                     visitada[novalinha][novaColuna] = true;
                     queue[rear++] = (Coord){novalinha, novaColuna};
@@ -206,23 +206,23 @@ bool BFS(Tabuleiro *tab, bool visitada[MAX_SIDE][MAX_SIDE], int linha_inicial, i
     return true;
 }
 
-int verificarConectividade(Tabuleiro *tab)
+int verificarConectividade(Tabuleiro *tabAtual)
 {
     bool visitada[MAX_SIDE][MAX_SIDE];
     int linha_inicial, coluna_inicial;
     int visitados;
     int total_nao_riscadas;
 
-    inicializarVisitadas(visitada, tab->linhas, tab->colunas);
+    inicializarVisitadas(visitada, tabAtual->linhas, tabAtual->colunas);
 
-    if (!encontrarCasaInicial(tab, &linha_inicial, &coluna_inicial))
+    if (!encontrarCasaInicial(tabAtual, &linha_inicial, &coluna_inicial))
     {
         return 1;
     }
 
-    total_nao_riscadas = contarCasasNaoRiscadas(tab);
+    total_nao_riscadas = contarCasasNaoRiscadas(tabAtual);
 
-    BFS(tab, visitada, linha_inicial, coluna_inicial, &visitados);
+    BFS(tabAtual, visitada, linha_inicial, coluna_inicial, &visitados);
 
     if (visitados != total_nao_riscadas)
     {
@@ -233,20 +233,20 @@ int verificarConectividade(Tabuleiro *tab)
     return 1;
 }
 
-int verificarRestricoes(Tabuleiro *tab)
+int verificarRestricoes(Tabuleiro *tabAtual)
 {
     int ok = 1;
 
-    if (!verificarLinhas(tab))
+    if (!verificarLinhas(tabAtual))
         ok = 0;
 
-    if (!verificarColunas(tab))
+    if (!verificarColunas(tabAtual))
         ok = 0;
 
-    if (!verificarCelulasRiscadas(tab))
+    if (!verificarCelulasRiscadas(tabAtual))
         ok = 0;
 
-    if (!verificarConectividade(tab))
+    if (!verificarConectividade(tabAtual))
         ok = 0;
 
     return ok;

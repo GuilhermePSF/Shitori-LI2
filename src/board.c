@@ -1,39 +1,39 @@
 #include <stdio.h>
 #include "board.h"
 
-void mostrarTabuleiro(const Tabuleiro *tab)
+void mostrarTabuleiro(const Tabuleiro *tabAtual)
 {
     printf("   ╔═══════════════════╗\n");
     printf("   ║      \033[1;3mSHITORI\033[0m      ║\n");
     printf("   ╚═══════════════════╝\n\n");
 
     printf("    ");
-    for (int col = 0; col < tab->colunas; col++)
+    for (int col = 0; col < tabAtual->colunas; col++)
     {
         printf(" %c  ", 'a' + col);
     }
     printf("\n");
 
     printf("   ╔");
-    for (int col = 0; col < tab->colunas; col++)
+    for (int col = 0; col < tabAtual->colunas; col++)
     {
         printf("═══");
-        if (col < tab->colunas - 1)
+        if (col < tabAtual->colunas - 1)
             printf("╦");
     }
     printf("╗\n");
 
-    for (int linha = 0; linha < tab->linhas; linha++)
+    for (int linha = 0; linha < tabAtual->linhas; linha++)
     {
         printf("%2d ║", linha + 1);
 
-        for (int col = 0; col < tab->colunas; col++)
+        for (int col = 0; col < tabAtual->colunas; col++)
         {
-            char c = tab->grelha[linha][col];
+            char c = tabAtual->grelha[linha][col];
 
             if (c >= 'a' && c <= 'z')
             {
-                printf("\033[1;30m %c \033[0m", c );
+                printf("\033[1;30m %c \033[0m", c);
             }
             else if (c == '#')
             {
@@ -48,13 +48,13 @@ void mostrarTabuleiro(const Tabuleiro *tab)
         }
         printf("\n");
 
-        if (linha < tab->linhas - 1)
+        if (linha < tabAtual->linhas - 1)
         {
             printf("   ╠");
-            for (int col = 0; col < tab->colunas; col++)
+            for (int col = 0; col < tabAtual->colunas; col++)
             {
                 printf("═══");
-                if (col < tab->colunas - 1)
+                if (col < tabAtual->colunas - 1)
                     printf("╬");
             }
             printf("╣\n");
@@ -62,10 +62,10 @@ void mostrarTabuleiro(const Tabuleiro *tab)
         else
         {
             printf("   ╚");
-            for (int col = 0; col < tab->colunas; col++)
+            for (int col = 0; col < tabAtual->colunas; col++)
             {
                 printf("═══");
-                if (col < tab->colunas - 1)
+                if (col < tabAtual->colunas - 1)
                     printf("╩");
             }
             printf("╝\n");

@@ -3,10 +3,11 @@
 
 #include "board.h"
 
-typedef struct {
+typedef struct
+{
     int ln, col;
 } Coord;
 
-int verificarRestricoes(Tabuleiro *tab);
+int verificarRestricoes(Tabuleiro *tabAtual);
 
 #endif // VERIFICA_H

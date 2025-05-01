@@ -5,11 +5,11 @@
 // Teste: Mostrar tabuleiro sem estar carregado
 void test_mostrarTabuleiro_sem_carregar(void)
 {
-    Tabuleiro tab = {0}; // Tabuleiro não inicializado
+    Tabuleiro tabAtual = {0}; // Tabuleiro não inicializado
 
     // Redireciona a saída padrão para um arquivo temporário
     freopen("boards/output.txt", "w", stdout);
-    mostrarTabuleiro(&tab);
+    mostrarTabuleiro(&tabAtual);
     freopen("/dev/tty", "w", stdout); // Restaura a saída padrão
 
     // Verifica o conteúdo do arquivo
@@ -18,7 +18,7 @@ void test_mostrarTabuleiro_sem_carregar(void)
     if (file)
     {
         char linha[10];
-        CU_ASSERT_PTR_NULL(fgets(linha, sizeof(linha), file)); 
+        CU_ASSERT_PTR_NULL(fgets(linha, sizeof(linha), file));
         fclose(file);
     }
 }
@@ -26,7 +26,7 @@ void test_mostrarTabuleiro_sem_carregar(void)
 // Teste: Mostrar tabuleiro sem mudanças do original
 void test_mostrarTabuleiro_sem_mudancas(void)
 {
-    Tabuleiro tab = {
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
@@ -36,7 +36,7 @@ void test_mostrarTabuleiro_sem_mudancas(void)
 
     // Redireciona a saída padrão para um arquivo temporário
     freopen("output.txt", "w", stdout);
-    mostrarTabuleiro(&tab);
+    mostrarTabuleiro(&tabAtual);
     freopen("/dev/tty", "w", stdout); // Restaura a saída padrão
 
     // Verifica o conteúdo do arquivo
@@ -58,7 +58,7 @@ void test_mostrarTabuleiro_sem_mudancas(void)
 // Teste: Mostrar tabuleiro com mudanças do original
 void test_mostrarTabuleiro_com_mudancas(void)
 {
-    Tabuleiro tab = {
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
@@ -68,7 +68,7 @@ void test_mostrarTabuleiro_com_mudancas(void)
 
     // Redireciona a saída padrão para um arquivo temporário
     freopen("output.txt", "w", stdout);
-    mostrarTabuleiro(&tab);
+    mostrarTabuleiro(&tabAtual);
     freopen("/dev/tty", "w", stdout);
 
     // Verifica o conteúdo do arquivo
