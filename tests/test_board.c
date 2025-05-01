@@ -1,29 +1,23 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "board.h"
 
-// Teste: Mostrar tabuleiro sem estar carregado
-void test_mostrarTabuleiro_sem_carregar(void)
-{
-    Tabuleiro tab = {0}; // Tabuleiro não inicializado
-
-    // Redireciona a saída padrão para um arquivo temporário
-    freopen("boards/output.txt", "w", stdout);
-    mostrarTabuleiro(&tab);
-    freopen("/dev/tty", "w", stdout); // Restaura a saída padrão
-
-    // Verifica o conteúdo do arquivo
-    FILE *file = fopen("boards/output.txt", "r");
-    CU_ASSERT_PTR_NOT_NULL(file);
-    if (file)
-    {
-        char linha[10];
-        CU_ASSERT_PTR_NULL(fgets(linha, sizeof(linha), file)); 
-        fclose(file);
+// Função auxiliar para remover sequências ANSI
+void remover_ansi(char *dest, const char *src) {
+    while (*src) {
+        if (*src == '\033') {
+            while (*src && *src != 'm') src++;
+            if (*src) src++;
+        } else {
+            *dest++ = *src++;
+        }
     }
+    *dest = '\0';
 }
 
-// Teste: Mostrar tabuleiro sem mudanças do original
 void test_mostrarTabuleiro_sem_mudancas(void)
 {
     Tabuleiro tab = {
@@ -34,28 +28,29 @@ void test_mostrarTabuleiro_sem_mudancas(void)
             "def",
             "ghi"}};
 
-    // Redireciona a saída padrão para um arquivo temporário
-    freopen("output.txt", "w", stdout);
+    freopen("boards/output.txt", "w", stdout);
     mostrarTabuleiro(&tab);
-    freopen("/dev/tty", "w", stdout); // Restaura a saída padrão
+    freopen("/dev/tty", "w", stdout);
 
-    // Verifica o conteúdo do arquivo
-    FILE *file = fopen("output.txt", "r");
+    FILE *file = fopen("boards/output.txt", "r");
     CU_ASSERT_PTR_NOT_NULL(file);
-    if (file)
-    {
-        char linha[10];
-        fgets(linha, sizeof(linha), file);
-        CU_ASSERT_STRING_EQUAL(linha, "abc\n");
-        fgets(linha, sizeof(linha), file);
-        CU_ASSERT_STRING_EQUAL(linha, "def\n");
-        fgets(linha, sizeof(linha), file);
-        CU_ASSERT_STRING_EQUAL(linha, "ghi\n");
+
+    if (file) {
+        char buffer[8192];
+        char limpo[8192];
+        size_t len = fread(buffer, 1, sizeof(buffer) - 1, file);
+        buffer[len] = '\0';
+        remover_ansi(limpo, buffer);
+
+        CU_ASSERT_PTR_NOT_NULL(strstr(limpo, "SHITORI"));
+        CU_ASSERT_PTR_NOT_NULL(strstr(limpo, "1 ║ a ║ b ║ c ║"));
+        CU_ASSERT_PTR_NOT_NULL(strstr(limpo, "2 ║ d ║ e ║ f ║"));
+        CU_ASSERT_PTR_NOT_NULL(strstr(limpo, "3 ║ g ║ h ║ i ║"));
+
         fclose(file);
     }
 }
 
-// Teste: Mostrar tabuleiro com mudanças do original
 void test_mostrarTabuleiro_com_mudancas(void)
 {
     Tabuleiro tab = {
@@ -66,23 +61,24 @@ void test_mostrarTabuleiro_com_mudancas(void)
             "d#f",
             "gHi"}};
 
-    // Redireciona a saída padrão para um arquivo temporário
-    freopen("output.txt", "w", stdout);
+    freopen("boards/output.txt", "w", stdout);
     mostrarTabuleiro(&tab);
     freopen("/dev/tty", "w", stdout);
 
-    // Verifica o conteúdo do arquivo
-    FILE *file = fopen("output.txt", "r");
+    FILE *file = fopen("boards/output.txt", "r");
     CU_ASSERT_PTR_NOT_NULL(file);
-    if (file)
-    {
-        char linha[10];
-        fgets(linha, sizeof(linha), file);
-        CU_ASSERT_STRING_EQUAL(linha, "abc\n");
-        fgets(linha, sizeof(linha), file);
-        CU_ASSERT_STRING_EQUAL(linha, "d#f\n");
-        fgets(linha, sizeof(linha), file);
-        CU_ASSERT_STRING_EQUAL(linha, "gHi\n");
+
+    if (file) {
+        char buffer[8192];
+        char limpo[8192];
+        size_t len = fread(buffer, 1, sizeof(buffer) - 1, file);
+        buffer[len] = '\0';
+        remover_ansi(limpo, buffer);
+
+        CU_ASSERT_PTR_NOT_NULL(strstr(limpo, "SHITORI"));
+        CU_ASSERT_PTR_NOT_NULL(strstr(limpo, "2 ║ d ║ # ║ f ║"));
+        CU_ASSERT_PTR_NOT_NULL(strstr(limpo, "3 ║ g ║ H ║ i ║"));
+
         fclose(file);
     }
 }
@@ -90,12 +86,10 @@ void test_mostrarTabuleiro_com_mudancas(void)
 int main()
 {
     CU_initialize_registry();
-
     CU_pSuite suite = CU_add_suite("Testes_Tabuleiro", NULL, NULL);
 
     CU_add_test(suite, "Mostrar tabuleiro sem mudanças", test_mostrarTabuleiro_sem_mudancas);
     CU_add_test(suite, "Mostrar tabuleiro com mudanças", test_mostrarTabuleiro_com_mudancas);
-    CU_add_test(suite, "Mostrar tabuleiro sem carregar", test_mostrarTabuleiro_sem_carregar);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();

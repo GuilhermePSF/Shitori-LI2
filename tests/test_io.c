@@ -48,45 +48,47 @@ void test_gravar_com_mudancas(void)
         .grelha = {
             "abc",
             "def",
-            "ghi"}};
-
-    // Realiza mudanças diretamente na grelha
-    tab.grelha[1][1] = 'E'; // Torna 'e' maiúsculo
-    tab.grelha[2][2] = '#'; // Substitui 'i' por '#'
-
-    // Verifica o estado do tabuleiro antes de gravar
-    CU_ASSERT_STRING_EQUAL(tab.grelha[1], "dEf"); // Segunda linha modificada
-    CU_ASSERT_STRING_EQUAL(tab.grelha[2], "gh#"); // Terceira linha modificada
-
-    // Grava o tabuleiro modificado
-    int resultado = gravarTabuleiro(&tab, "boards/saida_test_sem_modificar.txt");
-    CU_ASSERT_EQUAL(resultado, 0); // Deve gravar com sucesso
-
-    // Verifica o conteúdo do ficheiro gravado
-    FILE *f = fopen("boards/saida_test_sem_modificar.txt", "r");
-    CU_ASSERT_PTR_NOT_NULL(f);
-    if (f)
-    {
-        char linha[10];
-        if (fgets(linha, sizeof(linha), f) == NULL) {
-            CU_FAIL("Erro ao ler o arquivo");
+            "ghi"
         }
-        CU_ASSERT_STRING_EQUAL(linha, "3 3\n"); // Dimensões corretas
+    };
 
-        if (fgets(linha, sizeof(linha), f) == NULL) {
-            CU_FAIL("Erro ao ler o arquivo");
-        }
-        CU_ASSERT_STRING_EQUAL(linha, "abc\n"); // Primeira linha
+    /* aplica modificações */
+    tab.grelha[1][1] = 'E';   /* "def" -> "dEf" */
+    tab.grelha[2][2] = '#';   /* "ghi" -> "gh#" */
 
-        if (fgets(linha, sizeof(linha), f) == NULL) {
-            CU_FAIL("Erro ao ler o arquivo");
-        }
-        CU_ASSERT_STRING_EQUAL(linha, "dEf\n"); // Segunda linha modificada
+    /* confirma que a grelha foi alterada em memória */
+    CU_ASSERT_STRING_EQUAL(tab.grelha[1], "dEf");
+    CU_ASSERT_STRING_EQUAL(tab.grelha[2], "gh#");
 
-        if (fgets(linha, sizeof(linha), f) == NULL) {
-            CU_FAIL("Erro ao ler o arquivo");
-        }
-        CU_ASSERT_STRING_EQUAL(linha, "gh#\n"); // Terceira linha modificada
+    /* grava apenas o nome do ficheiro — o prefixo BOARD_DIR será acrescentado pela função */
+    const char *nomeFicheiro = "saida_test.txt";
+    int resultado = gravarTabuleiro(&tab, (char*)nomeFicheiro);
+    CU_ASSERT_EQUAL_FATAL(resultado, 0);
+
+    /* agora abre para leitura usando o prefixo BOARD_DIR */
+    char caminho[512];
+    snprintf(caminho, sizeof(caminho), "%s%s", "boards/", nomeFicheiro);
+    FILE *f = fopen(caminho, "r");
+    CU_ASSERT_PTR_NOT_NULL_FATAL(f);
+
+    if (f) {
+        char linha[64];
+
+        /* primeira linha: "3 3\n" */
+        CU_ASSERT_PTR_NOT_NULL_FATAL(fgets(linha, sizeof(linha), f));
+        CU_ASSERT_STRING_EQUAL(linha, "3 3\n");
+
+        /* segunda linha: "abc\n" */
+        CU_ASSERT_PTR_NOT_NULL_FATAL(fgets(linha, sizeof(linha), f));
+        CU_ASSERT_STRING_EQUAL(linha, "abc\n");
+
+        /* terceira linha: "dEf\n" */
+        CU_ASSERT_PTR_NOT_NULL_FATAL(fgets(linha, sizeof(linha), f));
+        CU_ASSERT_STRING_EQUAL(linha, "dEf\n");
+
+        /* quarta linha: "gh#\n" */
+        CU_ASSERT_PTR_NOT_NULL_FATAL(fgets(linha, sizeof(linha), f));
+        CU_ASSERT_STRING_EQUAL(linha, "gh#\n");
 
         fclose(f);
     }
