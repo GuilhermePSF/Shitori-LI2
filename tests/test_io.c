@@ -7,42 +7,42 @@
 
 void test_carregarTabuleiro_ficheiro_existente(void)
 {
-    Tabuleiro tab;
+    Tabuleiro tabAtual;
     Historico hist;
-    int resultado = carregarTabuleiro(&tab, &hist, "teste.txt");
+    int resultado = carregarTabuleiro(&tabAtual, &hist, "teste.txt");
     CU_ASSERT_EQUAL(resultado, 0);
-    CU_ASSERT(tab.linhas > 0 && tab.colunas > 0);
-    CU_ASSERT(strlen(tab.grelha[0]) > 0);
+    CU_ASSERT(tabAtual.linhas > 0 && tabAtual.colunas > 0);
+    CU_ASSERT(strlen(tabAtual.grelha[0]) > 0);
 }
 
 void test_carregarTabuleiro_invalido(void)
 {
-    Tabuleiro tab;
+    Tabuleiro tabAtual;
     Historico hist;
-    int resultado = carregarTabuleiro(&tab, &hist, "tabuleiroerrado.txt");
+    int resultado = carregarTabuleiro(&tabAtual, &hist, "tabuleiroerrado.txt");
     CU_ASSERT_EQUAL(resultado, -1);
 }
 
 void test_carregar_ficheiro_inexistente(void)
 {
-    Tabuleiro tab;
+    Tabuleiro tabAtual;
     Historico hist;
 
-    int resultado = carregarTabuleiro(&tab, &hist, "boards/inexistente.txt");
+    int resultado = carregarTabuleiro(&tabAtual, &hist, "boards/inexistente.txt");
     CU_ASSERT_EQUAL(resultado, -1); // Deve retornar erro
 }
 
 void test_gravar_sem_carregar(void)
 {
-    Tabuleiro tab = {0}; // Tabuleiro não inicializado
+    Tabuleiro tabAtual = {0}; // Tabuleiro não inicializado
 
-    int resultado = gravarTabuleiro(&tab, "boards/saida_test.txt");
+    int resultado = gravarTabuleiro(&tabAtual, "boards/saida_test.txt");
     CU_ASSERT_EQUAL(resultado, -1); // Deve retornar erro
 }
 
 void test_gravar_com_mudancas(void)
 {
-    Tabuleiro tab = {
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
@@ -51,15 +51,15 @@ void test_gravar_com_mudancas(void)
             "ghi"}};
 
     // Realiza mudanças diretamente na grelha
-    tab.grelha[1][1] = 'E'; // Torna 'e' maiúsculo
-    tab.grelha[2][2] = '#'; // Substitui 'i' por '#'
+    tabAtual.grelha[1][1] = 'E'; // Torna 'e' maiúsculo
+    tabAtual.grelha[2][2] = '#'; // Substitui 'i' por '#'
 
     // Verifica o estado do tabuleiro antes de gravar
-    CU_ASSERT_STRING_EQUAL(tab.grelha[1], "dEf"); // Segunda linha modificada
-    CU_ASSERT_STRING_EQUAL(tab.grelha[2], "gh#"); // Terceira linha modificada
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "dEf"); // Segunda linha modificada
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "gh#"); // Terceira linha modificada
 
     // Grava o tabuleiro modificado
-    int resultado = gravarTabuleiro(&tab, "boards/saida_test_sem_modificar.txt");
+    int resultado = gravarTabuleiro(&tabAtual, "boards/saida_test_sem_modificar.txt");
     CU_ASSERT_EQUAL(resultado, 0); // Deve gravar com sucesso
 
     // Verifica o conteúdo do ficheiro gravado
@@ -68,22 +68,26 @@ void test_gravar_com_mudancas(void)
     if (f)
     {
         char linha[10];
-        if (fgets(linha, sizeof(linha), f) == NULL) {
+        if (fgets(linha, sizeof(linha), f) == NULL)
+        {
             CU_FAIL("Erro ao ler o arquivo");
         }
         CU_ASSERT_STRING_EQUAL(linha, "3 3\n"); // Dimensões corretas
 
-        if (fgets(linha, sizeof(linha), f) == NULL) {
+        if (fgets(linha, sizeof(linha), f) == NULL)
+        {
             CU_FAIL("Erro ao ler o arquivo");
         }
         CU_ASSERT_STRING_EQUAL(linha, "abc\n"); // Primeira linha
 
-        if (fgets(linha, sizeof(linha), f) == NULL) {
+        if (fgets(linha, sizeof(linha), f) == NULL)
+        {
             CU_FAIL("Erro ao ler o arquivo");
         }
         CU_ASSERT_STRING_EQUAL(linha, "dEf\n"); // Segunda linha modificada
 
-        if (fgets(linha, sizeof(linha), f) == NULL) {
+        if (fgets(linha, sizeof(linha), f) == NULL)
+        {
             CU_FAIL("Erro ao ler o arquivo");
         }
         CU_ASSERT_STRING_EQUAL(linha, "gh#\n"); // Terceira linha modificada
