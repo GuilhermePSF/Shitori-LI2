@@ -7,42 +7,42 @@
 
 void test_carregarTabuleiro_ficheiro_existente(void)
 {
-    Tabuleiro tab;
+    Tabuleiro tabAtual;
     Historico hist;
-    int resultado = carregarTabuleiro(&tab, &hist, "teste.txt");
+    int resultado = carregarTabuleiro(&tabAtual, &hist, "teste.txt");
     CU_ASSERT_EQUAL(resultado, 0);
-    CU_ASSERT(tab.linhas > 0 && tab.colunas > 0);
-    CU_ASSERT(strlen(tab.grelha[0]) > 0);
+    CU_ASSERT(tabAtual.linhas > 0 && tabAtual.colunas > 0);
+    CU_ASSERT(strlen(tabAtual.grelha[0]) > 0);
 }
 
 void test_carregarTabuleiro_invalido(void)
 {
-    Tabuleiro tab;
+    Tabuleiro tabAtual;
     Historico hist;
-    int resultado = carregarTabuleiro(&tab, &hist, "tabuleiroerrado.txt");
+    int resultado = carregarTabuleiro(&tabAtual, &hist, "tabuleiroerrado.txt");
     CU_ASSERT_EQUAL(resultado, -1);
 }
 
 void test_carregar_ficheiro_inexistente(void)
 {
-    Tabuleiro tab;
+    Tabuleiro tabAtual;
     Historico hist;
 
-    int resultado = carregarTabuleiro(&tab, &hist, "boards/inexistente.txt");
+    int resultado = carregarTabuleiro(&tabAtual, &hist, "boards/inexistente.txt");
     CU_ASSERT_EQUAL(resultado, -1); // Deve retornar erro
 }
 
 void test_gravar_sem_carregar(void)
 {
-    Tabuleiro tab = {0}; // Tabuleiro não inicializado
+    Tabuleiro tabAtual = {0}; // Tabuleiro não inicializado
 
-    int resultado = gravarTabuleiro(&tab, "boards/saida_test.txt");
+    int resultado = gravarTabuleiro(&tabAtual, "boards/saida_test.txt");
     CU_ASSERT_EQUAL(resultado, -1); // Deve retornar erro
 }
 
 void test_gravar_com_mudancas(void)
 {
-    Tabuleiro tab = {
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
@@ -52,6 +52,9 @@ void test_gravar_com_mudancas(void)
         }
     };
 
+    // Realiza mudanças diretamente na grelha
+    tabAtual.grelha[1][1] = 'E'; // Torna 'e' maiúsculo
+    tabAtual.grelha[2][2] = '#'; // Substitui 'i' por '#'
     /* aplica modificações */
     tab.grelha[1][1] = 'E';   /* "def" -> "dEf" */
     tab.grelha[2][2] = '#';   /* "ghi" -> "gh#" */
