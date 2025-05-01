@@ -55,7 +55,7 @@ void test_verificarRestricoes_regra3(void)
         .linhas = 3,
         .colunas = 3,
         .grelha = {
-            "A#b", // <- '#' tem vizinho 'b' à direita (minúscula)
+            "A#b",
             "CDE",
             "FGH"}};
 
@@ -75,9 +75,8 @@ void test_verificarRestricoes_riscada_valida(void)
             "FGH"}};
 
     // Ajusta os vizinhos da célula riscada para serem válidos
-    tabAtual.grelha[0][0] = 'A'; // Vizinho esquerdo
-    tabAtual.grelha[0][2] = 'B'; // Vizinho direito
-
+    tabAtual.grelha[0][0] = 'A'; 
+    tabAtual.grelha[0][2] = 'B';
     int resultado = verificarRestricoes(&tabAtual);
     CU_ASSERT_EQUAL(resultado, 1);
 }
@@ -94,7 +93,7 @@ void test_verificarRestricoes_regra4(void)
             "CDE"}};
 
     int resultado = verificarRestricoes(&tabAtual);
-    CU_ASSERT_EQUAL(resultado, 0); // Deve haver violação
+    CU_ASSERT_EQUAL(resultado, 0); 
 }
 
 // Teste: Tabuleiro vazio

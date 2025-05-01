@@ -3,27 +3,15 @@
 #include <board.h>
 #include "verifica.h"
 
-/*
- verificarRestricoes:
-   - Regra 1: Em cada linha, não pode haver duas letras maiúsculas iguais.
-   - Regra 2: Em cada coluna, não pode haver duas letras maiúsculas iguais.
-   - Regra 3: Para cada célula riscada ('#'), todos os vizinhos ortogonais dentro do tabuleiro
-     devem ser letras brancas (maiúsculas).
-   - Regra 4: Todas as casas não riscadas ('#') devem estar conectadas ortogonalmente.
- */
-
-// Regra 1
-int verificarLinhas(Tabuleiro *tabAtual)
+bool verificarLinhas(Tabuleiro *tabAtual)
 {
-    int ok = 1;
     int linhas = tabAtual->linhas;
     int cols = tabAtual->colunas;
-    int i, j;
 
-    for (i = 0; i < linhas; i++)
+    for (int i = 0; i < linhas; i++)
     {
         bool seen[MAX_SIDE] = {false};
-        for (j = 0; j < cols; j++)
+        for (int j = 0; j < cols; j++)
         {
             char c = tabAtual->grelha[i][j];
             if (c >= 'A' && c <= 'Z')
@@ -33,31 +21,25 @@ int verificarLinhas(Tabuleiro *tabAtual)
                 {
                     char col_label = 'a' + j;
                     printf("Violação: letra '%c' repetida na linha %d, coluna %c\n", c, i + 1, col_label);
-                    ok = 0;
+                    return false;
                 }
-                else
-                {
-                    seen[idx] = true;
-                }
+                seen[idx] = true;
             }
         }
     }
 
-    return ok;
+    return true;
 }
 
-// Regra 2
-int verificarColunas(Tabuleiro *tabAtual)
+bool verificarColunas(Tabuleiro *tabAtual)
 {
-    int ok = 1;
     int linhas = tabAtual->linhas;
     int cols = tabAtual->colunas;
-    int i, j;
 
-    for (j = 0; j < cols; j++)
+    for (int j = 0; j < cols; j++)
     {
         bool seen[MAX_SIDE] = {false};
-        for (i = 0; i < linhas; i++)
+        for (int i = 0; i < linhas; i++)
         {
             char c = tabAtual->grelha[i][j];
             if (c >= 'A' && c <= 'Z')
@@ -67,39 +49,33 @@ int verificarColunas(Tabuleiro *tabAtual)
                 {
                     char col_label = 'a' + j;
                     printf("Violação: letra '%c' repetida na coluna %c, linha %d\n", c, col_label, i + 1);
-                    ok = 0;
+                    return false;
                 }
-                else
-                {
-                    seen[idx] = true;
-                }
+                seen[idx] = true;
             }
         }
     }
 
-    return ok;
+    return true;
 }
 
-// Regra 3
-int verificarCelulasRiscadas(Tabuleiro *tabAtual)
+bool verificarCelulasRiscadas(Tabuleiro *tabAtual)
 {
-    int ok = 1;
     int linhas = tabAtual->linhas;
     int cols = tabAtual->colunas;
-    int i, j, d;
 
     int dr[4] = {-1, 1, 0, 0};
     int dc[4] = {0, 0, -1, 1};
 
-    for (i = 0; i < linhas; i++)
+    for (int i = 0; i < linhas; i++)
     {
-        for (j = 0; j < cols; j++)
+        for (int j = 0; j < cols; j++)
         {
             if (tabAtual->grelha[i][j] == '#')
             {
                 char self_col = 'a' + j;
                 int self_linha = i + 1;
-                for (d = 0; d < 4; d++)
+                for (int d = 0; d < 4; d++)
                 {
                     int ni = i + dr[d];
                     int nj = j + dc[d];
@@ -112,7 +88,7 @@ int verificarCelulasRiscadas(Tabuleiro *tabAtual)
                             int neigh_linha = ni + 1;
                             printf("Violação: célula riscada em %c%d tem vizinho inválido em %c%d: '%c'\n",
                                    self_col, self_linha, neigh_col, neigh_linha, nb);
-                            ok = 0;
+                            return false;
                         }
                     }
                 }
@@ -120,15 +96,14 @@ int verificarCelulasRiscadas(Tabuleiro *tabAtual)
         }
     }
 
-    return ok;
+    return true;
 }
 
 void inicializarVisitadas(bool visitada[MAX_SIDE][MAX_SIDE], int linhas, int colunas)
 {
-    int i, j;
-    for (i = 0; i < linhas; i++)
+    for (int i = 0; i < linhas; i++)
     {
-        for (j = 0; j < colunas; j++)
+        for (int j = 0; j < colunas; j++)
         {
             visitada[i][j] = false;
         }
@@ -137,10 +112,9 @@ void inicializarVisitadas(bool visitada[MAX_SIDE][MAX_SIDE], int linhas, int col
 
 bool encontrarCasaInicial(Tabuleiro *tabAtual, int *linha, int *coluna)
 {
-    int i, j;
-    for (i = 0; i < tabAtual->linhas; i++)
+    for (int i = 0; i < tabAtual->linhas; i++)
     {
-        for (j = 0; j < tabAtual->colunas; j++)
+        for (int j = 0; j < tabAtual->colunas; j++)
         {
             if (tabAtual->grelha[i][j] != '#')
             {
@@ -156,10 +130,9 @@ bool encontrarCasaInicial(Tabuleiro *tabAtual, int *linha, int *coluna)
 int contarCasasNaoRiscadas(Tabuleiro *tabAtual)
 {
     int total = 0;
-    int i, j;
-    for (i = 0; i < tabAtual->linhas; i++)
+    for (int i = 0; i < tabAtual->linhas; i++)
     {
-        for (j = 0; j < tabAtual->colunas; j++)
+        for (int j = 0; j < tabAtual->colunas; j++)
         {
             if (tabAtual->grelha[i][j] != '#')
             {
@@ -206,7 +179,7 @@ bool BFS(Tabuleiro *tabAtual, bool visitada[MAX_SIDE][MAX_SIDE], int linha_inici
     return true;
 }
 
-int verificarConectividade(Tabuleiro *tabAtual)
+bool verificarConectividade(Tabuleiro *tabAtual)
 {
     bool visitada[MAX_SIDE][MAX_SIDE];
     int linha_inicial, coluna_inicial;
@@ -217,7 +190,7 @@ int verificarConectividade(Tabuleiro *tabAtual)
 
     if (!encontrarCasaInicial(tabAtual, &linha_inicial, &coluna_inicial))
     {
-        return 1;
+        return true;
     }
 
     total_nao_riscadas = contarCasasNaoRiscadas(tabAtual);
@@ -227,27 +200,16 @@ int verificarConectividade(Tabuleiro *tabAtual)
     if (visitados != total_nao_riscadas)
     {
         printf("Violação: nem todas as casas não riscadas estão conectadas (visitadas %d, esperadas %d)\n", visitados, total_nao_riscadas);
-        return 0;
+        return false;
     }
 
-    return 1;
+    return true;
 }
 
-int verificarRestricoes(Tabuleiro *tabAtual)
+bool verificarRestricoes(Tabuleiro *tabAtual)
 {
-    int ok = 1;
-
-    if (!verificarLinhas(tabAtual))
-        ok = 0;
-
-    if (!verificarColunas(tabAtual))
-        ok = 0;
-
-    if (!verificarCelulasRiscadas(tabAtual))
-        ok = 0;
-
-    if (!verificarConectividade(tabAtual))
-        ok = 0;
-
-    return ok;
+    return verificarLinhas(tabAtual) &&
+           verificarColunas(tabAtual) &&
+           verificarCelulasRiscadas(tabAtual) &&
+           verificarConectividade(tabAtual);
 }

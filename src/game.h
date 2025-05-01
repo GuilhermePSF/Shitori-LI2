@@ -4,6 +4,6 @@
 #include "board.h"
 #include "undo.h"
 
-void modificarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char cmd, const char *coord);
+bool modificarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char cmd, const char *coord);
 
 #endif

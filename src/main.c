@@ -22,7 +22,8 @@ int main()
         if (!fgets(cmd, sizeof(cmd), stdin))
         {
             printf("Erro ao ler comando.\n");
-            a_correr = 0;
+            a_correr = false;
+            continue;
         }
 
         cmd[strcspn(cmd, "\n")] = '\0';
@@ -32,7 +33,7 @@ int main()
             char ficheiro[256];
             if (sscanf(cmd, "l %255s", ficheiro) == 1)
             {
-                if (carregarTabuleiro(&tabAtual, &tabIO, &hist, ficheiro) != 0)
+                if (!carregarTabuleiro(&tabAtual, &tabIO, &hist, ficheiro))
                 {
                     printf("Erro ao carregar o tabuleiro.\n");
                 }
@@ -47,7 +48,7 @@ int main()
             char ficheiro[256];
             if (sscanf(cmd, "g %255s", ficheiro) == 1)
             {
-                if (gravarTabuleiro(&tabAtual, ficheiro) != 0)
+                if (!gravarTabuleiro(&tabAtual, ficheiro))
                 {
                     printf("Erro ao gravar o tabuleiro.\n");
                 }
@@ -65,9 +66,16 @@ int main()
         {
             char coord[50];
             if (sscanf(cmd, "%*c %49s", coord) == 1)
-                modificarTabuleiro(&tabAtual, &hist, cmd[0], coord);
+            {
+                if (!modificarTabuleiro(&tabAtual, &hist, cmd[0], coord))
+                {
+                    printf("Falha ao modificar o tabuleiro.\n");
+                }
+            }
             else
+            {
                 printf("Comando inválido. Uso: %c <coordenada>\n", cmd[0]);
+            }
         }
         else if (cmd[0] == 'd')
         {

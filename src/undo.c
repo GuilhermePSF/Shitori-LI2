@@ -2,34 +2,38 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
 #include "board.h"
 #include "undo.h"
 
-void guardar_estado(Historico *hist, Tabuleiro *tabAtual)
+
+bool guardar_estado(Historico *hist, Tabuleiro *tabAtual)
 {
     if (hist == NULL || tabAtual == NULL)
     {
-        return;
+        return false;
     }
 
     if (hist->topo < MAX_HISTORY)
     {
         hist->estados[hist->topo++] = *tabAtual;
+        return true;
     }
     else
     {
         printf("Aviso: Histórico cheio, não é possível guardar mais estados.\n");
+        return false;
     }
 }
 
-int desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char *coord)
+bool desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char *coord)
 {
     if (coord == NULL)
     {
         if (hist->topo == 0)
         {
             printf("Não há movimentos para desfazer.\n");
-            return -1;
+            return false;
         }
 
         hist->topo--;
@@ -42,13 +46,13 @@ int desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char 
         tabAtual->colunas = hist->estados[hist->topo].colunas;
 
         mostrarTabuleiro(tabAtual);
-        return 0;
+        return true;
     }
 
     if (strlen(coord) < 2 || !isalpha(coord[0]) || !isdigit(coord[1]))
     {
         printf("Coordenada inválida.\n");
-        return -1;
+        return false;
     }
 
     int col = tolower(coord[0]) - 'a';
@@ -57,16 +61,19 @@ int desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char 
     if (row < 0 || row >= tabAtual->linhas || col < 0 || col >= tabAtual->colunas)
     {
         printf("Coordenada fora dos limites.\n");
-        return -1;
+        return false;
     }
 
     if (tabAtual->grelha[row][col] != tabIO->grelha[row][col])
     {
-        guardar_estado(hist, tabAtual);
-        tabAtual->grelha[row][col] = tabIO->grelha[row][col];
-        mostrarTabuleiro(tabAtual);
-        return 0;
+        if (guardar_estado(hist, tabAtual))
+        {
+            tabAtual->grelha[row][col] = tabIO->grelha[row][col];
+            mostrarTabuleiro(tabAtual);
+            return true;
+        }
+        return false;
     }
     printf("Não há modificacoes para desfazer.\n");
-    return 1;
+    return false;
 }
