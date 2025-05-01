@@ -3,15 +3,21 @@
 #include "board.h"
 #include "undo.h"
 #include "game.h"
+#include <CUnit/CUnit.h>
+#include <CUnit/Basic.h>
+#include <string.h>
+#include "board.h"
+#include "undo.h"
 
 // Teste: Desfazer sem tabuleiro carregado
 void test_desfazer_sem_tabuleiro(void)
 {
     Historico hist = {0};
     Tabuleiro tabAtual = {0};
+    Tabuleiro tabIO = {0};
 
-    int resultado = desfazer(&hist, &tabAtual);
-    CU_ASSERT_EQUAL(resultado, 0); // Não deve ser possível desfazer
+    int resultado = desfazer(&hist, &tabAtual, &tabIO, NULL);
+    CU_ASSERT_EQUAL(resultado, -1); // Deve falhar porque o histórico está vazio
 }
 
 // Teste: Desfazer sem mudanças
@@ -21,73 +27,47 @@ void test_desfazer_sem_mudancas(void)
     Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
-        .grelha = {
-            "abc",
-            "def",
-            "ghi"}};
+        .grelha = { "abc", "def", "ghi" }};
+    Tabuleiro tabIO = tabAtual;
 
-    int resultado = desfazer(&hist, &tabAtual);
-    CU_ASSERT_EQUAL(resultado, 0); // Não deve ser possível desfazer
+    int resultado = desfazer(&hist, &tabAtual, &tabIO, NULL);
+    CU_ASSERT_EQUAL(resultado, -1); // Também deve falhar, pois não há histórico
 }
 
-// Teste: Desfazer com a última mudança tendo uma mudança anterior
-void test_desfazer_com_mudanca_anterior(void)
+// Teste: Desfazer célula com mudança
+void test_desfazer_coordenada_com_mudanca(void)
 {
     Historico hist = {0};
     Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
-        .grelha = {
-            "abc",
-            "def",
-            "ghi"}};
+        .grelha = { "abc", "dEf", "gh#" }};
+    Tabuleiro tabIO = {
+        .linhas = 3,
+        .colunas = 3,
+        .grelha = { "abc", "def", "ghi" }};
 
-    // Salva o estado inicial
+    // guarda estado antes da modificação
     guardar_estado(&hist, &tabAtual);
 
-    // Realiza uma mudança
-    modificarTabuleiro(&tabAtual, &hist, 'b', "b2"); // Modifica 'e' -> 'E'
-
-    // Realiza outra mudança
-    modificarTabuleiro(&tabAtual, &hist, 'r', "c3"); // Modifica 'i' -> '#'
-
-    // Desfaz a última mudança
-    int resultado = desfazer(&hist, &tabAtual);
-    CU_ASSERT_EQUAL(resultado, 1);
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "dEf");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
+    // desfaz célula modificada 'E' -> 'e'
+    int resultado = desfazer(&hist, &tabAtual, &tabIO, "b2");
+    CU_ASSERT_EQUAL(resultado, 0);
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "def");
 }
 
-// Teste: Desfazer com intervalos entre as mudanças
-void test_desfazer_com_intervalos(void)
+// Teste: Desfazer célula sem mudança
+void test_desfazer_coordenada_sem_mudanca(void)
 {
     Historico hist = {0};
     Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
-        .grelha = {
-            "abc",
-            "def",
-            "ghi"}};
+        .grelha = { "abc", "def", "ghi" }};
+    Tabuleiro tabIO = tabAtual;
 
-    // Salva o estado inicial
-    guardar_estado(&hist, &tabAtual);
-
-    // Realiza uma mudança
-    modificarTabuleiro(&tabAtual, &hist, 'r', "b2"); // Modifica 'e' -> '#'
-
-    // Realiza outra mudança
-    modificarTabuleiro(&tabAtual, &hist, 'b', "c3"); // Modifica 'i' -> 'I'
-
-    // Realiza outra mudança
-    modificarTabuleiro(&tabAtual, &hist, 'b', "a1"); // Modifica 'a' -> 'A'
-
-    // Desfaz a última mudança
-    int resultado = desfazer(&hist, &tabAtual);
-    CU_ASSERT_EQUAL(resultado, 1);
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "abc");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "d#f");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghI");
+    int resultado = desfazer(&hist, &tabAtual, &tabIO, "a1"); // 'a' == 'a'
+    CU_ASSERT_EQUAL(resultado, 1); // Nada para desfazer
 }
 
 int main()
@@ -98,8 +78,8 @@ int main()
 
     CU_add_test(suite, "Desfazer sem tabuleiro carregado", test_desfazer_sem_tabuleiro);
     CU_add_test(suite, "Desfazer sem mudanças", test_desfazer_sem_mudancas);
-    CU_add_test(suite, "Desfazer com mudança anterior", test_desfazer_com_mudanca_anterior);
-    CU_add_test(suite, "Desfazer com intervalos", test_desfazer_com_intervalos);
+    CU_add_test(suite, "Desfazer coordenada com mudança", test_desfazer_coordenada_com_mudanca);
+    CU_add_test(suite, "Desfazer coordenada sem mudança", test_desfazer_coordenada_sem_mudanca);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();

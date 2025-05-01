@@ -29,7 +29,7 @@ void test_mostrarTabuleiro_sem_mudancas(void)
             "ghi"}};
 
     freopen("boards/output.txt", "w", stdout);
-    mostrarTabuleiro(&tab);
+    mostrarTabuleiro(&tabAtual);
     freopen("/dev/tty", "w", stdout);
 
     FILE *file = fopen("boards/output.txt", "r");
@@ -62,7 +62,7 @@ void test_mostrarTabuleiro_com_mudancas(void)
             "gHi"}};
 
     freopen("boards/output.txt", "w", stdout);
-    mostrarTabuleiro(&tab);
+    mostrarTabuleiro(&tabAtual);
     freopen("/dev/tty", "w", stdout);
 
     FILE *file = fopen("boards/output.txt", "r");

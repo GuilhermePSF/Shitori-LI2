@@ -7,9 +7,9 @@
 
 void test_carregarTabuleiro_ficheiro_existente(void)
 {
-    Tabuleiro tabAtual;
+    Tabuleiro tabAtual, tabIO;
     Historico hist;
-    int resultado = carregarTabuleiro(&tabAtual, &hist, "teste.txt");
+    int resultado = carregarTabuleiro(&tabAtual, &tabIO, &hist, "teste.txt");
     CU_ASSERT_EQUAL(resultado, 0);
     CU_ASSERT(tabAtual.linhas > 0 && tabAtual.colunas > 0);
     CU_ASSERT(strlen(tabAtual.grelha[0]) > 0);
@@ -17,18 +17,18 @@ void test_carregarTabuleiro_ficheiro_existente(void)
 
 void test_carregarTabuleiro_invalido(void)
 {
-    Tabuleiro tabAtual;
+    Tabuleiro tabAtual, tabIO;
     Historico hist;
-    int resultado = carregarTabuleiro(&tabAtual, &hist, "tabuleiroerrado.txt");
+    int resultado = carregarTabuleiro(&tabAtual, &tabIO, &hist, "tabuleiroerrado.txt");
     CU_ASSERT_EQUAL(resultado, -1);
 }
 
 void test_carregar_ficheiro_inexistente(void)
 {
-    Tabuleiro tabAtual;
+    Tabuleiro tabAtual, tabIO;
     Historico hist;
 
-    int resultado = carregarTabuleiro(&tabAtual, &hist, "boards/inexistente.txt");
+    int resultado = carregarTabuleiro(&tabAtual, &tabIO, &hist, "inexistente.txt");
     CU_ASSERT_EQUAL(resultado, -1); // Deve retornar erro
 }
 
@@ -56,16 +56,16 @@ void test_gravar_com_mudancas(void)
     tabAtual.grelha[1][1] = 'E'; // Torna 'e' maiúsculo
     tabAtual.grelha[2][2] = '#'; // Substitui 'i' por '#'
     /* aplica modificações */
-    tab.grelha[1][1] = 'E';   /* "def" -> "dEf" */
-    tab.grelha[2][2] = '#';   /* "ghi" -> "gh#" */
+    tabAtual.grelha[1][1] = 'E';   /* "def" -> "dEf" */
+    tabAtual.grelha[2][2] = '#';   /* "ghi" -> "gh#" */
 
     /* confirma que a grelha foi alterada em memória */
-    CU_ASSERT_STRING_EQUAL(tab.grelha[1], "dEf");
-    CU_ASSERT_STRING_EQUAL(tab.grelha[2], "gh#");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "dEf");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "gh#");
 
     /* grava apenas o nome do ficheiro — o prefixo BOARD_DIR será acrescentado pela função */
     const char *nomeFicheiro = "saida_test.txt";
-    int resultado = gravarTabuleiro(&tab, (char*)nomeFicheiro);
+    int resultado = gravarTabuleiro(&tabAtual, (char*)nomeFicheiro);
     CU_ASSERT_EQUAL_FATAL(resultado, 0);
 
     /* agora abre para leitura usando o prefixo BOARD_DIR */
