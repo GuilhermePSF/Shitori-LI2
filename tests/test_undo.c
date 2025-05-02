@@ -3,24 +3,17 @@
 #include "board.h"
 #include "undo.h"
 #include "game.h"
-#include <CUnit/CUnit.h>
-#include <CUnit/Basic.h>
-#include <string.h>
-#include "board.h"
-#include "undo.h"
 
-// Teste: Desfazer sem tabuleiro carregado
 void test_desfazer_sem_tabuleiro(void)
 {
     Historico hist = {0};
     Tabuleiro tabAtual = {0};
     Tabuleiro tabIO = {0};
 
-    int resultado = desfazer(&hist, &tabAtual, &tabIO, NULL);
-    CU_ASSERT_EQUAL(resultado, -1); // Deve falhar porque o histórico está vazio
+    bool resultado = desfazer(&hist, &tabAtual, &tabIO, NULL);
+    CU_ASSERT_FALSE(resultado);
 }
 
-// Teste: Desfazer sem mudanças
 void test_desfazer_sem_mudancas(void)
 {
     Historico hist = {0};
@@ -30,11 +23,10 @@ void test_desfazer_sem_mudancas(void)
         .grelha = { "abc", "def", "ghi" }};
     Tabuleiro tabIO = tabAtual;
 
-    int resultado = desfazer(&hist, &tabAtual, &tabIO, NULL);
-    CU_ASSERT_EQUAL(resultado, -1); // Também deve falhar, pois não há histórico
+    bool resultado = desfazer(&hist, &tabAtual, &tabIO, NULL);
+    CU_ASSERT_FALSE(resultado);
 }
 
-// Teste: Desfazer célula com mudança
 void test_desfazer_coordenada_com_mudanca(void)
 {
     Historico hist = {0};
@@ -47,16 +39,13 @@ void test_desfazer_coordenada_com_mudanca(void)
         .colunas = 3,
         .grelha = { "abc", "def", "ghi" }};
 
-    // guarda estado antes da modificação
     guardar_estado(&hist, &tabAtual);
 
-    // desfaz célula modificada 'E' -> 'e'
-    int resultado = desfazer(&hist, &tabAtual, &tabIO, "b2");
-    CU_ASSERT_EQUAL(resultado, 0);
+    bool resultado = desfazer(&hist, &tabAtual, &tabIO, "b2");
+    CU_ASSERT_TRUE(resultado);
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "def");
 }
 
-// Teste: Desfazer célula sem mudança
 void test_desfazer_coordenada_sem_mudanca(void)
 {
     Historico hist = {0};
@@ -66,8 +55,8 @@ void test_desfazer_coordenada_sem_mudanca(void)
         .grelha = { "abc", "def", "ghi" }};
     Tabuleiro tabIO = tabAtual;
 
-    int resultado = desfazer(&hist, &tabAtual, &tabIO, "a1"); // 'a' == 'a'
-    CU_ASSERT_EQUAL(resultado, 1); // Nada para desfazer
+    bool resultado = desfazer(&hist, &tabAtual, &tabIO, "a1");
+    CU_ASSERT_FALSE(resultado);
 }
 
 int main()
