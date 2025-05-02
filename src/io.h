@@ -5,9 +5,6 @@
 #include "board.h"
 #include "undo.h"
 
-#include "board.h"
-#include "undo.h"
-
 bool carregarTabuleiro(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, char *ficheiro);
 bool gravarTabuleiro(Tabuleiro *tabAtual, char *ficheiro);
 
