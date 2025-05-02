@@ -151,70 +151,123 @@ void copia_tabuleiros(Tabuleiro *tabA, Tabuleiro *tabB)
     for (int i = 0; i < tabA->linhas; i++)
     {
         for (int j = 0; j < tabA->colunas; j++)
-            (tabA->grelha[i][j] = tabB->grelha[i][j]);
+        {
+            tabA->grelha[i][j] = tabB->grelha[i][j];
+        }
     }
 }
 
 void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 {
-    int next;
     for (int i = 0; i < tabAtual->linhas; i++)
     {
         for (int j = 0; j < tabAtual->colunas; j++)
         {
             char atual = tabAtual->grelha[i][j];
-            next = 1;
+            bool next = true;
 
             while (next)
             {
-                if (!existe_igual_na_linha_ou_coluna(tabAtual, i, j))
+                bool fez_algo = false;
+
+                if (!isupper(atual) && atual != '#')
                 {
-                    guardar_estado(hist, tabAtual);
-                    tabAtual->grelha[i][j] = toupper(atual);
-
-                    if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
-                        desfazer(hist, tabAtual, tabIO, NULL);
-                    else
-                        next = 0;
-                }
-
-                if (tem_riscado_adjacente_coord(tabAtual, i, j))
-                {
-                    guardar_estado(hist, tabAtual);
-                    tabAtual->grelha[i][j] = toupper(atual);
-
-                    if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
-                        desfazer(hist, tabAtual, tabIO, NULL);
-                    else
-                        next = 0;
-                }
-
-                if (necessaria_para_conectividade(tabAtual, i, j))
-                {
-                    guardar_estado(hist, tabAtual);
-                    tabAtual->grelha[i][j] = toupper(atual);
-
-                    if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
-                        desfazer(hist, tabAtual, tabIO, NULL);
-                    else
-                        next = 0;
-                }
-
-                if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
-                {
-                    guardar_estado(hist, tabAtual);
-                    tabAtual->grelha[i][j] = '#';
-
-                    if (tem_riscado_adjacente(tabAtual) || !verificarConectividade(tabAtual, 's'))
+                    if (!existe_igual_na_linha_ou_coluna(tabAtual, i, j))
                     {
-                        desfazer(hist, tabAtual, tabIO, NULL);
+                        if (tabAtual->grelha[i][j] != toupper(atual))
+                        {
+                            guardar_estado(hist, tabAtual);
+                            tabAtual->grelha[i][j] = toupper(atual);
+                            fez_algo = true;
+                        }
+                        next = false;
                     }
-                    else
-                        next = 0;
-                }
 
-                next = 0;
+                    if (!fez_algo && tem_riscado_adjacente_coord(tabAtual, i, j))
+                    {
+                        if (tabAtual->grelha[i][j] != toupper(atual))
+                        {
+                            guardar_estado(hist, tabAtual);
+                            tabAtual->grelha[i][j] = toupper(atual);
+                            fez_algo = true;
+                        }
+
+                        if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
+                        {
+                            desfazer(hist, tabAtual, tabIO, NULL);
+                        }
+                        else
+                        {
+                            next = false;
+                        }
+                    }
+
+                    if (!fez_algo && necessaria_para_conectividade(tabAtual, i, j))
+                    {
+                        if (tabAtual->grelha[i][j] != toupper(atual))
+                        {
+                            guardar_estado(hist, tabAtual);
+                            tabAtual->grelha[i][j] = toupper(atual);
+                            fez_algo = true;
+                        }
+
+                        if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
+                        {
+                            desfazer(hist, tabAtual, tabIO, NULL);
+                        }
+                        else
+                        {
+                            next = false;
+                        }
+                    }
+
+                    if (!fez_algo && existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
+                    {
+                        if (tabAtual->grelha[i][j] != '#')
+                        {
+                            guardar_estado(hist, tabAtual);
+                            tabAtual->grelha[i][j] = '#';
+                            fez_algo = true;
+                        }
+
+                        if (tem_riscado_adjacente(tabAtual) || !verificarConectividade(tabAtual, 's'))
+                        {
+                            desfazer(hist, tabAtual, tabIO, NULL);
+                        }
+                        else
+                        {
+                            next = false;
+                        }
+                    }
+
+                    if (!fez_algo)
+                    {
+                        next = false;
+                    }
+                }
+                else
+                {
+                    next = false;
+                }
             }
         }
+    }
+}
+
+
+void comando_A(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
+{
+    Tabuleiro original;
+    bool continuar = true;
+    int ant;
+    while (continuar)
+    {
+        ant = hist->topo;
+        comando_a(tabAtual, tabIO, hist);
+        if (hist->topo == ant)
+        {
+            continuar = false;
+        }
+        
     }
 }

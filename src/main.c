@@ -127,6 +127,7 @@ int main()
         }
         else if (cmd[0] == 'A')
         {
+            comando_A(&tabAtual, &tabIO, &hist);
             mostrarTabuleiro(&tabAtual);
         }
 
