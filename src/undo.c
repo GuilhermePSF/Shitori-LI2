@@ -45,7 +45,6 @@ bool desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char
         tabAtual->linhas = hist->estados[hist->topo].linhas;
         tabAtual->colunas = hist->estados[hist->topo].colunas;
 
-        mostrarTabuleiro(tabAtual);
         return true;
     }
 
@@ -69,7 +68,6 @@ bool desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char
         if (guardar_estado(hist, tabAtual))
         {
             tabAtual->grelha[row][col] = tabIO->grelha[row][col];
-            mostrarTabuleiro(tabAtual);
             return true;
         }
         return false;

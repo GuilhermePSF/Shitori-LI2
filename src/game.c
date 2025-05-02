@@ -44,6 +44,5 @@ bool modificarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char cmd, const ch
         return false;
     }
 
-    mostrarTabuleiro(tabAtual);
     return true;
 }

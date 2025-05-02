@@ -10,8 +10,8 @@
 
 int main()
 {
-    Tabuleiro tabAtual;
-    Tabuleiro tabIO;
+    Tabuleiro tabAtual = {0};
+    Tabuleiro tabIO = {0};
     Historico hist = {.topo = 0};
     char cmd[256];
     bool a_correr = true;
@@ -33,7 +33,12 @@ int main()
             char ficheiro[256];
             if (sscanf(cmd, "l %255s", ficheiro) == 1)
             {
-                if (!carregarTabuleiro(&tabAtual, &tabIO, &hist, ficheiro))
+                if (carregarTabuleiro(&tabAtual, &tabIO, &hist, ficheiro))
+                {
+                    printf("Tabuleiro carregado com sucesso.\n");
+                    mostrarTabuleiro(&tabAtual);
+                }
+                else
                 {
                     printf("Erro ao carregar o tabuleiro.\n");
                 }
@@ -43,18 +48,18 @@ int main()
                 printf("Comando inválido. Uso: l <ficheiro>\n");
             }
         }
-        else if (cmd[0] == 'g')
+        else if (cmd[0] == 'g') 
         {
             char ficheiro[256];
             if (sscanf(cmd, "g %255s", ficheiro) == 1)
             {
-                if (!gravarTabuleiro(&tabAtual, ficheiro))
+                if (gravarTabuleiro(&tabAtual, ficheiro))
                 {
-                    printf("Erro ao gravar o tabuleiro.\n");
+                    printf("Tabuleiro gravado com sucesso.\n");
                 }
                 else
                 {
-                    printf("Tabuleiro gravado com sucesso.\n");
+                    printf("Erro ao gravar o tabuleiro.\n");
                 }
             }
             else
@@ -62,14 +67,18 @@ int main()
                 printf("Comando inválido. Uso: g <ficheiro>\n");
             }
         }
-        else if (cmd[0] == 'b' || cmd[0] == 'r')
+        else if (cmd[0] == 'b' || cmd[0] == 'r') 
         {
             char coord[50];
             if (sscanf(cmd, "%*c %49s", coord) == 1)
             {
-                if (!modificarTabuleiro(&tabAtual, &hist, cmd[0], coord))
+                if (modificarTabuleiro(&tabAtual, &hist, cmd[0], coord))
                 {
-                    printf("Falha ao modificar o tabuleiro.\n");
+                    mostrarTabuleiro(&tabAtual);
+                }
+                else
+                {
+                    printf("Erro ao modificar o tabuleiro.\n");
                 }
             }
             else
@@ -83,12 +92,20 @@ int main()
             char coord[50] = {0};
             int parsed = sscanf(cmd, " %c %49s", &cmdChar, coord);
 
-            if (parsed == 2)
+            if (parsed == 2){
                 desfazer(&hist, &tabAtual, &tabIO, coord);
-            else if (parsed == 1)
+                mostrarTabuleiro (&tabAtual);
+            }
+
+            else if (parsed == 1){
                 desfazer(&hist, &tabAtual, &tabIO, NULL);
-            else
+                mostrarTabuleiro (&tabAtual);
+            }
+            else {
                 printf("Comando inválido. Uso: d [<coordenada>]\n");
+                mostrarTabuleiro (&tabAtual);
+            }
+
         }
         else if (cmd[0] == 'v')
         {

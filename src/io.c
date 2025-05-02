@@ -56,7 +56,6 @@ bool carregarTabuleiro(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, c
     }
 
     hist->topo = 0;
-    mostrarTabuleiro(tabAtual);
     return true;
 }
 
