@@ -2,11 +2,13 @@
 #define VERIFICA_H
 
 #include "board.h"
+#include <stdbool.h>
 
-typedef struct {
+typedef struct
+{
     int ln, col;
 } Coord;
 
-int verificarRestricoes(Tabuleiro *tab);
+bool verificarRestricoes(Tabuleiro *tabAtual);
 
 #endif // VERIFICA_H

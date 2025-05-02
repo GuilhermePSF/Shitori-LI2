@@ -1,13 +1,12 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 #include "board.h"
-#include "io.h"
 #include "game.h"
 #include "undo.h"
 
-// Teste: Pintar de branco
-void test_modificarTabuleiro_pintardebranco(void) {
-    Tabuleiro tab = {
+void test_modificarTabuleiro_pintardebranco(void)
+{
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
@@ -15,13 +14,14 @@ void test_modificarTabuleiro_pintardebranco(void) {
             "def",
             "ghi"}};
     Historico hist;
-    modificarTabuleiro(&tab, &hist, 'b', "b2"); // Deveria tornar 'e' maiúsculo
-    CU_ASSERT_EQUAL(tab.grelha[1][1], 'E');
+    bool resultado = modificarTabuleiro(&tabAtual, &hist, 'b', "b2");
+    CU_ASSERT_TRUE(resultado);
+    CU_ASSERT_EQUAL(tabAtual.grelha[1][1], 'E');
 }
 
-// Teste: Riscar
-void test_modificarTabuleiro_risca(void) {
-    Tabuleiro tab = {
+void test_modificarTabuleiro_risca(void)
+{
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
@@ -29,109 +29,118 @@ void test_modificarTabuleiro_risca(void) {
             "def",
             "ghi"}};
     Historico hist;
-    modificarTabuleiro(&tab, &hist, 'r', "c3"); // Deveria substituir 'i' por '#'
-    CU_ASSERT_EQUAL(tab.grelha[2][2], '#');
+    bool resultado = modificarTabuleiro(&tabAtual, &hist, 'r', "c3");
+    CU_ASSERT_TRUE(resultado);
+    CU_ASSERT_EQUAL(tabAtual.grelha[2][2], '#');
 }
 
-// Teste: Riscar sem tabuleiro carregado
-void test_riscar_sem_tabuleiro(void) {
-    Tabuleiro tab = {0}; // Tabuleiro não inicializado
+void test_riscar_sem_tabuleiro(void)
+{
+    Tabuleiro tabAtual = {0};
     Historico hist;
-    modificarTabuleiro(&tab, &hist, 'r', "a1");
-    CU_ASSERT_EQUAL(tab.linhas, 0); // O tabuleiro não deve ser modificado
+    bool resultado = modificarTabuleiro(&tabAtual, &hist, 'r', "a1");
+    CU_ASSERT_FALSE(resultado);
+    CU_ASSERT_EQUAL(tabAtual.linhas, 0);
 }
 
-// Teste: Riscar numa coordenada errada
-void test_riscar_coordenada_errada(void) {
-    Tabuleiro tab = {
+void test_riscar_coordenada_errada(void)
+{
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
             "abc",
             "def",
             "ghi"}};
-    Historico hist;
-    modificarTabuleiro(&tab, &hist, 'r', "z9"); // Coordenada inválida
-    CU_ASSERT_STRING_EQUAL(tab.grelha[0], "abc"); // O tabuleiro não deve ser modificado
-    CU_ASSERT_STRING_EQUAL(tab.grelha[1], "def");
-    CU_ASSERT_STRING_EQUAL(tab.grelha[2], "ghi");
+    Historico hist = {0};
+    bool resultado = modificarTabuleiro(&tabAtual, &hist, 'r', "z9");
+    CU_ASSERT_FALSE(resultado);
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "abc");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "def");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
 }
 
-// Teste: Riscar fora do tabuleiro
-void test_riscar_fora_do_tabuleiro(void) {
-    Tabuleiro tab = {
+void test_riscar_fora_do_tabuleiro(void)
+{
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
             "abc",
             "def",
             "ghi"}};
-    Historico hist;
-    modificarTabuleiro(&tab, &hist, 'r', "d4"); // Fora dos limites
-    CU_ASSERT_STRING_EQUAL(tab.grelha[0], "abc"); // O tabuleiro não deve ser modificado
-    CU_ASSERT_STRING_EQUAL(tab.grelha[1], "def");
-    CU_ASSERT_STRING_EQUAL(tab.grelha[2], "ghi");
+    Historico hist = {0};
+    bool resultado = modificarTabuleiro(&tabAtual, &hist, 'r', "d4");
+    CU_ASSERT_FALSE(resultado);
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "abc");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "def");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
 }
 
-// Teste: Riscar onde já está riscado
-void test_riscar_ja_riscado(void) {
-    Tabuleiro tab = {
+void test_riscar_ja_riscado(void)
+{
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
             "abc",
             "d#f",
             "ghi"}};
-    Historico hist;
-    modificarTabuleiro(&tab, &hist, 'r', "b2"); // Já riscado
-    CU_ASSERT_EQUAL(tab.grelha[1][1], '#'); // Deve continuar riscado
+    Historico hist = {0};
+    bool resultado = modificarTabuleiro(&tabAtual, &hist, 'r', "b2");
+    CU_ASSERT_TRUE(resultado);
+    CU_ASSERT_EQUAL(tabAtual.grelha[1][1], '#');
 }
 
-// Teste: Pintar onde já está riscado
-void test_pintar_ja_riscado(void) {
-    Tabuleiro tab = {
+void test_pintar_ja_riscado(void)
+{
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
             "abc",
             "d#f",
             "ghi"}};
-    Historico hist;
-    modificarTabuleiro(&tab, &hist, 'b', "b2"); // Já riscado
-    CU_ASSERT_EQUAL(tab.grelha[1][1], '#'); // Não deve ser pintado
+    Historico hist = {0};
+    bool resultado = modificarTabuleiro(&tabAtual, &hist, 'b', "b2");
+    CU_ASSERT_FALSE(resultado);
+    CU_ASSERT_EQUAL(tabAtual.grelha[1][1], '#');
 }
 
-// Teste: Pintar onde já está pintado
-void test_pintar_ja_pintado(void) {
-    Tabuleiro tab = {
+void test_pintar_ja_pintado(void)
+{
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
             "abc",
             "dEf",
             "ghi"}};
-    Historico hist;
-    modificarTabuleiro(&tab, &hist, 'b', "b2"); // Já pintado
-    CU_ASSERT_EQUAL(tab.grelha[1][1], 'E'); // Deve permanecer pintado
+    Historico hist = {0};
+    bool resultado = modificarTabuleiro(&tabAtual, &hist, 'b', "b2");
+    CU_ASSERT_TRUE(resultado);
+    CU_ASSERT_EQUAL(tabAtual.grelha[1][1], 'E');
 }
 
-// Teste: Pintar fora do tabuleiro
-void test_pintar_fora_do_tabuleiro(void) {
-    Tabuleiro tab = {
+void test_pintar_fora_do_tabuleiro(void)
+{
+    Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
         .grelha = {
             "abc",
             "def",
             "ghi"}};
-    Historico hist;
-    modificarTabuleiro(&tab, &hist, 'b', "d4"); // Fora dos limites
-    CU_ASSERT_STRING_EQUAL(tab.grelha[0], "abc"); // O tabuleiro não deve ser modificado
-    CU_ASSERT_STRING_EQUAL(tab.grelha[1], "def");
-    CU_ASSERT_STRING_EQUAL(tab.grelha[2], "ghi");
+    Historico hist = {0};
+    bool resultado = modificarTabuleiro(&tabAtual, &hist, 'b', "d4");
+    CU_ASSERT_FALSE(resultado);
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "abc");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "def");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
 }
 
-int main() {
+int main()
+{
     CU_initialize_registry();
     CU_pSuite suite = CU_add_suite("Testes_Tabuleiro", NULL, NULL);
 

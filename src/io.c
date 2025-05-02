@@ -6,76 +6,85 @@
 
 #define BOARD_DIR "boards/"
 
-int carregarTabuleiro(Tabuleiro *tab, Historico *hist, char *ficheiro)
+#include <stdbool.h>
+
+bool carregarTabuleiro(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, char *ficheiro)
 {
     char caminho[512];
     int len = snprintf(caminho, sizeof(caminho), "%s%s", BOARD_DIR, ficheiro);
     if (len < 0 || (size_t)len >= sizeof(caminho))
-        return -2;
+        return false;
 
     FILE *f = fopen(caminho, "r");
     if (!f)
-        return -1;
+        return false;
 
-    if (fscanf(f, "%d %d\n", &tab->linhas, &tab->colunas) != 2 ||
-        tab->linhas <= 0 || tab->linhas > MAX_SIDE ||
-        tab->colunas <= 0 || tab->colunas > MAX_SIDE)
+    if (fscanf(f, "%d %d\n", &tabAtual->linhas, &tabAtual->colunas) != 2 ||
+        tabAtual->linhas <= 0 || tabAtual->linhas > MAX_SIDE ||
+        tabAtual->colunas <= 0 || tabAtual->colunas > MAX_SIDE)
     {
         fclose(f);
-        return -3;
+        return false;
     }
 
-    for (int i = 0; i < tab->linhas; i++)
+    for (int i = 0; i < tabAtual->linhas; i++)
     {
-        if (!fgets(tab->grelha[i], tab->colunas + 2, f))
+        if (!fgets(tabAtual->grelha[i], tabAtual->colunas + 2, f))
         {
             fclose(f);
-            return -1;
+            return false;
         }
 
-        size_t len = strlen(tab->grelha[i]);
-        if (len > 0 && tab->grelha[i][len - 1] == '\n')
-            tab->grelha[i][len - 1] = '\0';
+        size_t lenLinha = strlen(tabAtual->grelha[i]);
+        if (lenLinha > 0 && tabAtual->grelha[i][lenLinha - 1] == '\n')
+            tabAtual->grelha[i][lenLinha - 1] = '\0';
 
-        if ((int)strlen(tab->grelha[i]) != tab->colunas)
+        if ((int)strlen(tabAtual->grelha[i]) != tabAtual->colunas)
         {
             fclose(f);
-            return -4;
+            return false;
         }
     }
 
     fclose(f);
+
+    tabIO->linhas = tabAtual->linhas;
+    tabIO->colunas = tabAtual->colunas;
+    for (int i = 0; i < tabAtual->linhas; i++)
+    {
+        strcpy(tabIO->grelha[i], tabAtual->grelha[i]);
+    }
+
     hist->topo = 0;
-    mostrarTabuleiro(tab);
-    return 0;
+    return true;
 }
 
-int gravarTabuleiro(Tabuleiro *tab, char *ficheiro)
+bool gravarTabuleiro(Tabuleiro *tabAtual, char *ficheiro)
 {
     char caminho[512];
     int len = snprintf(caminho, sizeof(caminho), "%s%s", BOARD_DIR, ficheiro);
     if (len < 0 || (size_t)len >= sizeof(caminho))
-        return -2;
+        return false;
 
     FILE *f = fopen(caminho, "w");
     if (!f)
-        return -1;
+        return false;
 
-    if (fprintf(f, "%d %d\n", tab->linhas, tab->colunas) < 0)
+    if (fprintf(f, "%d %d\n", tabAtual->linhas, tabAtual->colunas) < 0)
     {
         fclose(f);
-        return -3;
+        return false;
     }
 
-    for (int i = 0; i < tab->linhas; i++)
+    for (int i = 0; i < tabAtual->linhas; i++)
     {
-        if (fprintf(f, "%s\n", tab->grelha[i]) < 0)
+        if (fprintf(f, "%s\n", tabAtual->grelha[i]) < 0)
         {
             fclose(f);
-            return -3;
+            return false;
         }
     }
 
     fclose(f);
-    return 0;
+    return true;
 }

@@ -10,7 +10,8 @@
 
 int main()
 {
-    Tabuleiro tab;
+    Tabuleiro tabAtual = {0};
+    Tabuleiro tabIO = {0};
     Historico hist = {.topo = 0};
     char cmd[256];
     bool a_correr = true;
@@ -19,48 +20,96 @@ int main()
     {
         printf("> ");
         if (!fgets(cmd, sizeof(cmd), stdin))
-            break;
+        {
+            printf("Erro ao ler comando.\n");
+            a_correr = false;
+            continue;
+        }
+
         cmd[strcspn(cmd, "\n")] = '\0';
 
         if (cmd[0] == 'l')
         {
             char ficheiro[256];
-            if (sscanf(cmd, "l %s", ficheiro) == 1)
+            if (sscanf(cmd, "l %255s", ficheiro) == 1)
             {
-                if (carregarTabuleiro(&tab, &hist, ficheiro) == -1)
+                if (carregarTabuleiro(&tabAtual, &tabIO, &hist, ficheiro))
+                {
+                    printf("Tabuleiro carregado com sucesso.\n");
+                    mostrarTabuleiro(&tabAtual);
+                }
+                else
                 {
                     printf("Erro ao carregar o tabuleiro.\n");
                 }
             }
+            else
+            {
+                printf("Comando inválido. Uso: l <ficheiro>\n");
+            }
         }
-        else if (cmd[0] == 'g')
+        else if (cmd[0] == 'g') 
         {
             char ficheiro[256];
-            if (sscanf(cmd, "g %s", ficheiro) == 1)
+            if (sscanf(cmd, "g %255s", ficheiro) == 1)
             {
-                if (gravarTabuleiro(&tab, ficheiro) == -1)
-                {
-                    printf("Erro ao gravar o tabuleiro.\n");
-                }
-                else
+                if (gravarTabuleiro(&tabAtual, ficheiro))
                 {
                     printf("Tabuleiro gravado com sucesso.\n");
                 }
+                else
+                {
+                    printf("Erro ao gravar o tabuleiro.\n");
+                }
+            }
+            else
+            {
+                printf("Comando inválido. Uso: g <ficheiro>\n");
             }
         }
-        else if (cmd[0] == 'b' || cmd[0] == 'r')
+        else if (cmd[0] == 'b' || cmd[0] == 'r') 
         {
             char coord[50];
-            if (sscanf(cmd, "%*c %s", coord) == 1)
-                modificarTabuleiro(&tab, &hist, cmd[0], coord);
+            if (sscanf(cmd, "%*c %49s", coord) == 1)
+            {
+                if (modificarTabuleiro(&tabAtual, &hist, cmd[0], coord))
+                {
+                    mostrarTabuleiro(&tabAtual);
+                }
+                else
+                {
+                    printf("Erro ao modificar o tabuleiro.\n");
+                }
+            }
+            else
+            {
+                printf("Comando inválido. Uso: %c <coordenada>\n", cmd[0]);
+            }
         }
         else if (cmd[0] == 'd')
         {
-            desfazer(&hist, &tab);
+            char cmdChar;
+            char coord[50] = {0};
+            int parsed = sscanf(cmd, " %c %49s", &cmdChar, coord);
+
+            if (parsed == 2){
+                desfazer(&hist, &tabAtual, &tabIO, coord);
+                mostrarTabuleiro (&tabAtual);
+            }
+
+            else if (parsed == 1){
+                desfazer(&hist, &tabAtual, &tabIO, NULL);
+                mostrarTabuleiro (&tabAtual);
+            }
+            else {
+                printf("Comando inválido. Uso: d [<coordenada>]\n");
+                mostrarTabuleiro (&tabAtual);
+            }
+
         }
         else if (cmd[0] == 'v')
         {
-            if (verificarRestricoes(&tab))
+            if (verificarRestricoes(&tabAtual))
             {
                 printf("Todas as restrições estão satisfeitas.\n");
             }
