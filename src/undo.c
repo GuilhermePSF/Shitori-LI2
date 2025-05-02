@@ -41,7 +41,7 @@ int desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char 
         tabAtual->linhas = hist->estados[hist->topo].linhas;
         tabAtual->colunas = hist->estados[hist->topo].colunas;
 
-        mostrarTabuleiro(tabAtual);
+        
         return 0;
     }
 
@@ -64,7 +64,7 @@ int desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char 
     {
         guardar_estado(hist, tabAtual);
         tabAtual->grelha[row][col] = tabIO->grelha[row][col];
-        mostrarTabuleiro(tabAtual);
+        
         return 0;
     }
     printf("Não há modificacoes para desfazer.\n");

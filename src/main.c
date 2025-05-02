@@ -25,6 +25,7 @@ int main()
             printf("Erro ao ler comando.\n");
             a_correr = 0;
         }
+        system("clear");
 
         cmd[strcspn(cmd, "\n")] = '\0';
 
@@ -94,10 +95,16 @@ int main()
                 printf("Existem restrições violadas.\n");
             }
         }
-        else if (cmd[0] == 'a') {
-            printf("%d",has_adjacent_hash(&tabAtual));
-
+        else if (cmd[0] == 'a')
+        {
+            comando_a(&tabAtual, &tabIO, &hist);
+            mostrarTabuleiro(&tabAtual);
         }
+        else if (cmd[0] == 'A')
+        {
+            mostrarTabuleiro(&tabAtual);
+        }
+
         else if (cmd[0] == 's')
         {
             a_correr = false;

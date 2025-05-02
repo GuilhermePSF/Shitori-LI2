@@ -206,7 +206,7 @@ bool BFS(Tabuleiro *tabAtual, bool visitada[MAX_SIDE][MAX_SIDE], int linha_inici
     return true;
 }
 
-int verificarConectividade(Tabuleiro *tabAtual)
+int verificarConectividade(Tabuleiro *tabAtual, char c)
 {
     bool visitada[MAX_SIDE][MAX_SIDE];
     int linha_inicial, coluna_inicial;
@@ -226,7 +226,8 @@ int verificarConectividade(Tabuleiro *tabAtual)
 
     if (visitados != total_nao_riscadas)
     {
-        printf("Violação: nem todas as casas não riscadas estão conectadas (visitadas %d, esperadas %d)\n", visitados, total_nao_riscadas);
+        if (c == 'w')
+            printf("Violação: nem todas as casas não riscadas estão conectadas (visitadas %d, esperadas %d)\n", visitados, total_nao_riscadas);
         return 0;
     }
 
@@ -246,7 +247,7 @@ int verificarRestricoes(Tabuleiro *tabAtual)
     if (!verificarCelulasRiscadas(tabAtual))
         ok = 0;
 
-    if (!verificarConectividade(tabAtual))
+    if (!verificarConectividade(tabAtual, 'w'))
         ok = 0;
 
     return ok;
