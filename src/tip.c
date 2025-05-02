@@ -207,7 +207,6 @@ void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 
                     if (tem_riscado_adjacente(tabAtual) || !verificarConectividade(tabAtual, 's'))
                     {
-                        mostrarTabuleiro(tabAtual);
                         desfazer(hist, tabAtual, tabIO, NULL);
                     }
                     else

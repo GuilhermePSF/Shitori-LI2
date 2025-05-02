@@ -6,23 +6,25 @@
 
 #define BOARD_DIR "boards/"
 
-int carregarTabuleiro(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, char *ficheiro)
+#include <stdbool.h>
+
+bool carregarTabuleiro(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, char *ficheiro)
 {
     char caminho[512];
     int len = snprintf(caminho, sizeof(caminho), "%s%s", BOARD_DIR, ficheiro);
     if (len < 0 || (size_t)len >= sizeof(caminho))
-        return -2;
+        return false;
 
     FILE *f = fopen(caminho, "r");
     if (!f)
-        return -1;
+        return false;
 
     if (fscanf(f, "%d %d\n", &tabAtual->linhas, &tabAtual->colunas) != 2 ||
         tabAtual->linhas <= 0 || tabAtual->linhas > MAX_SIDE ||
         tabAtual->colunas <= 0 || tabAtual->colunas > MAX_SIDE)
     {
         fclose(f);
-        return -3;
+        return false;
     }
 
     for (int i = 0; i < tabAtual->linhas; i++)
@@ -30,7 +32,7 @@ int carregarTabuleiro(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, ch
         if (!fgets(tabAtual->grelha[i], tabAtual->colunas + 2, f))
         {
             fclose(f);
-            return -1;
+            return false;
         }
 
         size_t lenLinha = strlen(tabAtual->grelha[i]);
@@ -40,7 +42,7 @@ int carregarTabuleiro(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, ch
         if ((int)strlen(tabAtual->grelha[i]) != tabAtual->colunas)
         {
             fclose(f);
-            return -4;
+            return false;
         }
     }
 
@@ -54,25 +56,24 @@ int carregarTabuleiro(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, ch
     }
 
     hist->topo = 0;
-    mostrarTabuleiro(tabAtual);
-    return 0;
+    return true;
 }
 
-int gravarTabuleiro(Tabuleiro *tabAtual, char *ficheiro)
+bool gravarTabuleiro(Tabuleiro *tabAtual, char *ficheiro)
 {
     char caminho[512];
     int len = snprintf(caminho, sizeof(caminho), "%s%s", BOARD_DIR, ficheiro);
     if (len < 0 || (size_t)len >= sizeof(caminho))
-        return -2;
+        return false;
 
     FILE *f = fopen(caminho, "w");
     if (!f)
-        return -1;
+        return false;
 
     if (fprintf(f, "%d %d\n", tabAtual->linhas, tabAtual->colunas) < 0)
     {
         fclose(f);
-        return -3;
+        return false;
     }
 
     for (int i = 0; i < tabAtual->linhas; i++)
@@ -80,10 +81,10 @@ int gravarTabuleiro(Tabuleiro *tabAtual, char *ficheiro)
         if (fprintf(f, "%s\n", tabAtual->grelha[i]) < 0)
         {
             fclose(f);
-            return -3;
+            return false;
         }
     }
 
     fclose(f);
-    return 0;
+    return true;
 }

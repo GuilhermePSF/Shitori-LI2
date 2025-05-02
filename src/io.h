@@ -5,7 +5,7 @@
 #include "board.h"
 #include "undo.h"
 
-int carregarTabuleiro(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, char *ficheiro);
-int gravarTabuleiro(Tabuleiro *tabAtual, char *ficheiro);
+bool carregarTabuleiro(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, char *ficheiro);
+bool gravarTabuleiro(Tabuleiro *tabAtual, char *ficheiro);
 
-#endif
+#endif // IO_H

@@ -6,6 +6,11 @@
 *.ko
 *.obj
 *.elf
+*.gcda
+*.gcno
+*.gcov
+*.info
+coverage-report/
 
 # Linker output
 *.ilk
