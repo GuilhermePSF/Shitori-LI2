@@ -250,7 +250,6 @@ void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 
 void comando_A(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 {
-    Tabuleiro original;
     bool continuar = true;
     int ant;
     while (continuar)
