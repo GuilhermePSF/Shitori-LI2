@@ -194,10 +194,7 @@ void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 
                         if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
                         {
-                            mostrarTabuleiro(tabAtual);
                             desfazer(hist, tabAtual, tabIO, NULL);
-                            mostrarTabuleiro(tabAtual);
-
                         }
                         else
                         {
@@ -259,7 +256,6 @@ void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
     }
 }
 
-
 void comando_A(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 {
     Tabuleiro original;
@@ -273,6 +269,5 @@ void comando_A(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
         {
             continuar = false;
         }
-        
     }
 }
