@@ -19,6 +19,7 @@ int main()
     char cmd[256];
     bool a_correr = true;
     bool ganho = false;
+    bool loaded = false;
 
     while (a_correr && !ganho)
     {
@@ -42,7 +43,9 @@ int main()
                     if (carregarTabuleiro(&tabAtual, &tabIO, &hist, ficheiro))
                     {
                         printf("Tabuleiro carregado com sucesso.\n");
+                        guardar_estado(&hist, &tabAtual);
                         mostrarTabuleiro(&tabAtual);
+                        loaded = true;
                     }
                     else
                     {
@@ -149,7 +152,7 @@ int main()
             {
                 printf("Comando inválido.\n");
             }
-            if (ganhou(&tabAtual) && verificarRestricoes(&tabAtual))
+            if (loaded && ganhou(&tabAtual) && verificarRestricoes(&tabAtual))
             {
                 sleep(3);
                 ganho = true;
