@@ -88,3 +88,26 @@ void mostrarTabuleiro(const Tabuleiro *tabAtual)
     printf("  s              - sair do programa\n");
     printf("\n");
 }
+
+Tabuleiro copiar_tabuleiro(Tabuleiro *orig)
+{
+    Tabuleiro copia;
+    copia.linhas = orig->linhas;
+    copia.colunas = orig->colunas;
+
+    for (int i = 0; i < copia.linhas; i++)
+        for (int j = 0; j < copia.colunas; j++)
+            copia.grelha[i][j] = orig->grelha[i][j];
+
+    return copia;
+}
+
+void copiar_tabuleiro_para(Tabuleiro *orig, Tabuleiro *dest)
+{
+    dest->linhas = orig->linhas;
+    dest->colunas = orig->colunas;
+
+    for (int i = 0; i < orig->linhas; i++)
+        for (int j = 0; j < orig->colunas; j++)
+            dest->grelha[i][j] = orig->grelha[i][j];
+}

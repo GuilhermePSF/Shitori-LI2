@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "board.h"
 #include "io.h"
 #include "game.h"
 #include "undo.h"
 #include "verifica.h"
+#include "solver.h"
 #include "tip.h"
 
 int main()
@@ -134,7 +136,11 @@ int main()
                 comando_A(&tabAtual, &tabIO, &hist);
                 mostrarTabuleiro(&tabAtual);
             }
-
+            else if (cmd[0] == 'R')
+            {
+                comando_R(&tabAtual, &tabIO, &hist);
+                mostrarTabuleiro(&tabAtual);
+            }
             else if (cmd[0] == 's')
             {
                 a_correr = false;
@@ -145,14 +151,14 @@ int main()
             }
             if (ganhou(&tabAtual) && verificarRestricoes(&tabAtual))
             {
+                sleep(3);
                 ganho = true;
             }
         }
-    }   
+    }
 
     if (ganho && !system("clear"))
     {
-
         printf("██╗░░░██╗░█████╗░██╗░░░██╗  ░██╗░░░░░░░██╗██╗███╗░░██╗██╗\n");
         printf("╚██╗░██╔╝██╔══██╗██║░░░██║  ░██║░░██╗░░██║██║████╗░██║██║\n");
         printf("░╚████╔╝░██║░░██║██║░░░██║  ░╚██╗████╗██╔╝██║██╔██╗██║██║\n");
