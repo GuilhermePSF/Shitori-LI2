@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-// Regra 1 - Triplo adjacente (a a a)
+// Regra 1 - Triplo adjacente (a a a) significa riscar
 bool regra1_horizontal(Tabuleiro *tab, int linha, int coluna) {
     if (coluna >= 1 && coluna < tab->colunas - 1) {
         char esq = tab->grelha[linha][coluna - 1];
@@ -24,7 +24,7 @@ bool regra1_vertical(Tabuleiro *tab, int linha, int coluna) {
     return false;
 }
 
-// Regra 2 - Entre pares (a b a)
+// Regra 2 - Entre pares (a b a) significa pintar
 bool regra2_horizontal(Tabuleiro *tab, int linha, int coluna) {
     if (coluna >= 1 && coluna < tab->colunas - 1) {
         char esq = tab->grelha[linha][coluna - 1];
@@ -45,7 +45,7 @@ bool regra2_vertical(Tabuleiro *tab, int linha, int coluna) {
     return false;
 }
 
-// Regra 3 - Par adjacente + instância separada
+// Regra 3 - Par adjacente + instância separada signfica riscar
 bool regra3_horizontal(Tabuleiro *tab, int linha, int coluna) {
     char alvo = tolower(tab->grelha[linha][coluna]);
     int count = 0;
