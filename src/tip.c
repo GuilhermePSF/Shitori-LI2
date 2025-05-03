@@ -174,23 +174,20 @@ void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
                 {
                     if (!existe_igual_na_linha_ou_coluna(tabAtual, i, j))
                     {
-                        if (tabAtual->grelha[i][j] != toupper(atual))
-                        {
-                            guardar_estado(hist, tabAtual);
-                            tabAtual->grelha[i][j] = toupper(atual);
-                            fez_algo = true;
-                        }
+
+                        guardar_estado(hist, tabAtual);
+                        tabAtual->grelha[i][j] = toupper(atual);
+                        fez_algo = true;
+
                         next = false;
                     }
 
                     if (!fez_algo && tem_riscado_adjacente_coord(tabAtual, i, j))
                     {
-                        if (tabAtual->grelha[i][j] != toupper(atual))
-                        {
-                            guardar_estado(hist, tabAtual);
-                            tabAtual->grelha[i][j] = toupper(atual);
-                            fez_algo = true;
-                        }
+
+                        guardar_estado(hist, tabAtual);
+                        tabAtual->grelha[i][j] = toupper(atual);
+                        fez_algo = true;
 
                         if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
                         {
@@ -204,12 +201,10 @@ void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 
                     if (!fez_algo && necessaria_para_conectividade(tabAtual, i, j))
                     {
-                        if (tabAtual->grelha[i][j] != toupper(atual))
-                        {
-                            guardar_estado(hist, tabAtual);
-                            tabAtual->grelha[i][j] = toupper(atual);
-                            fez_algo = true;
-                        }
+
+                        guardar_estado(hist, tabAtual);
+                        tabAtual->grelha[i][j] = toupper(atual);
+                        fez_algo = true;
 
                         if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
                         {
@@ -223,12 +218,9 @@ void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 
                     if (!fez_algo && existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
                     {
-                        if (tabAtual->grelha[i][j] != '#')
-                        {
-                            guardar_estado(hist, tabAtual);
-                            tabAtual->grelha[i][j] = '#';
-                            fez_algo = true;
-                        }
+                        guardar_estado(hist, tabAtual);
+                        tabAtual->grelha[i][j] = '#';
+                        fez_algo = true;
 
                         if (tem_riscado_adjacente(tabAtual) || !verificarConectividade(tabAtual, 's'))
                         {
