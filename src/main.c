@@ -152,7 +152,7 @@ int main()
             {
                 printf("Comando inválido.\n");
             }
-            if (loaded && ganhou(&tabAtual) && verificarRestricoes(&tabAtual))
+            if (loaded && ganhou(&tabAtual))
             {
                 sleep(3);
                 ganho = true;

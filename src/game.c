@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include "game.h"
+#include "verifica.h"
 
 bool modificarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char cmd, const char *coord)
 {
@@ -59,5 +60,5 @@ bool ganhou(Tabuleiro *tabAtual)
             }
         }
     }
-    return true;
+    return true  && verificarRestricoes(tabAtual);
 }
