@@ -1,9 +1,0 @@
-8 8
-aabccdde
-dcfbgeah
-ecccfabb
-hdaeacef
-ehdhacfg
-fefadbec
-egbgcbda
-cfhdbged
