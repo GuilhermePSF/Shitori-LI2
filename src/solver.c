@@ -102,7 +102,7 @@ bool ser_valido(Tabuleiro *tabAtual, int l, int c, char sub)
     tabAtual->grelha[l][c] = original;
     return r;
 }
-bool solve(Tabuleiro *tabAtual, int l, int c, char modo)
+bool solve(Tabuleiro *tabAtual, int l, int c, bool modo)
 {
 
     if (l == tabAtual->linhas)
@@ -119,7 +119,7 @@ bool solve(Tabuleiro *tabAtual, int l, int c, char modo)
     }
     else
     {
-        if (modo == 'w')
+        if (modo)
         {
             mostrarTabuleiro(tabAtual);
             usleep(10000);
@@ -150,7 +150,7 @@ bool solve(Tabuleiro *tabAtual, int l, int c, char modo)
     }
 }
 
-void comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, char modo)
+void comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, bool modo)
 {
     Tabuleiro tabOriginal = copiar_tabuleiro(&hist->estados[0]);
 

@@ -148,13 +148,13 @@ int main()
             }
             else if (cmd[0] == 'R')
             {
-                comando_R(&tabAtual, &tabIO, &hist, 's');
+                comando_R(&tabAtual, &tabIO, &hist, false);
                 if ((system("clear")))
                     printf("\033[1;31m ⚠ failed to clean ⚠ \n\033[0m");
             }
             else if (cmd[0] == 'P')
             {
-                comando_R(&tabAtual, &tabIO, &hist, 'w');
+                comando_R(&tabAtual, &tabIO, &hist, true);
             }
             else if (cmd[0] == 't')
             {
@@ -162,7 +162,7 @@ int main()
             }
             else if (cmd[0] == 'S')
             {
-                solve(&tabAtual, 0, 0, 's');
+                solve(&tabAtual, 0, 0, false);
             }
             else if (loaded)
             {
