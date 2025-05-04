@@ -26,12 +26,12 @@ int main()
         printf("> ");
         if (!fgets(cmd, sizeof(cmd), stdin))
         {
-            printf("Erro ao ler comando.\n");
+            printf("\033[1;31m ⚠ Erro ao ler comando.⚠ \n \n\033[0m");
             a_correr = false;
             continue;
         }
         if ((system("clear")))
-            printf("failed to clean");
+            printf("\033[1;31m ⚠ failed to clean ⚠ \n\033[0m");
 
         cmd[strcspn(cmd, "\n")] = '\0';
 
@@ -42,128 +42,132 @@ int main()
             {
                 if (carregarTabuleiro(&tabAtual, &tabIO, &hist, ficheiro))
                 {
-                    printf("Tabuleiro carregado com sucesso.\n");
-                    guardar_estado(&hist, &tabAtual);
                     mostrarTabuleiro(&tabAtual);
+                    printf("\033[1;92m ✓ Tabuleiro carregado com sucesso. ✓\n\n\033[0m");
+                    guardar_estado(&hist, &tabAtual);
                     loaded = true;
                 }
                 else
                 {
-                    printf("Erro ao carregar o tabuleiro.\n");
+                    printf("\033[1;31m ⚠ Erro ao carregar o tabuleiro. ⚠ \n\n\033[0m");
                 }
             }
             else
             {
-                printf("Comando inválido. Uso: l <ficheiro>\n");
+                printf("\033[1;33m 💡 Comando inválido. Uso: l <ficheiro> 💡\n\n\033[0m");
             }
         }
-        else if (cmd[0] == 'g')
+        else if (loaded)
         {
-            char ficheiro[256];
-            if (sscanf(cmd, "g %255s", ficheiro) == 1)
+            mostrarTabuleiro(&tabAtual);
+            if (cmd[0] == 'g')
             {
-                if (gravarTabuleiro(&tabAtual, ficheiro))
+                char ficheiro[256];
+                if (sscanf(cmd, "g %255s", ficheiro) == 1)
                 {
-                    printf("Tabuleiro gravado com sucesso.\n");
+                    if (gravarTabuleiro(&tabAtual, ficheiro))
+                    {
+                        printf("\033[1;92m ✓ Tabuleiro gravado com sucesso. ✓\n\n\033[0m");
+                    }
+                    else
+                    {
+                        printf("\033[1;31m ⚠ Erro ao gravar o tabuleiro. ⚠ \n\n\033[0m");
+                    }
                 }
                 else
                 {
-                    printf("Erro ao gravar o tabuleiro.\n");
+                    printf("\033[1;33m 💡 Comando inválido. Uso: g <ficheiro> 💡\n\n\033[0m");
                 }
             }
-            else
+            else if (cmd[0] == 'b' || cmd[0] == 'r')
             {
-                printf("Comando inválido. Uso: g <ficheiro>\n");
-            }
-        }
-        else if (cmd[0] == 'b' || cmd[0] == 'r')
-        {
-            char coord[50];
-            if (sscanf(cmd, "%*c %49s", coord) == 1)
-            {
-                if (modificarTabuleiro(&tabAtual, &hist, cmd[0], coord))
+                char coord[50];
+                if (sscanf(cmd, "%*c %49s", coord) == 1)
                 {
-                    mostrarTabuleiro(&tabAtual);
+                    if (modificarTabuleiro(&tabAtual, &hist, cmd[0], coord))
+                    {
+                    }
+                    else
+                    {
+                        printf("\033[1;31m ⚠ Erro ao modificar o tabuleiro.⚠ \n \n\033[0m");
+                    }
                 }
                 else
                 {
-                    printf("Erro ao modificar o tabuleiro.\n");
+                    printf("\033[1;33m 💡 Comando inválido. Uso: %c <coordenada> 💡\n\n\033[0m", cmd[0]);
                 }
             }
-            else
+            else if (cmd[0] == 'd')
             {
-                printf("Comando inválido. Uso: %c <coordenada>\n", cmd[0]);
-            }
-        }
-        else if (cmd[0] == 'd')
-        {
-            char cmdChar;
-            char coord[50] = {0};
-            int parsed = sscanf(cmd, " %c %49s", &cmdChar, coord);
+                char cmdChar;
+                char coord[50] = {0};
+                int parsed = sscanf(cmd, " %c %49s", &cmdChar, coord);
 
-            if (parsed == 2)
-            {
-                desfazer(&hist, &tabAtual, &tabIO, coord);
-                mostrarTabuleiro(&tabAtual);
-            }
+                if (parsed == 2)
+                {
+                    desfazer(&hist, &tabAtual, &tabIO, coord);
+                }
 
-            else if (parsed == 1)
-            {
-                desfazer(&hist, &tabAtual, &tabIO, NULL);
-                mostrarTabuleiro(&tabAtual);
+                else if (parsed == 1)
+                {
+                    desfazer(&hist, &tabAtual, &tabIO, NULL);
+                }
+                else
+                {
+                    printf("\033[1;33m 💡 Comando inválido. Uso: d [<coordenada>] 💡\n\n\033[0m");
+                }
             }
-            else
+            else if (cmd[0] == 'v')
             {
-                printf("Comando inválido. Uso: d [<coordenada>]\n");
-                mostrarTabuleiro(&tabAtual);
+                if (verificarRestricoes(&tabAtual))
+                {
+                    printf("\033[1;92m ✓ Todas as restrições estão satisfeitas. ✓\n\n\033[0m");
+                }
+                else
+                {
+                    printf("\033[1;31m ⚠ Existem restrições violadas.⚠ \n \n\033[0m");
+                }
             }
-        }
-        else if (cmd[0] == 'v')
-        {
-            if (verificarRestricoes(&tabAtual))
+            else if (cmd[0] == 'D')
             {
-                printf("Todas as restrições estão satisfeitas.\n");
+                bool continuar = true;
+                while (continuar)
+                {
+                    continuar = desfazer(&hist, &tabAtual, &tabIO, NULL);
+                }
+                if ((system("clear")))
+                    printf("\033[1;31m ⚠ failed to clean ⚠ \n\033[0m");
             }
-            else
+            else if (cmd[0] == 'a')
             {
-                printf("Existem restrições violadas.\n");
+                comando_a(&tabAtual, &tabIO, &hist);
             }
-        }
-        else if (cmd[0] == 'D')
-        {
-            bool continuar = true;
-            while (continuar)
+            else if (cmd[0] == 'A')
             {
-                continuar = desfazer(&hist, &tabAtual, &tabIO, NULL);
+                comando_A(&tabAtual, &tabIO, &hist);
             }
-            if ((system("clear")))
-                printf("failed to clean");
-            mostrarTabuleiro(&tabAtual);
-        }
-        else if (cmd[0] == 'a')
-        {
-            comando_a(&tabAtual, &tabIO, &hist);
-            mostrarTabuleiro(&tabAtual);
-        }
-        else if (cmd[0] == 'A')
-        {
-            comando_A(&tabAtual, &tabIO, &hist);
-            mostrarTabuleiro(&tabAtual);
-        }
-        else if (cmd[0] == 'R')
-        {
-            comando_R(&tabAtual, &tabIO, &hist);
-            mostrarTabuleiro(&tabAtual);
-        }
-        else if (cmd[0] == 't')
-        {
-            tecnicas_iniciais(&tabAtual, &tabIO, &hist);
-            mostrarTabuleiro(&tabAtual);
-        }
-        else if (cmd[0] == 'S')
-        {
-            solve(&tabAtual, 0, 0);
-            mostrarTabuleiro(&tabAtual);
+            else if (cmd[0] == 'R')
+            {
+                comando_R(&tabAtual, &tabIO, &hist, 's');
+                if ((system("clear")))
+                    printf("\033[1;31m ⚠ failed to clean ⚠ \n\033[0m");
+            }
+            else if (cmd[0] == 'P')
+            {
+                comando_R(&tabAtual, &tabIO, &hist, 'w');
+            }
+            else if (cmd[0] == 't')
+            {
+                tecnicas_iniciais(&tabAtual, &tabIO, &hist);
+            }
+            else if (cmd[0] == 'S')
+            {
+                solve(&tabAtual, 0, 0, 's');
+            }
+            else if (loaded)
+            {
+                printf("\033[1;31m ⚠ Comando inválido.⚠ \n \n\033[0m");
+            }
         }
         else if (cmd[0] == 's')
         {
@@ -171,10 +175,12 @@ int main()
         }
         else
         {
-            printf("Comando inválido.\n");
+            printf("\033[1;31m ⚠ Carrega um tabuleiro! Usa: l <ficheiro> ⚠ \n\033[0m");
+            printf("\033[1;31m ⚠ Comando 's' para sair do programa. ⚠ \n\n\033[0m");
         }
         if (loaded && ganhou(&tabAtual))
         {
+            mostrarTabuleiro(&tabAtual);
             sleep(3);
             ganho = true;
         }
@@ -182,12 +188,12 @@ int main()
 
     if (ganho && !system("clear"))
     {
-        printf("██╗░░░██╗░█████╗░██╗░░░██╗  ░██╗░░░░░░░██╗██╗███╗░░██╗██╗\n");
-        printf("╚██╗░██╔╝██╔══██╗██║░░░██║  ░██║░░██╗░░██║██║████╗░██║██║\n");
-        printf("░╚████╔╝░██║░░██║██║░░░██║  ░╚██╗████╗██╔╝██║██╔██╗██║██║\n");
-        printf("░░╚██╔╝░░██║░░██║██║░░░██║  ░░████╔═████║░██║██║╚████║╚═╝\n");
-        printf("░░░██║░░░╚█████╔╝╚██████╔╝  ░░╚██╔╝░╚██╔╝░██║██║░╚███║██╗\n");
-        printf("░░░╚═╝░░░░╚════╝░░╚═════╝░  ░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚══╝╚═╝\n");
+        printf("\033[1;92m ██╗░░░██╗░█████╗░██╗░░░██╗  ░██╗░░░░░░░██╗██╗███╗░░██╗██╗ \033[0m\n");
+        printf("\033[1;92m ╚██╗░██╔╝██╔══██╗██║░░░██║  ░██║░░██╗░░██║██║████╗░██║██║ \033[0m\n");
+        printf("\033[1;92m ░╚████╔╝░██║░░██║██║░░░██║  ░╚██╗████╗██╔╝██║██╔██╗██║██║ \033[0m\n");
+        printf("\033[1;92m ░░╚██╔╝░░██║░░██║██║░░░██║  ░░████╔═████║░██║██║╚████║╚═╝ \033[0m\n");
+        printf("\033[1;92m ░░░██║░░░╚█████╔╝╚██████╔╝  ░░╚██╔╝░╚██╔╝░██║██║░╚███║██╗ \033[0m\n");
+        printf("\033[1;92m ░░░╚═╝░░░░╚════╝░░╚═════╝░  ░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚══╝╚═╝ \033[0m\n");
     }
     return 0;
 }

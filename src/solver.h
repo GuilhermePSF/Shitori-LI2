@@ -18,7 +18,7 @@ bool regra3_vertical(Tabuleiro *tabAtual, int linha, int coluna);
 void aplicar_regra3(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist);
 
 void tecnicas_iniciais(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist);
-bool solve(Tabuleiro *tabAtual, int l, int c);
-void comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist);
+bool solve(Tabuleiro *tabAtual, int l, int c, char wmodo);
+void comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, char modo);
 
 #endif

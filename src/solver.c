@@ -4,8 +4,10 @@
 #include "verifica.h"
 #include "tip.h"
 #include <stdlib.h>
+#include <unistd.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <stdio.h>
 
 // Regra 1 - Triplo adjacente (a a a) significa riscar
 bool regra1_horizontal(Tabuleiro *tabAtual, int linha, int coluna)
@@ -218,7 +220,7 @@ bool ser_valido(Tabuleiro *tabAtual, int l, int c, char sub)
     tabAtual->grelha[l][c] = original;
     return r;
 }
-bool solve(Tabuleiro *tabAtual, int l, int c)
+bool solve(Tabuleiro *tabAtual, int l, int c, char modo)
 {
 
     if (l == tabAtual->linhas)
@@ -227,19 +229,26 @@ bool solve(Tabuleiro *tabAtual, int l, int c)
     }
     else if (c == tabAtual->colunas)
     {
-        return (solve(tabAtual, l + 1, 0));
+        return (solve(tabAtual, l + 1, 0, modo));
     }
     else if (!('a' <= tabAtual->grelha[l][c] && tabAtual->grelha[l][c] <= 'z'))
     {
-        return (solve(tabAtual, l, c + 1));
+        return (solve(tabAtual, l, c + 1, modo));
     }
     else
     {
+        if (modo == 'w')
+        {
+            mostrarTabuleiro(tabAtual);
+            usleep(10000);
+            if ((system("clear")))
+                printf("\033[1;31m ⚠ failed to clean ⚠ \n\033[0m");
+        }
         if (ser_valido(tabAtual, l, c, toupper(tabAtual->grelha[l][c])))
         {
             char original = tabAtual->grelha[l][c];
             tabAtual->grelha[l][c] = toupper(tabAtual->grelha[l][c]);
-            if (solve(tabAtual, l, c + 1))
+            if (solve(tabAtual, l, c + 1, modo))
             {
                 return true;
             }
@@ -249,7 +258,7 @@ bool solve(Tabuleiro *tabAtual, int l, int c)
         {
             char original = tabAtual->grelha[l][c];
             tabAtual->grelha[l][c] = '#';
-            if (solve(tabAtual, l, c + 1))
+            if (solve(tabAtual, l, c + 1, modo))
             {
                 return true;
             }
@@ -259,7 +268,7 @@ bool solve(Tabuleiro *tabAtual, int l, int c)
     }
 }
 
-void comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
+void comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, char modo)
 {
     Tabuleiro tabOriginal = copiar_tabuleiro(&hist->estados[0]);
 
@@ -268,7 +277,7 @@ void comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 
     tecnicas_iniciais(&tabOriginal, tabIO, &histTemp);
     comando_A(&tabOriginal, tabIO, &histTemp);
-    solve(&tabOriginal, 0, 0);
+    solve(&tabOriginal, 0, 0, modo);
 
     copiar_tabuleiro_para(&tabOriginal, tabAtual);
 }
