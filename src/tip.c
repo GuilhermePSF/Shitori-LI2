@@ -131,32 +131,6 @@ bool necessaria_para_conectividade(Tabuleiro *tabAtual, int linha, int coluna)
     return !conectada;
 }
 
-bool compara_tabuleiros(Tabuleiro *tabA, Tabuleiro *tabB)
-{
-    for (int i = 0; i < tabA->linhas; i++)
-    {
-        for (int j = 0; j < tabA->colunas; j++)
-        {
-            if (tabA->grelha[i][j] != tabB->grelha[i][j])
-            {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-void copia_tabuleiros(Tabuleiro *tabA, Tabuleiro *tabB)
-{
-    for (int i = 0; i < tabA->linhas; i++)
-    {
-        for (int j = 0; j < tabA->colunas; j++)
-        {
-            tabA->grelha[i][j] = tabB->grelha[i][j];
-        }
-    }
-}
-
 void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 {
     for (int i = 0; i < tabAtual->linhas; i++)
