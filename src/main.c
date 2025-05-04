@@ -148,7 +148,11 @@ int main()
             }
             else if (cmd[0] == 'R')
             {
-                comando_R(&tabAtual, &tabIO, &hist);
+                comando_R(&tabAtual, &tabIO, &hist, 's');
+            }
+            else if (cmd[0] == 'P')
+            {
+                comando_R(&tabAtual, &tabIO, &hist, 'w');
             }
             else if (cmd[0] == 't')
             {
@@ -156,7 +160,7 @@ int main()
             }
             else if (cmd[0] == 'S')
             {
-                solve(&tabAtual, 0, 0);
+                solve(&tabAtual, 0, 0, 's');
             }
             else if (loaded)
             {
