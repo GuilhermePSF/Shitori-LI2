@@ -2,10 +2,21 @@
 #include <stdbool.h>
 #include "board.h"
 
+void centrarLabel(int colunas){
+    for (int i = 0; i < colunas * 2 - 10; i++)
+    {
+        printf(" ");
+    }
+    
+}
+
 void mostrarTabuleiro(const Tabuleiro *tabAtual)
 {
+    centrarLabel(tabAtual->colunas);
     printf("   ╔═══════════════════╗\n");
+    centrarLabel(tabAtual->colunas);
     printf("   ║      \033[1;3mSHITORI\033[0m      ║\n");
+    centrarLabel(tabAtual->colunas);
     printf("   ╚═══════════════════╝\n\n");
 
     printf("    ");

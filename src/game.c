@@ -12,20 +12,20 @@ bool modificarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char cmd, const ch
 
     if (linha < 0 || linha >= tabAtual->linhas || coluna < 0 || coluna >= tabAtual->colunas)
     {
-        printf("Coordenada inválida.\n");
+        printf("\\033[1;31m ⚠ Coordenada inválida. ⚠ \n\033[0m");
         return false;
     }
 
     if (!guardar_estado(hist, tabAtual))
     {
-        printf("Erro ao guardar estado do tabuleiro.\n");
+        printf("\\033[1;31m ⚠ Erro ao guardar estado do tabuleiro. ⚠ \n\033[0m");
         return false;
     }
     if (cmd == 'b') // Pintar de branco
     {
         if (tabAtual->grelha[linha][coluna] == '#')
         {
-            printf("Erro: Não é possível pintar uma posição que já está riscada.\n");
+            printf("\\033[1;31m ⚠ Erro: Não é possível pintar uma posição que já está riscada. ⚠ \n\033[0m");
             return false;
         }
         tabAtual->grelha[linha][coluna] = toupper(tabAtual->grelha[linha][coluna]);
@@ -34,14 +34,14 @@ bool modificarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char cmd, const ch
     {
         if (isupper(tabAtual->grelha[linha][coluna]))
         {
-            printf("Erro: Não é possível riscar uma posição que já está em branco.\n");
+            printf("\\033[1;31m ⚠ Erro: Não é possível riscar uma posição que já está em branco. ⚠ \n\033[0m");
             return false;
         }
         tabAtual->grelha[linha][coluna] = '#';
     }
     else
     {
-        printf("Comando inválido.\n");
+        printf("\\033[1;31m ⚠ Comando inválido. ⚠ \n\033[0m");
         return false;
     }
 
@@ -60,5 +60,5 @@ bool ganhou(Tabuleiro *tabAtual)
             }
         }
     }
-    return true  && verificarRestricoes(tabAtual);
+    return true && verificarRestricoes(tabAtual);
 }

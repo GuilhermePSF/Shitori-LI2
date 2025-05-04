@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <stdio.h>
 
 // Regra 1 - Triplo adjacente (a a a) significa riscar
 bool regra1_horizontal(Tabuleiro *tabAtual, int linha, int coluna)
@@ -240,7 +241,8 @@ bool solve(Tabuleiro *tabAtual, int l, int c, char modo)
         {
             mostrarTabuleiro(tabAtual);
             usleep(10000);
-            system("clear");
+            if ((system("clear")))
+                printf("\033[1;31m ⚠ failed to clean ⚠ \n\033[0m");
         }
         if (ser_valido(tabAtual, l, c, toupper(tabAtual->grelha[l][c])))
         {
