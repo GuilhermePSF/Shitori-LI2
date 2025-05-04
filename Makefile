@@ -16,6 +16,7 @@ SRC_NO_MAIN = $(filter-out $(SRC_DIR)/main.c, $(SRC))
 EXEC = $(BIN_DIR)/jogo
 
 # Executáveis de teste
+TEST_EXEC_TIP = $(BIN_DIR)/test_tip
 TEST_EXEC_GAME = $(BIN_DIR)/test_game
 TEST_EXEC_IO = $(BIN_DIR)/test_io
 TEST_EXEC_BOARD = $(BIN_DIR)/test_board
@@ -34,6 +35,9 @@ jogo: $(EXEC)
 	$(EXEC)
 
 # Compilar testes
+$(TEST_EXEC_TIP): $(SRC_NO_MAIN) $(TEST_DIR)/test_tip.c | $(BIN_DIR)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
 $(TEST_EXEC_GAME): $(SRC_NO_MAIN) $(TEST_DIR)/test_game.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
@@ -49,7 +53,8 @@ $(TEST_EXEC_UNDO): $(SRC_NO_MAIN) $(TEST_DIR)/test_undo.c | $(BIN_DIR)
 $(TEST_EXEC_VERIFICA): $(SRC_NO_MAIN) $(TEST_DIR)/test_verifica.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-testar: $(TEST_EXEC_GAME) $(TEST_EXEC_IO) $(TEST_EXEC_BOARD) $(TEST_EXEC_UNDO) $(TEST_EXEC_VERIFICA)
+testar: $(TEST_EXEC_GAME) $(TEST_EXEC_IO) $(TEST_EXEC_BOARD) $(TEST_EXEC_TIP) $(TEST_EXEC_UNDO) $(TEST_EXEC_VERIFICA)
+	$(TEST_EXEC_TIP)
 	$(TEST_EXEC_GAME)
 	$(TEST_EXEC_IO)
 	$(TEST_EXEC_BOARD)
@@ -64,7 +69,6 @@ cobertura: testar
 	genhtml coverage_filtered.info --output-directory $(COVERAGE_DIR)
 	@mv coverage.info coverage_filtered.info $(COVERAGE_DIR)
 	@echo "Relatório disponível em $(COVERAGE_DIR)/index.html"
-
 
 $(BIN_DIR):
 	@mkdir -p $@
