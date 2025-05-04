@@ -10,8 +10,8 @@
 // Regra 1 - Triplo adjacente (a a a) significa riscar
 bool regra1_horizontal(Tabuleiro *tabAtual, int linha, int coluna)
 {
-    char alvo = tabAtual->grelha[linha][coluna];
-    return (coluna == 0 || alvo == (tabAtual->grelha[linha][coluna - 1])) && (coluna == (tabAtual->colunas - 1) || alvo == (tabAtual->grelha[linha][coluna + 1]));
+    char alvo = tolower(tabAtual->grelha[linha][coluna]);
+    return (coluna == 0 || alvo == tolower(tabAtual->grelha[linha][coluna - 1])) && (coluna == (tabAtual->colunas - 1) || alvo == tolower(tabAtual->grelha[linha][coluna + 1]));
 }
 
 bool regra1_vertical(Tabuleiro *tabAtual, int linha, int coluna)
@@ -36,8 +36,8 @@ void aplicar_regra1(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
             if (regra1_horizontal(tabAtual, i, j) && tabAtual->grelha[i][j] != '#')
             {
                 guardar_estado(hist, tabAtual);
-                tabAtual->grelha[i][j] = '#';
-                if (tem_riscado_adjacente(tabAtual) || !verificarConectividade(tabAtual, 's'))
+                tabAtual->grelha[i][j] = toupper(tabAtual->grelha[i][j]);
+                if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
                 {
                     desfazer(hist, tabAtual, tabIO, NULL);
                 }
@@ -53,8 +53,8 @@ void aplicar_regra1(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
             if (regra1_vertical(tabAtual, i, j) && tabAtual->grelha[i][j] != '#')
             {
                 guardar_estado(hist, tabAtual);
-                tabAtual->grelha[i][j] = '#';
-                if (tem_riscado_adjacente(tabAtual) || !verificarConectividade(tabAtual, 's'))
+                tabAtual->grelha[i][j] = toupper(tabAtual->grelha[i][j]);
+                if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
                 {
                     desfazer(hist, tabAtual, tabIO, NULL);
                 }
@@ -176,22 +176,30 @@ void aplicar_regra3(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
             {
                 guardar_estado(hist, tabAtual);
                 tabAtual->grelha[i][j] = '#';
+                if (tem_riscado_adjacente(tabAtual) || !verificarConectividade(tabAtual, 's'))
+                {
+                    desfazer(hist, tabAtual, tabIO, NULL);
+                }
             }
 
             if (regra3_vertical(tabAtual, i, j) && tabAtual->grelha[i][j] != '#')
             {
                 guardar_estado(hist, tabAtual);
                 tabAtual->grelha[i][j] = '#';
+                if (tem_riscado_adjacente(tabAtual) || !verificarConectividade(tabAtual, 's'))
+                {
+                    desfazer(hist, tabAtual, tabIO, NULL);
+                }
             }
         }
     }
 }
 
-void tecnicas_iniciais(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
+void tecnicas_iniciais(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist) // cccac
 {
-    aplicar_regra1(tabAtual, tabIO, hist);
     aplicar_regra2(tabAtual, tabIO, hist);
     aplicar_regra3(tabAtual, tabIO, hist);
+    aplicar_regra1(tabAtual, tabIO, hist);
 }
 
 bool ser_valido(Tabuleiro *tabAtual, int l, int c, char sub)
