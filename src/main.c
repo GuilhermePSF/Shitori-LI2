@@ -158,7 +158,7 @@ int main()
             }
             else if (cmd[0] == 't')
             {
-                tecnicas_iniciais(&tabAtual, &tabIO, &hist);
+                tecnicas_iniciais(&tabAtual, &hist);
             }
             else if (cmd[0] == 'S')
             {
@@ -166,7 +166,7 @@ int main()
             }
             else if (loaded)
             {
-                printf("\033[1;31m ⚠ Comando inválido.⚠ \n \n\033[0m");
+                printf("\033[1;31m ⚠ Comando inválido. ⚠ \n \n\033[0m");
             }
         }
         else if (cmd[0] == 's')
