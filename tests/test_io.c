@@ -9,7 +9,7 @@ void test_carregarTabuleiro_ficheiro_existente(void)
 {
     Tabuleiro tabAtual, tabIO;
     Historico hist;
-    bool resultado = carregarTabuleiro(&tabAtual, &tabIO, &hist, "teste.txt");
+    bool resultado = carregarTabuleiro(&tabAtual, &tabIO, &hist, "tab5.txt");
     CU_ASSERT_TRUE(resultado);
     CU_ASSERT(tabAtual.linhas > 0 && tabAtual.colunas > 0);
     CU_ASSERT(strlen(tabAtual.grelha[0]) > 0);

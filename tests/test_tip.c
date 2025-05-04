@@ -264,7 +264,7 @@ void test_comando_A_com_tabuleiro_apos_riscar(void)
 int main()
 {
     CU_initialize_registry();
-    CU_pSuite suite = CU_add_suite("Testes_Comandos", NULL, NULL);
+    CU_pSuite suite = CU_add_suite("Testes_Tip", NULL, NULL);
 
     CU_add_test(suite, "Comando a - Sem Modificações", test_comando_a_sem_modificacoes);
     CU_add_test(suite, "Comando a - tabuleiro 5x5", test_comando_a_com_tabuleiro5x5);
