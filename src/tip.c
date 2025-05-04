@@ -131,32 +131,6 @@ bool necessaria_para_conectividade(Tabuleiro *tabAtual, int linha, int coluna)
     return !conectada;
 }
 
-bool compara_tabuleiros(Tabuleiro *tabA, Tabuleiro *tabB)
-{
-    for (int i = 0; i < tabA->linhas; i++)
-    {
-        for (int j = 0; j < tabA->colunas; j++)
-        {
-            if (tabA->grelha[i][j] != tabB->grelha[i][j])
-            {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-void copia_tabuleiros(Tabuleiro *tabA, Tabuleiro *tabB)
-{
-    for (int i = 0; i < tabA->linhas; i++)
-    {
-        for (int j = 0; j < tabA->colunas; j++)
-        {
-            tabA->grelha[i][j] = tabB->grelha[i][j];
-        }
-    }
-}
-
 void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 {
     for (int i = 0; i < tabAtual->linhas; i++)
@@ -174,30 +148,24 @@ void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
                 {
                     if (!existe_igual_na_linha_ou_coluna(tabAtual, i, j))
                     {
-                        if (tabAtual->grelha[i][j] != toupper(atual))
-                        {
-                            guardar_estado(hist, tabAtual);
-                            tabAtual->grelha[i][j] = toupper(atual);
-                            fez_algo = true;
-                        }
+
+                        guardar_estado(hist, tabAtual);
+                        tabAtual->grelha[i][j] = toupper(atual);
+                        fez_algo = true;
+
                         next = false;
                     }
 
                     if (!fez_algo && tem_riscado_adjacente_coord(tabAtual, i, j))
                     {
-                        if (tabAtual->grelha[i][j] != toupper(atual))
-                        {
-                            guardar_estado(hist, tabAtual);
-                            tabAtual->grelha[i][j] = toupper(atual);
-                            fez_algo = true;
-                        }
+
+                        guardar_estado(hist, tabAtual);
+                        tabAtual->grelha[i][j] = toupper(atual);
+                        fez_algo = true;
 
                         if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
                         {
-                            mostrarTabuleiro(tabAtual);
                             desfazer(hist, tabAtual, tabIO, NULL);
-                            mostrarTabuleiro(tabAtual);
-
                         }
                         else
                         {
@@ -207,12 +175,10 @@ void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 
                     if (!fez_algo && necessaria_para_conectividade(tabAtual, i, j))
                     {
-                        if (tabAtual->grelha[i][j] != toupper(atual))
-                        {
-                            guardar_estado(hist, tabAtual);
-                            tabAtual->grelha[i][j] = toupper(atual);
-                            fez_algo = true;
-                        }
+
+                        guardar_estado(hist, tabAtual);
+                        tabAtual->grelha[i][j] = toupper(atual);
+                        fez_algo = true;
 
                         if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
                         {
@@ -226,12 +192,9 @@ void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 
                     if (!fez_algo && existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
                     {
-                        if (tabAtual->grelha[i][j] != '#')
-                        {
-                            guardar_estado(hist, tabAtual);
-                            tabAtual->grelha[i][j] = '#';
-                            fez_algo = true;
-                        }
+                        guardar_estado(hist, tabAtual);
+                        tabAtual->grelha[i][j] = '#';
+                        fez_algo = true;
 
                         if (tem_riscado_adjacente(tabAtual) || !verificarConectividade(tabAtual, 's'))
                         {
@@ -259,10 +222,8 @@ void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
     }
 }
 
-
 void comando_A(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 {
-    Tabuleiro original;
     bool continuar = true;
     int ant;
     while (continuar)
@@ -273,6 +234,5 @@ void comando_A(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
         {
             continuar = false;
         }
-        
     }
 }

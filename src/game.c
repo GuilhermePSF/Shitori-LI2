@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include "game.h"
+#include "verifica.h"
 
 bool modificarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char cmd, const char *coord)
 {
@@ -15,10 +16,10 @@ bool modificarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char cmd, const ch
         return false;
     }
 
-    if (!guardar_estado(hist, tabAtual)) {
+    if (!guardar_estado(hist, tabAtual))
+    {
         printf("Erro ao guardar estado do tabuleiro.\n");
-    return false;
-    
+        return false;
     }
     if (cmd == 'b') // Pintar de branco
     {
@@ -45,4 +46,19 @@ bool modificarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char cmd, const ch
     }
 
     return true;
+}
+
+bool ganhou(Tabuleiro *tabAtual)
+{
+    for (int i = 0; i < tabAtual->linhas; i++)
+    {
+        for (int j = 0; j < tabAtual->colunas; j++)
+        {
+            if (islower(tabAtual->grelha[i][j]) && isalpha(tabAtual->grelha[i][j]))
+            {
+                return false;
+            }
+        }
+    }
+    return true  && verificarRestricoes(tabAtual);
 }

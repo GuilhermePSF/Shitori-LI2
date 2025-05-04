@@ -6,6 +6,11 @@
 #include "board.h"
 #include "undo.h"
 
+void inicializar_historico(Historico *hist)
+{
+    hist->topo = 0;
+}
+
 
 bool guardar_estado(Historico *hist, Tabuleiro *tabAtual)
 {
