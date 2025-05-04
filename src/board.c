@@ -2,12 +2,12 @@
 #include <stdbool.h>
 #include "board.h"
 
-void centrarLabel(int colunas){
+void centrarLabel(int colunas)
+{
     for (int i = 0; i < colunas * 2 - 10; i++)
     {
         printf(" ");
     }
-    
 }
 
 void mostrarTabuleiro(const Tabuleiro *tabAtual)
@@ -116,6 +116,11 @@ Tabuleiro copiar_tabuleiro(Tabuleiro *orig)
 
 void copiar_tabuleiro_para(Tabuleiro *orig, Tabuleiro *dest)
 {
+    if (orig == NULL || dest == NULL)
+    {
+        return;
+    }
+
     dest->linhas = orig->linhas;
     dest->colunas = orig->colunas;
 
