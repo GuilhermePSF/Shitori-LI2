@@ -144,6 +144,11 @@ int main()
                 comando_R(&tabAtual, &tabIO, &hist);
                 mostrarTabuleiro(&tabAtual);
             }
+            else if (cmd[0] == 't')
+            {
+                tecnicas_iniciais(&tabAtual, &tabIO, &hist);
+                mostrarTabuleiro(&tabAtual);
+            }
             else if (cmd[0] == 's')
             {
                 a_correr = false;
