@@ -144,7 +144,7 @@ void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
             {
                 bool fez_algo = false;
 
-                if (!isupper(atual) && atual != '#')
+                if (atual != '#' && !isupper(atual))
                 {
                     if (!existe_igual_na_linha_ou_coluna(tabAtual, i, j))
                     {
