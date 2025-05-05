@@ -82,6 +82,25 @@ void test_mostrarTabuleiro_com_mudancas(void)
         fclose(file);
     }
 }
+void test_centrarLabel(void)
+{
+    FILE *file = freopen("boards/output_centrarLabel.txt", "w", stdout);
+    CU_ASSERT_PTR_NOT_NULL_FATAL(file);
+
+    centrarLabel(10); 
+    centrarLabel(5);  
+
+    freopen("/dev/tty", "w", stdout);
+
+    file = fopen("boards/output_centrarLabel.txt", "r");
+    CU_ASSERT_PTR_NOT_NULL_FATAL(file);
+
+    char buffer[256];
+    size_t len = fread(buffer, 1, sizeof(buffer) - 1, file);
+    buffer[len] = '\0';
+    fclose(file);
+    CU_ASSERT_STRING_EQUAL(buffer, "          "); // 10 espaços para centrarLabel(10)
+}
 
 int main()
 {
@@ -90,6 +109,7 @@ int main()
 
     CU_add_test(suite, "Mostrar tabuleiro sem mudanças", test_mostrarTabuleiro_sem_mudancas);
     CU_add_test(suite, "Mostrar tabuleiro com mudanças", test_mostrarTabuleiro_com_mudancas);
+    CU_add_test(suite, "Centrar Label", test_centrarLabel);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();

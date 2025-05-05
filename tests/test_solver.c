@@ -4,6 +4,7 @@
 #include "game.h"
 #include "undo.h"
 #include "solver.h"
+#include <stdlib.h>
 
 void test_comando_R_simples_12x12(void)
 {
@@ -28,7 +29,7 @@ void test_comando_R_simples_12x12(void)
     Tabuleiro tabIO = tabAtual;
     Historico hist = {0};
     guardar_estado(&hist, &tabAtual);
-    comando_R(&tabAtual, &tabIO, &hist);
+    comando_R(&tabAtual, &tabIO, &hist, 'A');
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "#BE#GI#LD#CH");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "C#FHE#JA#I#B");
@@ -42,9 +43,37 @@ void test_comando_R_simples_12x12(void)
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[9], "#CB#L#K#G#J#");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[10], "K#IG#FEHCBDL");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[11], "DIHJFK#B#C#E");
+    CU_ASSERT_TRUE(ganhou(&tabAtual));
 }
 
-// vou riscar onde deveria estar branco para testar o "desfazer" e pintar onde deveria estar riscado
+void test_comando_R_tabuleiro_maisculas(void)
+{
+    Tabuleiro tabAtual = {
+        .linhas = 12,
+        .colunas = 12,
+        .grelha = {
+            "BBEegigldbch",
+            "cbfhefjaeijb",
+            "ekfcalfgidhj",
+            "ejgligalflki",
+            "aggbdcckbfbi",
+            "ijkcjebclagd",
+            "eeckkjaijlea",
+            "heabbcdekgli",
+            "bldehgeffkac",
+            "hcbklckcggjg",
+            "kgiglfehcbdl",
+            "dihjfkhbicge"
+        }
+    };
+    Tabuleiro tabIO = tabAtual;
+    Historico hist = {0};
+    guardar_estado (&hist,&tabAtual);
+    comando_R(&tabAtual, &tabIO, &hist, 'A');
+    CU_ASSERT_PTR_NOT_NULL(tabAtual.grelha);
+    CU_ASSERT_FALSE(ganhou(&tabAtual));
+}
+
 void test_comando_R_com_modificacoes_12x12(void)
 {
     Tabuleiro tabAtual = {
@@ -70,8 +99,9 @@ void test_comando_R_com_modificacoes_12x12(void)
 
     modificarTabuleiro(&tabAtual, &hist, 'b', "a10"); 
     modificarTabuleiro(&tabAtual, &hist, 'r', "i1");  
+    desfazer (&hist, &tabAtual, &tabIO, NULL);
 
-    comando_R(&tabAtual, &tabIO, &hist);
+    comando_R(&tabAtual, &tabIO, &hist, 'A');
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "#BE#GI#LD#CH");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "C#FHE#JA#I#B");
@@ -85,6 +115,7 @@ void test_comando_R_com_modificacoes_12x12(void)
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[9], "#CB#L#K#G#J#");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[10], "K#IG#FEHCBDL");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[11], "DIHJFK#B#C#E");
+    CU_ASSERT_TRUE(ganhou(&tabAtual));
 }
 
 void test_comando_R_com_tabuleiro_sem_solucao(void) {
@@ -107,7 +138,7 @@ void test_comando_R_com_tabuleiro_sem_solucao(void) {
     Tabuleiro tabIO = tabAtual;
     Historico hist = {0};
     guardar_estado(&hist, &tabAtual);
-    comando_R(&tabAtual, &tabIO, &hist);
+    comando_R(&tabAtual, &tabIO, &hist, 'A');
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "#BFG#HD#Eb");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "CDHEAFIJ#B");
@@ -119,6 +150,7 @@ void test_comando_R_com_tabuleiro_sem_solucao(void) {
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[7], "#EAB#DeK#L");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[8], "BLD#HGF#KC");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[9], "H#BKL#GC#J");
+    CU_ASSERT_FALSE(ganhou(&tabAtual));
 }
 
 void test_comando_R_com_tabuleiro_20x20(void) {
@@ -154,7 +186,7 @@ void test_comando_R_com_tabuleiro_20x20(void) {
     modificarTabuleiro(&tabAtual, &hist, 'r', "f7");  
     modificarTabuleiro(&tabAtual, &hist, 'b', "c15"); 
     modificarTabuleiro(&tabAtual, &hist, 'r', "i1"); 
-    comando_R(&tabAtual, &tabIO, &hist);
+    comando_R(&tabAtual, &tabIO, &hist, 'A');
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "QBN#TJM#F#KD#PHO#ALR");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "L#DHCT#IONQ#J#GBRSP#");
@@ -176,7 +208,7 @@ void test_comando_R_com_tabuleiro_20x20(void) {
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[17], "#NGSMHR#L#BAFECK#IJO");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[18], "OE#P#N#RCKH#IB#DFQ#J");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[19], "#JTRL#OM#E#PS#AC#KD#");
-
+    CU_ASSERT_TRUE(ganhou(&tabAtual));
 }
 
 int main()
@@ -187,6 +219,7 @@ int main()
     CU_add_test(suite, "Comando R - Com Modificações", test_comando_R_com_modificacoes_12x12);
     CU_add_test(suite, "Comando R - Tabuleiro Sem Solução", test_comando_R_com_tabuleiro_sem_solucao);
     CU_add_test(suite, "Comando R - Tabuleiro 20x20", test_comando_R_com_tabuleiro_20x20);
+    CU_add_test(suite, "Comando R - Regra 1", test_comando_R_tabuleiro_maisculas);
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
     CU_cleanup_registry();

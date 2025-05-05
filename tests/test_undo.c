@@ -59,6 +59,25 @@ void test_desfazer_coordenada_sem_mudanca(void)
     CU_ASSERT_FALSE(resultado);
 }
 
+void test_desfazer_coordenada_errada(void)
+{
+    Historico hist = {0};
+    Tabuleiro tabAtual = {
+        .linhas = 3,
+        .colunas = 3,
+        .grelha = { "abc", "def", "ghi" }};
+    Tabuleiro tabIO = tabAtual;
+
+    bool resultado = desfazer(&hist, &tabAtual, &tabIO, "z9");
+    CU_ASSERT_FALSE(resultado);
+
+    resultado = desfazer(&hist, &tabAtual, &tabIO, "1a");
+    CU_ASSERT_FALSE(resultado);
+
+    resultado = desfazer(&hist, &tabAtual, &tabIO, "");
+    CU_ASSERT_FALSE(resultado);
+}
+
 int main()
 {
     CU_initialize_registry();
@@ -69,7 +88,7 @@ int main()
     CU_add_test(suite, "Desfazer sem mudanças", test_desfazer_sem_mudancas);
     CU_add_test(suite, "Desfazer coordenada com mudança", test_desfazer_coordenada_com_mudanca);
     CU_add_test(suite, "Desfazer coordenada sem mudança", test_desfazer_coordenada_sem_mudanca);
-
+    CU_add_test(suite, "Desfazer coordenada errada", test_desfazer_coordenada_errada);
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
     CU_cleanup_registry();

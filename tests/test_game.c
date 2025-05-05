@@ -60,6 +60,23 @@ void test_riscar_coordenada_errada(void)
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
 }
 
+void test_riscar_coordenada_branca (void)
+{
+    Tabuleiro tabAtual = {
+        .linhas = 3,
+        .colunas = 3,
+        .grelha = {
+            "abC",
+            "def",
+            "ghi"}};
+        Historico hist = {0};
+        bool resultado = modificarTabuleiro (&tabAtual, &hist, 'r', "c1");
+        CU_ASSERT_FALSE(resultado);
+        CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "abC");
+        CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "def");
+        CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
+ }
+
 void test_riscar_fora_do_tabuleiro(void)
 {
     Tabuleiro tabAtual = {
@@ -91,6 +108,23 @@ void test_riscar_ja_riscado(void)
     CU_ASSERT_TRUE(resultado);
     CU_ASSERT_EQUAL(tabAtual.grelha[1][1], '#');
 }
+
+void test_comando_invalido (void)
+{
+    Tabuleiro tabAtual = {
+        .linhas = 3,
+        .colunas = 3,
+        .grelha = {
+            "abc",
+            "def",
+            "ghi"}};
+        Historico hist = {0};
+        bool resultado = modificarTabuleiro (&tabAtual, &hist, 'l', "c1");
+        CU_ASSERT_FALSE(resultado);
+        CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "abc");
+        CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "def");
+        CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
+ }
 
 void test_pintar_ja_riscado(void)
 {
@@ -179,17 +213,18 @@ void test_ganhou (void) {
 }
 
 
-
 int main()
 {
     CU_initialize_registry();
-    CU_pSuite suite = CU_add_suite("Testes_Tabuleiro", NULL, NULL);
+    CU_pSuite suite = CU_add_suite("Testes_Game", NULL, NULL);
 
     CU_add_test(suite, "Pintar de branco", test_modificarTabuleiro_pintardebranco);
     CU_add_test(suite, "Risca", test_modificarTabuleiro_risca);
     CU_add_test(suite, "Riscar sem tabuleiro", test_riscar_sem_tabuleiro);
+    CU_add_test(suite, "Riscar coordenada branca", test_riscar_coordenada_branca);
     CU_add_test(suite, "Riscar coordenada errada", test_riscar_coordenada_errada);
     CU_add_test(suite, "Riscar fora do tabuleiro", test_riscar_fora_do_tabuleiro);
+    CU_add_test(suite, "Comando Inválido", test_comando_invalido);
     CU_add_test(suite, "Riscar já riscado", test_riscar_ja_riscado);
     CU_add_test(suite, "Pintar já riscado", test_pintar_ja_riscado);
     CU_add_test(suite, "Pintar já pintado", test_pintar_ja_pintado);
