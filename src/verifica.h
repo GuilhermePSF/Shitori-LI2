@@ -9,6 +9,7 @@ typedef struct
     int ln, col;
 } Coord;
 
+bool verificarConectividade(Tabuleiro *tabAtual, char modo);
 bool verificarRestricoes(Tabuleiro *tabAtual);
 
 #endif // VERIFICA_H

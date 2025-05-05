@@ -1,10 +1,22 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "board.h"
+
+void centrarLabel(int colunas)
+{
+    for (int i = 0; i < colunas * 2 - 10; i++)
+    {
+        printf(" ");
+    }
+}
 
 void mostrarTabuleiro(const Tabuleiro *tabAtual)
 {
+    centrarLabel(tabAtual->colunas);
     printf("   ╔═══════════════════╗\n");
+    centrarLabel(tabAtual->colunas);
     printf("   ║      \033[1;3mSHITORI\033[0m      ║\n");
+    centrarLabel(tabAtual->colunas);
     printf("   ╚═══════════════════╝\n\n");
 
     printf("    ");
@@ -87,4 +99,47 @@ void mostrarTabuleiro(const Tabuleiro *tabAtual)
     printf("  d              - desfazer o último comando\n");
     printf("  s              - sair do programa\n");
     printf("\n");
+}
+
+Tabuleiro copiar_tabuleiro(Tabuleiro *orig)
+{
+    Tabuleiro copia;
+    copia.linhas = orig->linhas;
+    copia.colunas = orig->colunas;
+
+    for (int i = 0; i < copia.linhas; i++)
+        for (int j = 0; j < copia.colunas; j++)
+            copia.grelha[i][j] = orig->grelha[i][j];
+
+    return copia;
+}
+
+void copiar_tabuleiro_para(Tabuleiro *orig, Tabuleiro *dest)
+{
+    if (orig == NULL || dest == NULL)
+    {
+        return;
+    }
+
+    dest->linhas = orig->linhas;
+    dest->colunas = orig->colunas;
+
+    for (int i = 0; i < orig->linhas; i++)
+        for (int j = 0; j < orig->colunas; j++)
+            dest->grelha[i][j] = orig->grelha[i][j];
+}
+
+bool compara_tabuleiros(Tabuleiro *tabA, Tabuleiro *tabB)
+{
+    for (int i = 0; i < tabA->linhas; i++)
+    {
+        for (int j = 0; j < tabA->colunas; j++)
+        {
+            if (tabA->grelha[i][j] != tabB->grelha[i][j])
+            {
+                return false;
+            }
+        }
+    }
+    return true;
 }

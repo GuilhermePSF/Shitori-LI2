@@ -6,6 +6,11 @@
 #include "board.h"
 #include "undo.h"
 
+void inicializar_historico(Historico *hist)
+{
+    hist->topo = 0;
+}
+
 
 bool guardar_estado(Historico *hist, Tabuleiro *tabAtual)
 {
@@ -21,7 +26,7 @@ bool guardar_estado(Historico *hist, Tabuleiro *tabAtual)
     }
     else
     {
-        printf("Aviso: Histórico cheio, não é possível guardar mais estados.\n");
+        printf("\033[1;31m ⚠ Aviso: Histórico cheio, não é possível guardar mais estados. ⚠ \n \n\033[0m");
         return false;
     }
 }
@@ -32,7 +37,7 @@ bool desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char
     {
         if (hist->topo == 0)
         {
-            printf("Não há movimentos para desfazer.\n");
+            printf("\033[1;92m ✓ Não há movimentos para desfazer.  ✓\n\n\033[0m");
             return false;
         }
 
@@ -50,7 +55,7 @@ bool desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char
 
     if (strlen(coord) < 2 || !isalpha(coord[0]) || !isdigit(coord[1]))
     {
-        printf("Coordenada inválida.\n");
+        printf("\033[1;31m ⚠ Coordenada inválida. ⚠ \n \n\033[0m");
         return false;
     }
 
@@ -59,7 +64,7 @@ bool desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char
 
     if (row < 0 || row >= tabAtual->linhas || col < 0 || col >= tabAtual->colunas)
     {
-        printf("Coordenada fora dos limites.\n");
+        printf("\033[1;31m ⚠ Coordenada fora dos limites. ⚠ \n \n\033[0m");
         return false;
     }
 
@@ -72,6 +77,6 @@ bool desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char
         }
         return false;
     }
-    printf("Não há modificacoes para desfazer.\n");
+    printf("\033[1;92m ✓ Não há modificacoes para desfazer.  ✓\n\n\033[0m");
     return false;
 }

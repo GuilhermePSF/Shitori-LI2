@@ -20,7 +20,7 @@ bool verificarLinhas(Tabuleiro *tabAtual)
                 if (seen[idx])
                 {
                     char col_label = 'a' + j;
-                    printf("Violação: letra '%c' repetida na linha %d, coluna %c\n", c, i + 1, col_label);
+                    printf("\033[1;33m 💡 Violação: letra '%c' repetida na linha %d, coluna %c 💡\n\n\033[0m", c, i + 1, col_label);
                     return false;
                 }
                 seen[idx] = true;
@@ -48,7 +48,7 @@ bool verificarColunas(Tabuleiro *tabAtual)
                 if (seen[idx])
                 {
                     char col_label = 'a' + j;
-                    printf("Violação: letra '%c' repetida na coluna %c, linha %d\n", c, col_label, i + 1);
+                    printf("\033[1;33m 💡 Violação: letra '%c' repetida na coluna %c, linha %d 💡\n\n\033[0m", c, col_label, i + 1);
                     return false;
                 }
                 seen[idx] = true;
@@ -86,7 +86,7 @@ bool verificarCelulasRiscadas(Tabuleiro *tabAtual)
                         {
                             char neigh_col = 'a' + nj;
                             int neigh_linha = ni + 1;
-                            printf("Violação: célula riscada em %c%d tem vizinho inválido em %c%d: '%c'\n",
+                            printf("\033[1;33m 💡 Violação: célula riscada em %c%d tem vizinho inválido em %c%d: '%c' 💡\n\n\033[0m",
                                    self_col, self_linha, neigh_col, neigh_linha, nb);
                             return false;
                         }
@@ -179,7 +179,7 @@ bool BFS(Tabuleiro *tabAtual, bool visitada[MAX_SIDE][MAX_SIDE], int linha_inici
     return true;
 }
 
-bool verificarConectividade(Tabuleiro *tabAtual)
+bool verificarConectividade(Tabuleiro *tabAtual, char modo)
 {
     bool visitada[MAX_SIDE][MAX_SIDE];
     int linha_inicial, coluna_inicial;
@@ -199,7 +199,8 @@ bool verificarConectividade(Tabuleiro *tabAtual)
 
     if (visitados != total_nao_riscadas)
     {
-        printf("Violação: nem todas as casas não riscadas estão conectadas (visitadas %d, esperadas %d)\n", visitados, total_nao_riscadas);
+        if (modo == 'w')
+            printf("\033[1;33m 💡 Violação: nem todas as casas não riscadas estão conectadas (visitadas %d, esperadas %d) 💡\n\n\033[0m", visitados, total_nao_riscadas);
         return false;
     }
 
@@ -208,8 +209,19 @@ bool verificarConectividade(Tabuleiro *tabAtual)
 
 bool verificarRestricoes(Tabuleiro *tabAtual)
 {
-    return verificarLinhas(tabAtual) &&
-           verificarColunas(tabAtual) &&
-           verificarCelulasRiscadas(tabAtual) &&
-           verificarConectividade(tabAtual);
+    int ok = true;
+
+    if (!verificarLinhas(tabAtual))
+        ok = false;
+
+    if (!verificarColunas(tabAtual))
+        ok = false;
+
+    if (!verificarCelulasRiscadas(tabAtual))
+        ok = false;
+
+    if (!verificarConectividade(tabAtual, 'w'))
+        ok = false;
+
+    return ok;
 }
