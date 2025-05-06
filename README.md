@@ -52,12 +52,11 @@ make teste
 Para verificar a cobertura de código, utilize:
 
 ```sh
-gcov -b src/*.c
-```
+make cobertura```
 
 ## Qualidade do Código
 - Compilado com flags estritas: `-Wall -Wextra -pedantic -fsanitize=address`
-- Utiliza `gcov` para análise de cobertura
+- Utiliza `lcov` para análise de cobertura
 - Detecção de vazamento de memória com `valgrind`
 
 ## Formato do Ficheiro
