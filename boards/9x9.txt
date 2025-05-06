@@ -1,0 +1,10 @@
+9 9
+cdeabacdb  
+abdeccead  
+ebadcdebc  
+dcbeaabde  
+aecdbedac  
+bdacecbad  
+edcabdece  
+caedbdabc  
+beadcceba  
