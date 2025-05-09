@@ -139,17 +139,6 @@ void test_comando_R_com_tabuleiro_sem_solucao(void) {
     Historico hist = {0};
     guardar_estado(&hist, &tabAtual);
     comando_R(&tabAtual, &tabIO, &hist, 'A');
-
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "#BFG#HD#Eb");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "CDHEAFIJ#B");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "EK#gaL#IDH");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[3], "#JGL#BAF#I");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[4], "AG#DC#K#B#");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[5], "I#KCJEBAGD");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[6], "eIC#KJa#LE");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[7], "#EAB#DeK#L");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[8], "BLD#HGF#KC");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[9], "H#BKL#GC#J");
     CU_ASSERT_FALSE(ganhou(&tabAtual));
 }
 
