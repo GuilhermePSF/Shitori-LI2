@@ -242,10 +242,23 @@ int main()
             }
         }
 
-        jogado = true;
-        printf("> ");
-        if (a_correr)
+        if (loaded && ganhou(&tabAtual))
         {
+            sleep(3);
+            printf("Pressione Enter para continuar...\n");
+
+            char buffer[10];
+            if (!fgets(buffer, sizeof(buffer), stdin))
+                printf("\033[1;31m ⚠ Erro ao ler comando.⚠ \n \n\033[0m");
+
+            ganho = true;
+        }
+
+        jogado = true;
+        if (a_correr && !ganho)
+        {
+            printf("> ");
+
             if (!fgets(cmd, sizeof(cmd), stdin))
             {
                 printf("\033[1;31m ⚠ Erro ao ler comando.⚠ \n \n\033[0m");
@@ -253,13 +266,6 @@ int main()
             }
         }
         cmd[strcspn(cmd, "\n")] = '\0';
-
-        if (loaded && ganhou(&tabAtual))
-        {
-            mostrarTabuleiro(&tabAtual);
-            sleep(3);
-            ganho = true;
-        }
 
         if (ganho && !system("clear"))
         {
