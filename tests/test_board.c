@@ -28,9 +28,13 @@ void test_mostrarTabuleiro_sem_mudancas(void)
             "def",
             "ghi"}};
 
-    freopen("boards/output.txt", "w", stdout);
+    if (freopen("boards/output.txt", "w", stdout) == NULL) {
+        return;
+    }
     mostrarTabuleiro(&tabAtual);
-    freopen("/dev/tty", "w", stdout);
+    if (freopen("/dev/tty", "w", stdout) == NULL) {
+        return;
+    }
 
     FILE *file = fopen("boards/output.txt", "r");
     CU_ASSERT_PTR_NOT_NULL(file);
@@ -61,9 +65,13 @@ void test_mostrarTabuleiro_com_mudancas(void)
             "d#f",
             "gHi"}};
 
-    freopen("boards/output.txt", "w", stdout);
+    if (freopen("boards/output.txt", "w", stdout) == NULL) {
+        return;
+    }
     mostrarTabuleiro(&tabAtual);
-    freopen("/dev/tty", "w", stdout);
+    if (freopen("/dev/tty", "w", stdout) == NULL) {
+        return;
+    }
 
     FILE *file = fopen("boards/output.txt", "r");
     CU_ASSERT_PTR_NOT_NULL(file);
@@ -82,6 +90,7 @@ void test_mostrarTabuleiro_com_mudancas(void)
         fclose(file);
     }
 }
+
 void test_centrarLabel(void)
 {
     FILE *file = freopen("boards/output_centrarLabel.txt", "w", stdout);
@@ -90,7 +99,9 @@ void test_centrarLabel(void)
     centrarLabel(10); 
     centrarLabel(5);  
 
-    freopen("/dev/tty", "w", stdout);
+    if (freopen("/dev/tty", "w", stdout) == NULL) {
+        return;
+    }
 
     file = fopen("boards/output_centrarLabel.txt", "r");
     CU_ASSERT_PTR_NOT_NULL_FATAL(file);
@@ -99,7 +110,7 @@ void test_centrarLabel(void)
     size_t len = fread(buffer, 1, sizeof(buffer) - 1, file);
     buffer[len] = '\0';
     fclose(file);
-    CU_ASSERT_STRING_EQUAL(buffer, "          "); // 10 espaços para centrarLabel(10)
+    CU_ASSERT_STRING_EQUAL(buffer, "          "); 
 }
 
 int main()

@@ -58,13 +58,13 @@ $(TEST_EXEC_SOLVER): $(SRC_NO_MAIN) $(TEST_DIR)/test_solver.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 testar: $(TEST_EXEC_SOLVER) $(TEST_EXEC_GAME) $(TEST_EXEC_IO) $(TEST_EXEC_BOARD) $(TEST_EXEC_TIP) $(TEST_EXEC_UNDO) $(TEST_EXEC_VERIFICA)
+	$(TEST_EXEC_SOLVER)
 	$(TEST_EXEC_TIP)
 	$(TEST_EXEC_GAME)
 	$(TEST_EXEC_IO)
 	$(TEST_EXEC_BOARD)
 	$(TEST_EXEC_UNDO)
 	$(TEST_EXEC_VERIFICA)
-	$(TEST_EXEC_SOLVER)
 
 cobertura: testar
 	@echo "Capturando dados de cobertura com lcov..."
