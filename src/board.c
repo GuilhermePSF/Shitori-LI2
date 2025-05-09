@@ -129,9 +129,9 @@ void copiar_tabuleiro_para(Tabuleiro *orig, Tabuleiro *dest)
             dest->grelha[i][j] = orig->grelha[i][j];
 }
 
-bool compara_tabuleiros(Tabuleiro *tabA, Tabuleiro *tabB)
-{
-    for (int i = 0; i < tabA->linhas; i++)
+/* bool compara_tabuleiros(Tabuleiro *tabA, Tabuleiro *tabB)
+ {
+ for (int i = 0; i < tabA->linhas; i++)
     {
         for (int j = 0; j < tabA->colunas; j++)
         {
@@ -143,3 +143,4 @@ bool compara_tabuleiros(Tabuleiro *tabA, Tabuleiro *tabB)
     }
     return true;
 }
+*/

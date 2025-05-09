@@ -88,6 +88,7 @@ bool existe_igual_na_linha_ou_coluna(Tabuleiro *tabAtual, int linha, int coluna)
     return false;
 }
 
+/*
 bool tem_maiuscula_na_linha_ou_col_geral(Tabuleiro *tabAtual)
 {
     for (int i = 0; i < tabAtual->linhas; i++)
@@ -117,6 +118,7 @@ bool tem_maiuscula_na_linha_ou_col_geral(Tabuleiro *tabAtual)
     }
     return false;
 }
+*/
 
 bool necessaria_para_conectividade(Tabuleiro *tabAtual, int linha, int coluna)
 {

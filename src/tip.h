@@ -2,6 +2,8 @@
 #define TIP_H
 
 #include "board.h"
+#include "undo.h"
+
 
 bool tem_riscado_adjacente(const Tabuleiro *tab);
 bool tem_riscado_adjacente_coord(const Tabuleiro *tab, int linha, int coluna);
