@@ -88,38 +88,6 @@ bool existe_igual_na_linha_ou_coluna(Tabuleiro *tabAtual, int linha, int coluna)
     return false;
 }
 
-/*
-bool tem_maiuscula_na_linha_ou_col_geral(Tabuleiro *tabAtual)
-{
-    for (int i = 0; i < tabAtual->linhas; i++)
-    {
-        for (int j = 0; j < tabAtual->colunas; j++)
-        {
-            char atual = tabAtual->grelha[i][j];
-            if (islower((unsigned char)atual))
-            {
-                char M = toupper((unsigned char)atual);
-                for (int k = 0; k < tabAtual->colunas; k++)
-                {
-                    if (k != j && tabAtual->grelha[i][k] == M)
-                    {
-                        return true;
-                    }
-                }
-                for (int k = 0; k < tabAtual->linhas; k++)
-                {
-                    if (k != i && tabAtual->grelha[k][j] == M)
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-    }
-    return false;
-}
-*/
-
 bool necessaria_para_conectividade(Tabuleiro *tabAtual, int linha, int coluna)
 {
     char original = tabAtual->grelha[linha][coluna];
