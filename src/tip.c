@@ -116,16 +116,6 @@ void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
 
                 if (atual != '#' && !isupper(atual))
                 {
-                    if (!existe_igual_na_linha_ou_coluna(tabAtual, i, j))
-                    {
-
-                        guardar_estado(hist, tabAtual);
-                        tabAtual->grelha[i][j] = toupper(atual);
-                        fez_algo = true;
-
-                        next = false;
-                    }
-
                     if (!fez_algo && tem_riscado_adjacente_coord(tabAtual, i, j))
                     {
 
