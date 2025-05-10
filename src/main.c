@@ -242,8 +242,9 @@ int main()
             }
         }
 
-        if (loaded && ganhou(&tabAtual))
+        if (loaded && ganhou(&tabAtual) && !system("clear"))
         {
+            mostrarTabuleiro(&tabAtual);
             sleep(3);
             printf("Pressione Enter para continuar...\n");
 
