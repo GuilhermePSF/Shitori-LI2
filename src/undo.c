@@ -45,8 +45,18 @@ bool desfazer(Historico *hist, Tabuleiro *tabAtual, Tabuleiro *tabIO, const char
         return true;
     }
 
+    if (strlen(coord) < 2 || !isalpha(coord[0]) || !isdigit(coord[1]))
+    {
+        return false;
+    }
+
     int col = tolower(coord[0]) - 'a';
     int row = atoi(coord + 1) - 1;
+
+    if (row < 0 || row >= tabAtual->linhas || col < 0 || col >= tabAtual->colunas)
+    {
+        return false;
+    }
 
     if (tabAtual->grelha[row][col] != tabIO->grelha[row][col])
     {
