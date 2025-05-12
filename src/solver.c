@@ -71,6 +71,11 @@ void tecnicas_iniciais(Tabuleiro *tabAtual, Historico *hist) // cccac
             char atual = tabAtual->grelha[i][j];
             if (islower(atual))
             {
+                if (!existe_igual_na_linha_ou_coluna(tabAtual, i, j))
+                {
+                    guardar_estado(hist, tabAtual);
+                    tabAtual->grelha[i][j] = toupper(atual);
+                }
                 if (regras1ou2(tabAtual, i, j))
                 {
                     guardar_estado(hist, tabAtual);

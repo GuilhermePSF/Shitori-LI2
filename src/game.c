@@ -18,30 +18,29 @@ bool modificarTabuleiro(Tabuleiro *tabAtual, Historico *hist, char cmd, const ch
 
     if (!guardar_estado(hist, tabAtual))
     {
-        printf("\\033[1;31m ⚠ Erro ao guardar estado do tabuleiro. ⚠ \n\033[0m");
         return false;
     }
-    if (cmd == 'b') // Pintar de branco
+
+    if (cmd == 'b')
     {
         if (tabAtual->grelha[linha][coluna] == '#')
         {
-            printf("\\033[1;31m ⚠ Erro: Não é possível pintar uma posição que já está riscada. ⚠ \n\033[0m");
             return false;
         }
+
         tabAtual->grelha[linha][coluna] = toupper(tabAtual->grelha[linha][coluna]);
     }
-    else if (cmd == 'r') // Riscar
+
+    else if (cmd == 'r')
     {
         if (isupper(tabAtual->grelha[linha][coluna]))
         {
-            printf("\\033[1;31m ⚠ Erro: Não é possível riscar uma posição que já está em branco. ⚠ \n\033[0m");
             return false;
         }
         tabAtual->grelha[linha][coluna] = '#';
     }
     else
     {
-        printf("\\033[1;31m ⚠ Comando inválido. ⚠ \n\033[0m");
         return false;
     }
 
