@@ -29,7 +29,18 @@ int main()
 
     while (a_correr && !ganho)
     {
-        if (cmd[0] == 'l')
+        if (cmd[0] == 'G' && !loaded)
+        {
+            if ((system("clear")))
+                printf("\033[1;31m ⚠ failed to clean ⚠ \n\033[0m");
+            Tabuleiro tab = {.linhas = 6, .colunas = 6};
+            generate(&tab);
+            mostrarTabuleiro(&tab);
+            guardar_estado(&hist, &tab);
+            copiar_tabuleiro_para(&tab, &tabAtual);
+            loaded = true;
+        }
+        else if (cmd[0] == 'l')
         {
             char ficheiro[256];
             if (sscanf(cmd, "l %255s", ficheiro) == 1)
@@ -235,14 +246,6 @@ int main()
             {
                 solve(&tabAtual, 0, 0, false);
                 mostrarTabuleiro(&tabAtual);
-            }
-            else if (cmd[0] == 'G')
-            {
-                Tabuleiro tab = {.linhas = 6, .colunas = 6};
-                generate(&tab);
-                mostrarTabuleiro(&tab);
-                guardar_estado(&hist, &tab);
-                copiar_tabuleiro_para(&tab, &tabAtual);
             }
             else
             {
