@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <time.h>
 #include "board.h"
 #include "io.h"
 #include "game.h"
@@ -11,6 +12,7 @@
 #include "verifica.h"
 #include "solver.h"
 #include "tip.h"
+#include "generate.h"
 
 int main()
 {
@@ -22,6 +24,8 @@ int main()
     bool ganho = false;
     bool loaded = false;
     bool jogado = false;
+
+    srand(time(NULL));
 
     while (a_correr && !ganho)
     {
@@ -205,8 +209,18 @@ int main()
             }
             else if (cmd[0] == 'R')
             {
-                comando_R(&tabAtual, &tabIO, &hist, false);
-                mostrarTabuleiro(&tabAtual);
+                if (comando_R(&tabAtual, &tabIO, &hist, false))
+                {
+                    mostrarTabuleiro(&tabAtual);
+                    printf("\033[1;92m ✓ RESOLVIDO COM SUCESSIUM! ✓\n\n\033[0m");
+                    sleep(1);
+                }
+                else
+                {
+                    mostrarTabuleiro(&tabAtual);
+                    printf("\033[1;31m ⚠ Falhou, nao consegue resolver.... ⚠ \n \n\033[0m");
+                    sleep(1);
+                }
             }
             else if (cmd[0] == 'P')
             {
@@ -221,6 +235,14 @@ int main()
             {
                 solve(&tabAtual, 0, 0, false);
                 mostrarTabuleiro(&tabAtual);
+            }
+            else if (cmd[0] == 'G')
+            {
+                Tabuleiro tab = {.linhas = 6, .colunas = 6};
+                generate(&tab);
+                mostrarTabuleiro(&tab);
+                guardar_estado(&hist, &tab);
+                copiar_tabuleiro_para(&tab, &tabAtual);
             }
             else
             {
@@ -245,7 +267,7 @@ int main()
         if (loaded && ganhou(&tabAtual) && !system("clear"))
         {
             mostrarTabuleiro(&tabAtual);
-            sleep(3);
+            sleep(2);
             printf("Pressione Enter para continuar...\n");
 
             char buffer[10];

@@ -107,6 +107,7 @@ bool ser_valido(Tabuleiro *tabAtual, int l, int c, char sub)
     tabAtual->grelha[l][c] = original;
     return r;
 }
+
 bool solve(Tabuleiro *tabAtual, int l, int c, bool modo)
 {
 
@@ -127,7 +128,7 @@ bool solve(Tabuleiro *tabAtual, int l, int c, bool modo)
         if (modo)
         {
             mostrarTabuleiro(tabAtual);
-            usleep(10000);
+            usleep(4000);
             if ((system("clear")))
                 printf("\033[1;31m ⚠ failed to clean ⚠ \n\033[0m");
         }
@@ -155,7 +156,7 @@ bool solve(Tabuleiro *tabAtual, int l, int c, bool modo)
     }
 }
 
-void comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, bool modo)
+bool comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, bool modo)
 {
     Tabuleiro tabOriginal = copiar_tabuleiro(&hist->estados[0]);
 
@@ -164,7 +165,9 @@ void comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, bool modo
 
     tecnicas_iniciais(&tabOriginal, &histTemp);
     comando_A(&tabOriginal, tabIO, &histTemp);
-    solve(&tabOriginal, 0, 0, modo);
+    bool r = solve(&tabOriginal, 0, 0, modo);
 
     copiar_tabuleiro_para(&tabOriginal, tabAtual);
+
+    return r;
 }
