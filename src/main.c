@@ -31,15 +31,25 @@ int main()
     {
         if (cmd[0] == 'G' && !loaded)
         {
-            if ((system("clear")))
-                printf("\033[1;31m ⚠ failed to clean ⚠ \n\033[0m");
-            Tabuleiro tab = {.linhas = 6, .colunas = 6};
-            generate(&tab);
-            mostrarTabuleiro(&tab);
-            guardar_estado(&hist, &tab);
-            copiar_tabuleiro_para(&tab, &tabAtual);
-            loaded = true;
+            int size = atoi(&cmd[2]);
+            if (size < 1 || size > 26)
+            {
+                printf("\033[1;31m ⚠ Tamanho inválido. Escolhe um valor entre 1 e 26. ⚠ \n\033[0m");
+            }
+            else
+            {
+                if (system("clear"))
+                    printf("\033[1;31m ⚠ Falha ao limpar o ecrã ⚠ \n\033[0m");
+
+                Tabuleiro tab = {.linhas = size, .colunas = size};
+                generate(&tab);
+                mostrarTabuleiro(&tab);
+                guardar_estado(&hist, &tab);
+                copiar_tabuleiro_para(&tab, &tabAtual);
+                loaded = true;
+            }
         }
+
         else if (cmd[0] == 'l')
         {
             char ficheiro[256];
