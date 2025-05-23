@@ -19,6 +19,6 @@ void aplicar_regra3(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist);
 
 void tecnicas_iniciais(Tabuleiro *tabAtual, Historico *hist);
 bool solve(Tabuleiro *tabAtual, int l, int c, bool modo);
-void comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, bool modo);
+bool comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, bool modo);
 
 #endif
