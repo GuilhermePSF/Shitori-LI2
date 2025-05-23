@@ -66,6 +66,7 @@ bool verificarCelulasRiscadas(Tabuleiro *tabAtual)
 
     int dr[4] = {-1, 1, 0, 0};
     int dc[4] = {0, 0, -1, 1};
+    bool valido;
 
     for (int i = 0; i < linhas; i++)
     {
@@ -88,7 +89,7 @@ bool verificarCelulasRiscadas(Tabuleiro *tabAtual)
                             int neigh_linha = ni + 1;
                             printf("\033[1;33m 💡 Violação: célula riscada em %c%d tem vizinho inválido em %c%d: '%c' 💡\n\n\033[0m",
                                    self_col, self_linha, neigh_col, neigh_linha, nb);
-                            return false;
+                            valido = false;
                         }
                     }
                 }
@@ -96,7 +97,7 @@ bool verificarCelulasRiscadas(Tabuleiro *tabAtual)
         }
     }
 
-    return true;
+    return valido;
 }
 
 void inicializarVisitadas(bool visitada[MAX_SIDE][MAX_SIDE], int linhas, int colunas)
