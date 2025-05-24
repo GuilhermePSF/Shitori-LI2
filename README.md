@@ -52,7 +52,8 @@ make teste
 Para verificar a cobertura de código, utilize:
 
 ```sh
-make cobertura```
+make cobertura
+```
 
 ## Qualidade do Código
 - Compilado com flags estritas: `-Wall -Wextra -pedantic -fsanitize=address`
