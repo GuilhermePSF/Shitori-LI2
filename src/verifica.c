@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <board.h>
+#include <ctype.h>
 #include "verifica.h"
 
 bool verificarLinhas(Tabuleiro *tabAtual)
@@ -83,7 +84,7 @@ bool verificarCelulasRiscadas(Tabuleiro *tabAtual)
                     if (ni >= 0 && ni < linhas && nj >= 0 && nj < cols)
                     {
                         char nb = tabAtual->grelha[ni][nj];
-                        if (!(nb >= 'A' && nb <= 'Z'))
+                        if (!(isupper(nb)))
                         {
                             char neigh_col = 'a' + nj;
                             int neigh_linha = ni + 1;
