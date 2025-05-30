@@ -34,12 +34,12 @@ int main()
             int size = atoi(&cmd[2]);
             if (size < 1 || size > 26)
             {
-                printf("\033[1;31m ⚠ Tamanho inválido. Escolhe um valor entre 1 e 26. ⚠ \n\033[0m");
+                printf("\033[1;31m ⚠ Tamanho inválido. Escolhe um valor entre 1 e 26. ⚠ \n\n\033[0m");
             }
             else
             {
                 if (system("clear"))
-                    printf("\033[1;31m ⚠ Falha ao limpar o ecrã ⚠ \n\033[0m");
+                    printf("\033[1;31m ⚠ Falha ao limpar o ecrã ⚠ \n\n\033[0m");
 
                 Tabuleiro tab = {.linhas = size, .colunas = size};
                 generate(&tab);
@@ -58,7 +58,7 @@ int main()
                 if (carregarTabuleiro(&tabAtual, &tabIO, &hist, ficheiro))
                 {
                     if ((system("clear")))
-                        printf("\033[1;31m ⚠ failed to clean ⚠ \n\033[0m");
+                        printf("\033[1;31m ⚠ failed to clean ⚠ \n\n\033[0m");
                     mostrarTabuleiro(&tabAtual);
                     printf("\033[1;92m ✓ Tabuleiro carregado com sucesso. ✓\n\n\033[0m");
                     guardar_estado(&hist, &tabAtual);
@@ -81,7 +81,7 @@ int main()
             if (!loaded)
             {
                 if ((system("clear")))
-                    printf("\033[1;31m ⚠ failed to clean ⚠ \n\033[0m");
+                    printf("\033[1;31m ⚠ failed to clean ⚠ \n\n\033[0m");
                 printf("\033[1;31m ⚠ Carrega um tabuleiro! Usa: l <ficheiro> ⚠ \n\033[0m");
                 printf("\033[1;31m ⚠ Comando 's' para sair do programa. ⚠ \n\n\033[0m");
             }
@@ -93,14 +93,14 @@ int main()
         else if (loaded)
         {
             if ((system("clear")))
-                printf("\033[1;31m ⚠ failed to clean ⚠ \n\033[0m");
+                printf("\033[1;31m ⚠ failed to clean ⚠ \n\n\033[0m");
 
             if (cmd[0] == 'g')
             {
                 if (hist.topo == MAX_HISTORY)
                 {
                     mostrarTabuleiro(&tabAtual);
-                    printf("\033[1;31m ⚠ Aviso: Histórico cheio, não é possível guardar mais estados. ⚠ \n \n\033[0m");
+                    printf("\033[1;31m ⚠ Aviso: Histórico cheio, não é possível guardar mais estados. ⚠ \n\n\033[0m");
                 }
 
                 char ficheiro[256];
@@ -134,13 +134,13 @@ int main()
                     if (linha < 0 || linha >= tabAtual.linhas || coluna < 0 || coluna >= tabAtual.colunas)
                     {
                         mostrarTabuleiro(&tabAtual);
-                        printf("\033[1;31m ⚠ Coordenada inválida. ⚠ \n\033[0m");
+                        printf("\033[1;31m ⚠ Coordenada inválida. ⚠ \n\n\033[0m");
                     }
 
                     else if (tabAtual.grelha[linha][coluna] == '#' || isupper(tabAtual.grelha[linha][coluna]))
                     {
                         mostrarTabuleiro(&tabAtual);
-                        printf("\033[1;31m ⚠ Erro: Não é possível pintar uma posição que já está riscada. ⚠ \n\033[0m");
+                        printf("\033[1;31m ⚠ Erro: Não é possível pintar uma posição que já está riscada. ⚠ \n\n\033[0m");
                     }
 
                     else if (modificarTabuleiro(&tabAtual, &hist, cmd[0], coord))
@@ -150,7 +150,7 @@ int main()
                     else
                     {
                         mostrarTabuleiro(&tabAtual);
-                        printf("\033[1;31m ⚠ Erro ao modificar o tabuleiro.⚠ \n \n\033[0m");
+                        printf("\033[1;31m ⚠ Erro ao modificar o tabuleiro.⚠ \n\n\033[0m");
                     }
                 }
                 else
@@ -179,11 +179,11 @@ int main()
                 }
                 else if ((strlen(coord) < 2 || !isalpha(coord[0]) || !isdigit(coord[1])) && parsed == 2)
                 {
-                    printf("\033[1;31m ⚠ Coordenada inválida. ⚠ \n \n\033[0m");
+                    printf("\033[1;31m ⚠ Coordenada inválida. ⚠ \n\n\033[0m");
                 }
                 else if ((row < 0 || row >= tabAtual.linhas || col < 0 || col >= tabAtual.colunas) && parsed == 2)
                 {
-                    printf("\033[1;31m ⚠ Coordenada fora dos limites. ⚠ \n \n\033[0m");
+                    printf("\033[1;31m ⚠ Coordenada fora dos limites. ⚠ \n\n\033[0m");
                 }
                 else if (parsed == 2)
                 {
@@ -206,7 +206,7 @@ int main()
                 else
                 {
                     mostrarTabuleiro(&tabAtual);
-                    printf("\033[1;31m ⚠ Existem restrições violadas.⚠ \n \n\033[0m");
+                    printf("\033[1;31m ⚠ Existem restrições violadas.⚠ \n\n\033[0m");
                 }
             }
             else if (cmd[0] == 'D')
@@ -239,7 +239,7 @@ int main()
                 else
                 {
                     mostrarTabuleiro(&tabAtual);
-                    printf("\033[1;31m ⚠ Falhou, nao consegue resolver.... ⚠ \n \n\033[0m");
+                    printf("\033[1;31m ⚠ Falhou, nao consegue resolver.... ⚠ \n\n\033[0m");
                     sleep(1);
                 }
             }
@@ -263,7 +263,7 @@ int main()
                 {
                     if (loaded)
                         mostrarTabuleiro(&tabAtual);
-                    printf("\033[1;31m ⚠ Comando inválido. ⚠ \n \n\033[0m");
+                    printf("\033[1;31m ⚠ Comando inválido. ⚠ \n\n\033[0m");
                 }
             }
         }
@@ -273,7 +273,7 @@ int main()
             {
                 if (loaded)
                     mostrarTabuleiro(&tabAtual);
-                printf("\033[1;31m ⚠ Comando inválido. ⚠ \n \n\033[0m");
+                printf("\033[1;31m ⚠ Comando inválido. ⚠ \n\n\033[0m");
             }
         }
 
@@ -285,7 +285,7 @@ int main()
 
             char buffer[10];
             if (!fgets(buffer, sizeof(buffer), stdin))
-                printf("\033[1;31m ⚠ Erro ao ler comando.⚠ \n \n\033[0m");
+                printf("\033[1;31m ⚠ Erro ao ler comando.⚠ \n\n\033[0m");
 
             ganho = true;
         }
@@ -297,7 +297,7 @@ int main()
 
             if (!fgets(cmd, sizeof(cmd), stdin))
             {
-                printf("\033[1;31m ⚠ Erro ao ler comando.⚠ \n \n\033[0m");
+                printf("\033[1;31m ⚠ Erro ao ler comando.⚠ \n\n\033[0m");
                 a_correr = false;
             }
         }
