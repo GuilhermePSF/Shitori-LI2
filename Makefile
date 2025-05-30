@@ -68,13 +68,13 @@ testar: $(TEST_EXEC_SOLVER) $(TEST_EXEC_GAME) $(TEST_EXEC_IO) $(TEST_EXEC_BOARD)
 	$(TEST_EXEC_VERIFICA)
 
 cobertura: testar
-	echo "Capturando dados de cobertura com lcov..."
+	@echo "Capturando dados de cobertura com lcov..."
 	lcov --directory . --capture --output-file coverage.info
 	lcov --remove coverage.info '/usr/*' 'tests/*' --output-file coverage_filtered.info
-	echo "Gerando relatório HTML..."
+	@echo "Gerando relatório HTML..."
 	genhtml coverage_filtered.info --output-directory $(COVERAGE_DIR)
 	mv coverage.info coverage_filtered.info $(COVERAGE_DIR)
-	echo "Relatório disponível em $(COVERAGE_DIR)/index.html"
+	@echo "Relatório disponível em $(COVERAGE_DIR)/index.html"
 
 $(BIN_DIR):
 	@mkdir -p $@
