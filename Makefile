@@ -39,25 +39,25 @@ jogo: $(EXEC)
 
 # Compilar testes
 $(TEST_EXEC_TIP): $(SRC_NO_MAIN) $(TEST_DIR)/test_tip.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_GAME): $(SRC_NO_MAIN) $(TEST_DIR)/test_game.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_IO): $(SRC_NO_MAIN) $(TEST_DIR)/test_io.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_BOARD): $(SRC_NO_MAIN) $(TEST_DIR)/test_board.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_UNDO): $(SRC_NO_MAIN) $(TEST_DIR)/test_undo.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_VERIFICA): $(SRC_NO_MAIN) $(TEST_DIR)/test_verifica.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_SOLVER): $(SRC_NO_MAIN) $(TEST_DIR)/test_solver.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_GENERATE): $(SRC_NO_MAIN) $(TEST_DIR)/test_generate.c | $(BIN_DIR)
 	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
