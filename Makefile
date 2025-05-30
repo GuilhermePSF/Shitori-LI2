@@ -38,43 +38,43 @@ jogo: $(EXEC)
 
 # Compilar testes
 $(TEST_EXEC_TIP): $(SRC_NO_MAIN) $(TEST_DIR)/test_tip.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_GAME): $(SRC_NO_MAIN) $(TEST_DIR)/test_game.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_IO): $(SRC_NO_MAIN) $(TEST_DIR)/test_io.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_BOARD): $(SRC_NO_MAIN) $(TEST_DIR)/test_board.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_UNDO): $(SRC_NO_MAIN) $(TEST_DIR)/test_undo.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_VERIFICA): $(SRC_NO_MAIN) $(TEST_DIR)/test_verifica.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_SOLVER): $(SRC_NO_MAIN) $(TEST_DIR)/test_solver.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 testar: $(TEST_EXEC_SOLVER) $(TEST_EXEC_GAME) $(TEST_EXEC_IO) $(TEST_EXEC_BOARD) $(TEST_EXEC_TIP) $(TEST_EXEC_UNDO) $(TEST_EXEC_VERIFICA)
-	clear; $(TEST_EXEC_SOLVER)
-	clear; $(TEST_EXEC_TIP)
-	clear; $(TEST_EXEC_GAME)
-	clear; $(TEST_EXEC_IO)
-	clear; $(TEST_EXEC_BOARD)
-	clear; $(TEST_EXEC_UNDO)
-	clear; $(TEST_EXEC_VERIFICA)
+	$(TEST_EXEC_SOLVER)
+	$(TEST_EXEC_TIP)
+	$(TEST_EXEC_GAME)
+	$(TEST_EXEC_IO)
+	$(TEST_EXEC_BOARD)
+	$(TEST_EXEC_UNDO)
+	$(TEST_EXEC_VERIFICA)
 
 cobertura: testar
-	clear; echo "Capturando dados de cobertura com lcov..."
+	echo "Capturando dados de cobertura com lcov..."
 	lcov --directory . --capture --output-file coverage.info
 	lcov --remove coverage.info '/usr/*' 'tests/*' --output-file coverage_filtered.info
-	clear; echo "Gerando relatório HTML..."
+	echo "Gerando relatório HTML..."
 	genhtml coverage_filtered.info --output-directory $(COVERAGE_DIR)
 	mv coverage.info coverage_filtered.info $(COVERAGE_DIR)
-	clear; echo "Relatório disponível em $(COVERAGE_DIR)/index.html"
+	echo "Relatório disponível em $(COVERAGE_DIR)/index.html"
 
 $(BIN_DIR):
 	@mkdir -p $@
