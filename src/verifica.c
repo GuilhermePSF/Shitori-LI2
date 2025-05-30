@@ -66,7 +66,7 @@ bool verificarCelulasRiscadas(Tabuleiro *tabAtual)
 
     int dr[4] = {-1, 1, 0, 0};
     int dc[4] = {0, 0, -1, 1};
-    bool valido;
+    bool valido = true;
 
     for (int i = 0; i < linhas; i++)
     {
