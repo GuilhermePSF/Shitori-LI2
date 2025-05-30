@@ -198,14 +198,13 @@ int main()
             }
             else if (cmd[0] == 'v')
             {
+                mostrarTabuleiro(&tabAtual);
                 if (verificarRestricoes(&tabAtual))
                 {
-                    mostrarTabuleiro(&tabAtual);
                     printf("\033[1;92m ✓ Todas as restrições estão satisfeitas. ✓\n\n\033[0m");
                 }
                 else
                 {
-                    mostrarTabuleiro(&tabAtual);
                     printf("\033[1;31m ⚠ Existem restrições violadas.⚠ \n \n\033[0m");
                 }
             }
