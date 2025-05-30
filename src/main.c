@@ -42,7 +42,7 @@ int main()
                     printf("\033[1;31m ⚠ Falha ao limpar o ecrã ⚠ \n\n\033[0m");
 
                 Tabuleiro tab = {.linhas = size, .colunas = size};
-                generate(&tab);
+                generate(&tab, &tabIO);
                 mostrarTabuleiro(&tab);
                 guardar_estado(&hist, &tab);
                 copiar_tabuleiro_para(&tab, &tabAtual);
@@ -163,8 +163,6 @@ int main()
             {
                 char cmdChar;
                 char coord[50] = {0};
-                int col = tolower(coord[0]) - 'a';
-                int row = atoi(coord + 1) - 1;
                 int parsed = sscanf(cmd, " %c %49s", &cmdChar, coord);
 
                 if (hist.topo == 0)
@@ -177,18 +175,23 @@ int main()
                     desfazer(&hist, &tabAtual, &tabIO, NULL);
                     mostrarTabuleiro(&tabAtual);
                 }
-                else if ((strlen(coord) < 2 || !isalpha(coord[0]) || !isdigit(coord[1])) && parsed == 2)
-                {
-                    printf("\033[1;31m ⚠ Coordenada inválida. ⚠ \n\n\033[0m");
-                }
-                else if ((row < 0 || row >= tabAtual.linhas || col < 0 || col >= tabAtual.colunas) && parsed == 2)
-                {
-                    printf("\033[1;31m ⚠ Coordenada fora dos limites. ⚠ \n\n\033[0m");
-                }
                 else if (parsed == 2)
                 {
-                    desfazer(&hist, &tabAtual, &tabIO, coord);
-                    mostrarTabuleiro(&tabAtual);
+                    int col = tolower(coord[0]) - 'a';
+                    int row = atoi(coord + 1) - 1;
+                    if ((strlen(coord) < 2 || !isalpha(coord[0]) || !isdigit(coord[1])) && parsed == 2)
+                    {
+                        printf("\033[1;31m ⚠ Coordenada inválida. ⚠ \n\n\033[0m");
+                    }
+                    else if ((row < 0 || row >= tabAtual.linhas || col < 0 || col >= tabAtual.colunas) && parsed == 2)
+                    {
+                        printf("\033[1;31m ⚠ Coordenada fora dos limites. ⚠ \n\n\033[0m");
+                    }
+                    else
+                    {
+                        desfazer(&hist, &tabAtual, &tabIO, coord);
+                        mostrarTabuleiro(&tabAtual);
+                    }
                 }
                 else
                 {

@@ -83,7 +83,7 @@ bool ser_resolvivel(Tabuleiro *tab, int l, int c, char sub)
     return r;
 }
 
-bool generate(Tabuleiro *tab)
+bool generate(Tabuleiro *tab, Tabuleiro *tabIO)
 {
     Tabuleiro tabOriginal;
     bool stop_ciclo = false;
@@ -98,6 +98,7 @@ bool generate(Tabuleiro *tab)
         comando_A(&tabOriginal, NULL, &histTemp);
         stop_ciclo = solve(&tabOriginal, 0, 0, false);
     }
+    copiar_tabuleiro_para(tab,tabIO);
 }
 
 /* bool generate(Tabuleiro *tab, int l, int c)
