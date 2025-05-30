@@ -35,7 +35,7 @@ bool carregarTabuleiro(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, c
             return false;
         }
 
-        size_t lenLinha = strlen(tabAtual->grelha[i]);
+        int lenLinha = strlen(tabAtual->grelha[i]);
         if (lenLinha > 0 && tabAtual->grelha[i][lenLinha - 1] == '\n')
             tabAtual->grelha[i][lenLinha - 1] = '\0';
 

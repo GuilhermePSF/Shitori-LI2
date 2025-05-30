@@ -169,7 +169,7 @@ bool solve(Tabuleiro *tabAtual, int l, int c, bool modo)
     }
 }
 
-bool comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, bool modo)
+bool comando_R(Tabuleiro *tabAtual, Historico *hist, bool modo)
 {
     Tabuleiro tabOriginal = copiar_tabuleiro(&hist->estados[0]);
 
@@ -177,7 +177,7 @@ bool comando_R(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist, bool modo
     inicializar_historico(&histTemp);
 
     tecnicas_iniciais(&tabOriginal, &histTemp);
-    comando_A(&tabOriginal, tabIO, &histTemp);
+    comando_A(&tabOriginal, &histTemp);
     bool r = solve(&tabOriginal, 0, 0, modo);
 
     copiar_tabuleiro_para(&tabOriginal, tabAtual);

@@ -222,17 +222,17 @@ int main()
             }
             else if (cmd[0] == 'a')
             {
-                comando_a(&tabAtual, &tabIO, &hist);
+                comando_a(&tabAtual, &hist);
                 mostrarTabuleiro(&tabAtual);
             }
             else if (cmd[0] == 'A')
             {
-                comando_A(&tabAtual, &tabIO, &hist);
+                comando_A(&tabAtual, &hist);
                 mostrarTabuleiro(&tabAtual);
             }
             else if (cmd[0] == 'R')
             {
-                if (comando_R(&tabAtual, &tabIO, &hist, false))
+                if (comando_R(&tabAtual, &hist, false))
                 {
                     mostrarTabuleiro(&tabAtual);
                     printf("\033[1;92m ✓ RESOLVIDO COM SUCESSIUM! ✓\n\n\033[0m");
@@ -247,7 +247,7 @@ int main()
             }
             else if (cmd[0] == 'P')
             {
-                comando_R(&tabAtual, &tabIO, &hist, true);
+                comando_R(&tabAtual, &hist, true);
             }
             else if (cmd[0] == 't')
             {

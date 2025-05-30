@@ -11,8 +11,6 @@
 #include <string.h>
 #include <ctype.h>
 
-// TODO improve safety
-
 bool tem_riscado_adjacente_coord(const Tabuleiro *tabAtual, int linha, int coluna)
 {
     if (linha > 0 && tabAtual->grelha[linha - 1][coluna] == '#')
@@ -101,95 +99,46 @@ bool necessaria_para_conectividade(Tabuleiro *tabAtual, int linha, int coluna)
     return !conectada;
 }
 
-void comando_a(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
+void comando_a(Tabuleiro *tabAtual, Historico *hist)
 {
     for (int i = 0; i < tabAtual->linhas; i++)
     {
         for (int j = 0; j < tabAtual->colunas; j++)
         {
             char atual = tabAtual->grelha[i][j];
-            bool next = true;
 
-            while (next)
+            if (atual != '#' && !isupper(atual))
             {
-                bool fez_algo = false;
-
-                if (atual != '#' && !isupper(atual))
+                if (tem_riscado_adjacente_coord(tabAtual, i, j) && !(existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j)))
                 {
-                    if (!fez_algo && tem_riscado_adjacente_coord(tabAtual, i, j))
-                    {
-
-                        guardar_estado(hist, tabAtual);
-                        tabAtual->grelha[i][j] = toupper(atual);
-                        fez_algo = true;
-
-                        if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
-                        {
-                            desfazer(hist, tabAtual, tabIO, NULL);
-                        }
-                        else
-                        {
-                            next = false;
-                        }
-                    }
-
-                    if (!fez_algo && necessaria_para_conectividade(tabAtual, i, j))
-                    {
-
-                        guardar_estado(hist, tabAtual);
-                        tabAtual->grelha[i][j] = toupper(atual);
-                        fez_algo = true;
-
-                        if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
-                        {
-                            desfazer(hist, tabAtual, tabIO, NULL);
-                        }
-                        else
-                        {
-                            next = false;
-                        }
-                    }
-
-                    if (!fez_algo && existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
-                    {
-                        guardar_estado(hist, tabAtual);
-                        tabAtual->grelha[i][j] = '#';
-                        fez_algo = true;
-
-                        if (tem_riscado_adjacente(tabAtual) || !verificarConectividade(tabAtual, 's'))
-                        {
-                            desfazer(hist, tabAtual, tabIO, NULL);
-                        }
-                        else
-                        {
-                            next = false;
-                        }
-                    }
-
-                    if (!fez_algo)
-                    {
-                        next = false;
-                    }
-
-                    next = false;
+                    guardar_estado(hist, tabAtual);
+                    tabAtual->grelha[i][j] = toupper(atual);
                 }
-                else
+
+                else if (necessaria_para_conectividade(tabAtual, i, j) && !(existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j)))
                 {
-                    next = false;
+                    guardar_estado(hist, tabAtual);
+                    tabAtual->grelha[i][j] = toupper(atual);
+                }
+
+                else if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j) && !(tem_riscado_adjacente(tabAtual) || !verificarConectividade(tabAtual, 's')))
+                {
+                    guardar_estado(hist, tabAtual);
+                    tabAtual->grelha[i][j] = '#';
                 }
             }
         }
     }
 }
 
-void comando_A(Tabuleiro *tabAtual, Tabuleiro *tabIO, Historico *hist)
+void comando_A(Tabuleiro *tabAtual, Historico *hist)
 {
     bool continuar = true;
     int ant;
     while (continuar)
     {
         ant = hist->topo;
-        comando_a(tabAtual, tabIO, hist);
+        comando_a(tabAtual, hist);
         if (hist->topo == ant)
         {
             continuar = false;

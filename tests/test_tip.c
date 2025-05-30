@@ -20,7 +20,7 @@ void test_comando_a_sem_modificacoes(void)
     Tabuleiro tabIO = tabAtual;
     Historico hist = {0};
 
-    comando_a(&tabAtual, &tabIO, &hist);
+    comando_a(&tabAtual, &hist);
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "ABC");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "DEF");
@@ -43,7 +43,7 @@ void test_comando_a_com_tabuleiro5x5(void)
     Tabuleiro tabIO = tabAtual;
     Historico hist = {0};
     modificarTabuleiro(&tabAtual, &hist, 'r', "a1");
-    comando_a(&tabAtual, &tabIO, &hist);
+    comando_a(&tabAtual, &hist);
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "#Cad#");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "D#deC");
@@ -76,7 +76,7 @@ void test_comando_a_com_tabuleiro_12x12(void)
     Historico hist = {0};
 
     modificarTabuleiro(&tabAtual, &hist, 'r', "d7");
-    comando_a(&tabAtual, &tabIO, &hist);
+    comando_a(&tabAtual, &hist);
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "bbeegigldbch");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "cbfhefjaeijb");
@@ -118,7 +118,7 @@ void test_comando_a_com_tabuleiro_apos_riscar(void)
     modificarTabuleiro(&tabAtual, &hist, 'r', "a10");
     modificarTabuleiro(&tabAtual, &hist, 'r', "a12");
 
-    comando_a(&tabAtual, &tabIO, &hist);
+    comando_a(&tabAtual, &hist);
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "bbeegigldbch");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "cbfhefjaeijb");
@@ -148,7 +148,7 @@ void test_comando_A_sem_modificacoes(void)
     Tabuleiro tabIO = tabAtual;
     Historico hist = {0};
 
-    comando_A(&tabAtual, &tabIO, &hist);
+    comando_A(&tabAtual, &hist);
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "ABC");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "DEF");
@@ -171,7 +171,7 @@ void test_comando_A_com_tabuleiro5x5(void)
     Tabuleiro tabIO = tabAtual;
     Historico hist = {0};
 
-    comando_A(&tabAtual, &tabIO, &hist);
+    comando_A(&tabAtual, &hist);
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "E#ADC");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "DC#E#");
@@ -204,7 +204,7 @@ void test_comando_A_com_tabuleiro_12x12(void)
     Historico hist = {0};
 
     modificarTabuleiro(&tabAtual, &hist, 'r', "a10");
-    comando_A(&tabAtual, &tabIO, &hist);
+    comando_A(&tabAtual, &hist);
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "#BE#GI#LD#CH");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "C#FHE#JA#I#B");
@@ -246,7 +246,7 @@ void test_comando_A_com_tabuleiro_apos_riscar(void)
     modificarTabuleiro(&tabAtual, &hist, 'r', "a10");
     modificarTabuleiro(&tabAtual, &hist, 'r', "a12");
 
-    comando_A(&tabAtual, &tabIO, &hist);
+    comando_A(&tabAtual, &hist);
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "#BE#GI#LD#CH");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "C#FHE#JA#I#B");

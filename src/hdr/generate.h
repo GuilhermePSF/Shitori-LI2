@@ -11,6 +11,6 @@ void inicializarGerador(Tabuleiro *tab);
 
 bool ser_resolvivel(Tabuleiro *tab, int l, int c, char sub);
 
-bool generate(Tabuleiro *tab/*, int l, int c*/);
+void generate(Tabuleiro *tab, Tabuleiro *tabIO);
 
 #endif // GENERATE_H
