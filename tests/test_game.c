@@ -13,7 +13,7 @@ void test_modificarTabuleiro_pintardebranco(void)
             "abc",
             "def",
             "ghi"}};
-    Historico hist;
+    Historico hist = {0};
     bool resultado = modificarTabuleiro(&tabAtual, &hist, 'b', "b2");
     CU_ASSERT_TRUE(resultado);
     CU_ASSERT_EQUAL(tabAtual.grelha[1][1], 'E');
@@ -28,7 +28,7 @@ void test_modificarTabuleiro_risca(void)
             "abc",
             "def",
             "ghi"}};
-    Historico hist;
+    Historico hist = {0};
     bool resultado = modificarTabuleiro(&tabAtual, &hist, 'r', "c3");
     CU_ASSERT_TRUE(resultado);
     CU_ASSERT_EQUAL(tabAtual.grelha[2][2], '#');
@@ -37,7 +37,7 @@ void test_modificarTabuleiro_risca(void)
 void test_riscar_sem_tabuleiro(void)
 {
     Tabuleiro tabAtual = {0};
-    Historico hist;
+    Historico hist = {0};
     bool resultado = modificarTabuleiro(&tabAtual, &hist, 'r', "a1");
     CU_ASSERT_FALSE(resultado);
     CU_ASSERT_EQUAL(tabAtual.linhas, 0);
