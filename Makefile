@@ -25,13 +25,13 @@ TEST_EXEC_UNDO = $(BIN_DIR)/test_undo
 TEST_EXEC_VERIFICA = $(BIN_DIR)/test_verifica
 TEST_EXEC_SOLVER = $(BIN_DIR)/test_solver
 
-.PHONY: all jogo testar cobertura html-coverage limpa
+.PHONY: all jogo testar cobertura html-coverage complexidade limpa
 
 all: jogo
 
 # Compilar jogo
 $(EXEC): $(SRC) | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^
 
 jogo: $(EXEC)
 	clear; $(EXEC)
@@ -78,6 +78,16 @@ cobertura: testar
 
 $(BIN_DIR):
 	@mkdir -p $@
+
+complexidade:
+	@printf "Modified McCabe Cyclomatic Complexity\n"
+	@printf "|   Traditional McCabe Cyclomatic Complexity\n"
+	@printf "|       |    n Statements in function\n"
+	@printf "|       |       |   First line of function\n"
+	@printf "|       |       |       |   n lines in function\n"
+	@printf "|       |       |       |       |  filename(definition line number):function\n"
+	@printf "|       |       |       |       |       |\n"
+	@pmccabe $(SRC)
 
 limpa:
 	clear; rm -rf $(BIN_DIR) *.gcno *.gcda $(COVERAGE_DIR)
