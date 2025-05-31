@@ -24,6 +24,7 @@ TEST_EXEC_BOARD = $(BIN_DIR)/test_board
 TEST_EXEC_UNDO = $(BIN_DIR)/test_undo
 TEST_EXEC_VERIFICA = $(BIN_DIR)/test_verifica
 TEST_EXEC_SOLVER = $(BIN_DIR)/test_solver
+TEST_EXEC_GENERATE = $(BIN_DIR)/test_generate
 
 .PHONY: all jogo testar cobertura html-coverage limpa
 
@@ -58,7 +59,10 @@ $(TEST_EXEC_VERIFICA): $(SRC_NO_MAIN) $(TEST_DIR)/test_verifica.c | $(BIN_DIR)
 $(TEST_EXEC_SOLVER): $(SRC_NO_MAIN) $(TEST_DIR)/test_solver.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-testar: $(TEST_EXEC_SOLVER) $(TEST_EXEC_GAME) $(TEST_EXEC_IO) $(TEST_EXEC_BOARD) $(TEST_EXEC_TIP) $(TEST_EXEC_UNDO) $(TEST_EXEC_VERIFICA)
+$(TEST_EXEC_GENERATE): $(SRC_NO_MAIN) $(TEST_DIR)/test_generate.c | $(BIN_DIR)
+	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+testar: $(TEST_EXEC_SOLVER) $(TEST_EXEC_GAME) $(TEST_EXEC_IO) $(TEST_EXEC_BOARD) $(TEST_EXEC_TIP) $(TEST_EXEC_UNDO) $(TEST_EXEC_VERIFICA) $(TEST_EXEC_GENERATE)
 	$(TEST_EXEC_SOLVER)
 	$(TEST_EXEC_TIP)
 	$(TEST_EXEC_GAME)
@@ -66,6 +70,7 @@ testar: $(TEST_EXEC_SOLVER) $(TEST_EXEC_GAME) $(TEST_EXEC_IO) $(TEST_EXEC_BOARD)
 	$(TEST_EXEC_BOARD)
 	$(TEST_EXEC_UNDO)
 	$(TEST_EXEC_VERIFICA)
+	$(TEST_EXEC_GENERATE)
 
 cobertura: testar
 	echo "Capturando dados de cobertura com lcov..."
