@@ -9,6 +9,7 @@
 #include "io.h"
 #include "game.h"
 #include "undo.h"
+#include "generate.h"
 
 void test_random_letra_minuscula(void) {
     srand(0);  
@@ -46,7 +47,6 @@ void test_preencherGerador(void) {
     }
 }
 
-
 void test_valida_quatro(void) {
     Tabuleiro tab;
     tab.linhas = 4;
@@ -57,10 +57,9 @@ void test_valida_quatro(void) {
     tab.grelha[1][2] = 'b';
     tab.grelha[2][2] = 'b';
 
-    // Agora vamos testar a posição (3, 2), que está na coluna com 3 letras 'b'
-    CU_ASSERT_FALSE(valida_quatro(&tab, 3, 2, 'b'));
+    CU_ASSERT_FALSE(valida_quatro(&tab, 3, 2, 'b')); 
+    CU_ASSERT_TRUE(valida_quatro(&tab, 3, 2, 'c')); 
 }
-
 
 void test_ser_resolvivel(void) {
     Tabuleiro tab;
@@ -72,22 +71,20 @@ void test_ser_resolvivel(void) {
     CU_ASSERT_TRUE(ser_resolvivel(&tab, 1, 1, 'a')); 
 }
 
-bool test_generate(void) {
+void test_generate(void) {
     Tabuleiro tab;
+    Tabuleiro tabIO;
     tab.linhas = 4;
     tab.colunas = 4;
 
-    generate(&tab);
+    generate(&tab, &tabIO);
 
     for (int i = 0; i < tab.linhas; i++) {
         for (int j = 0; j < tab.colunas; j++) {
-            CU_ASSERT_TRUE(tab.grelha[i][j] >= 'a' && tab.grelha[i][j] <= 'z');
-
-    
+            CU_ASSERT_TRUE(tabIO.grelha[i][j] >= 'a' && tabIO.grelha[i][j] <= 'z');
         }
     }
 }
-
 
 int main()
 {
