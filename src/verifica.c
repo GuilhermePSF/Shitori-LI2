@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include "verifica.h"
 
-bool verificarLinhas(Tabuleiro *tabAtual)
+bool verificarLinhas(Tabuleiro *tabAtual, bool mostrarViolacoes)
 {
     int linhas = tabAtual->linhas;
     int cols = tabAtual->colunas;
@@ -20,8 +20,10 @@ bool verificarLinhas(Tabuleiro *tabAtual)
                 int idx = c - 'A';
                 if (seen[idx])
                 {
-                    char col_label = 'a' + j;
-                    printf("\033[1;33m 💡 Violação: letra '%c' repetida na linha %d, coluna %c 💡\n\n\033[0m", c, i + 1, col_label);
+                    if (mostrarViolacoes) {
+                        char col_label = 'a' + j;
+                        printf("\033[1;33m 💡 Violação: letra '%c' repetida na linha %d, coluna %c 💡\n\n\033[0m", c, i + 1, col_label);
+                    }
                     return false;
                 }
                 seen[idx] = true;
@@ -32,7 +34,7 @@ bool verificarLinhas(Tabuleiro *tabAtual)
     return true;
 }
 
-bool verificarColunas(Tabuleiro *tabAtual)
+bool verificarColunas(Tabuleiro *tabAtual, bool mostrarViolacoes)
 {
     int linhas = tabAtual->linhas;
     int cols = tabAtual->colunas;
@@ -48,8 +50,10 @@ bool verificarColunas(Tabuleiro *tabAtual)
                 int idx = c - 'A';
                 if (seen[idx])
                 {
-                    char col_label = 'a' + j;
-                    printf("\033[1;33m 💡 Violação: letra '%c' repetida na coluna %c, linha %d 💡\n\n\033[0m", c, col_label, i + 1);
+                    if (mostrarViolacoes) {
+                        char col_label = 'a' + j;
+                        printf("\033[1;33m 💡 Violação: letra '%c' repetida na coluna %c, linha %d 💡\n\n\033[0m", c, col_label, i + 1);
+                    }
                     return false;
                 }
                 seen[idx] = true;
@@ -60,7 +64,7 @@ bool verificarColunas(Tabuleiro *tabAtual)
     return true;
 }
 
-bool verificarCelulasRiscadas(Tabuleiro *tabAtual)
+bool verificarCelulasRiscadas(Tabuleiro *tabAtual, bool mostrarViolacoes)
 {
     int linhas = tabAtual->linhas;
     int cols = tabAtual->colunas;
@@ -86,10 +90,12 @@ bool verificarCelulasRiscadas(Tabuleiro *tabAtual)
                         char nb = tabAtual->grelha[ni][nj];
                         if (!(isupper(nb)))
                         {
-                            char neigh_col = 'a' + nj;
-                            int neigh_linha = ni + 1;
-                            printf("\033[1;33m 💡 Violação: célula riscada em %c%d tem vizinho inválido em %c%d: '%c' 💡\n\n\033[0m",
-                                   self_col, self_linha, neigh_col, neigh_linha, nb);
+                            if (mostrarViolacoes) {
+                                char neigh_col = 'a' + nj;
+                                int neigh_linha = ni + 1;
+                                printf("\033[1;33m 💡 Violação: célula riscada em %c%d tem vizinho inválido em %c%d: '%c' 💡\n\n\033[0m",
+                                       self_col, self_linha, neigh_col, neigh_linha, nb);
+                            }
                             valido = false;
                         }
                     }
@@ -201,28 +207,29 @@ bool verificarConectividade(Tabuleiro *tabAtual, char modo)
 
     if (visitados != total_nao_riscadas)
     {
-        if (modo == 'w')
+        if (modo == 'w') {
             printf("\033[1;33m 💡 Violação: nem todas as casas não riscadas estão conectadas (visitadas %d, esperadas %d) 💡\n\n\033[0m", visitados, total_nao_riscadas);
+        }
         return false;
     }
 
     return true;
 }
 
-bool verificarRestricoes(Tabuleiro *tabAtual)
+bool verificarRestricoes(Tabuleiro *tabAtual, bool mostrarViolacoes)
 {
     int ok = true;
 
-    if (!verificarLinhas(tabAtual))
+    if (!verificarLinhas(tabAtual, mostrarViolacoes))
         ok = false;
 
-    if (!verificarColunas(tabAtual))
+    if (!verificarColunas(tabAtual, mostrarViolacoes))
         ok = false;
 
-    if (!verificarCelulasRiscadas(tabAtual))
+    if (!verificarCelulasRiscadas(tabAtual, mostrarViolacoes))
         ok = false;
 
-    if (!verificarConectividade(tabAtual, 'w'))
+    if (!verificarConectividade(tabAtual, mostrarViolacoes ? 'w' : 's'))
         ok = false;
 
     return ok;

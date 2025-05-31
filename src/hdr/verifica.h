@@ -10,6 +10,6 @@ typedef struct
 } Coord;
 
 bool verificarConectividade(Tabuleiro *tabAtual, char modo);
-bool verificarRestricoes(Tabuleiro *tabAtual);
+bool verificarRestricoes(Tabuleiro *tabAtual, bool mostrarViolacoes);
 
 #endif // VERIFICA_H
