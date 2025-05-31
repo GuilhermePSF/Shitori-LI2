@@ -213,11 +213,8 @@ int main()
             }
             else if (cmd[0] == 'D')
             {
-                bool continuar = true;
-                while (continuar)
-                {
-                    continuar = desfazer(&hist, &tabAtual, &tabIO, NULL);
-                }
+                hist.topo = 0;
+                copiar_tabuleiro_para(&tabIO, &tabAtual);
                 mostrarTabuleiro(&tabAtual);
             }
             else if (cmd[0] == 'a')
@@ -279,7 +276,7 @@ int main()
             }
         }
 
-        if (loaded && ganhou(&tabAtual) && !system("clear"))
+        /*if (loaded && ganhou(&tabAtual) && !system("clear"))
         {
             mostrarTabuleiro(&tabAtual);
             sleep(1);
@@ -287,10 +284,44 @@ int main()
 
             char buffer[10];
             if (!fgets(buffer, sizeof(buffer), stdin))
+            {
                 printf("\033[1;31m ⚠ Erro ao ler comando.⚠ \n\n\033[0m");
+                a_correr = false;
+            }
+            else
+            {
+                buffer[strcspn(buffer, "\n")] = 0;
+
+                if (strcmp(buffer, "d") == 0)
+                {
+                    if (hist.topo == 0)
+                    {
+                        mostrarTabuleiro(&tabAtual);
+                        printf("\033[1;92m ✓ Não há movimentos para desfazer. ✓\n\n\033[0m");
+                    }
+                    else
+                    {
+                        desfazer(&hist, &tabAtual, &tabIO, NULL);
+                        mostrarTabuleiro(&tabAtual);
+                    }
+                }
+                else if (strcmp(buffer, "D") == 0)
+                {
+                    bool continuar = true;
+                    while (continuar)
+                    {
+                        continuar = desfazer(&hist, &tabAtual, &tabIO, NULL);
+                    }
+                    mostrarTabuleiro(&tabAtual);
+                }
+                else
+                {
+                    a_correr = false;
+                }
+            }
 
             ganho = true;
-        }
+        }*/
 
         jogado = true;
         if (a_correr && !ganho)
