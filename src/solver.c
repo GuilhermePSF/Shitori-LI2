@@ -71,33 +71,20 @@ void tecnicas_iniciais(Tabuleiro *tabAtual, Historico *hist) // cccac
             char atual = tabAtual->grelha[i][j];
             if (islower(atual))
             {
-                if (!existe_igual_na_linha_ou_coluna(tabAtual, i, j))
+                if (!existe_igual_na_linha_ou_coluna(tabAtual, i, j) && !existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
                 {
                     guardar_estado(hist, tabAtual);
                     tabAtual->grelha[i][j] = toupper(atual);
-                    if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
-                    {
-                        desfazer(hist, tabAtual, NULL, NULL);
-                    }
                 }
-                if (regras1ou2(tabAtual, i, j))
+                if (regras1ou2(tabAtual, i, j) && !existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
                 {
                     guardar_estado(hist, tabAtual);
                     tabAtual->grelha[i][j] = toupper(atual);
-                    if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j))
-                    {
-                        desfazer(hist, tabAtual, NULL, NULL);
-                    }
                 }
-                if (regra3_horizontal(tabAtual, i, j) || regra3_vertical(tabAtual, i, j))
+                if (regra3_horizontal(tabAtual, i, j) || regra3_vertical(tabAtual, i, j) && !(tem_riscado_adjacente_coord(tabAtual, i, j) || necessaria_para_conectividade(tabAtual, i, j)))
                 {
                     guardar_estado(hist, tabAtual);
                     tabAtual->grelha[i][j] = '#';
-
-                    if (tem_riscado_adjacente(tabAtual) || !verificarConectividade(tabAtual, 's'))
-                    {
-                        desfazer(hist, tabAtual, NULL, NULL);
-                    }
                 }
             }
         }

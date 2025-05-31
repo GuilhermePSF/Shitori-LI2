@@ -121,15 +121,10 @@ void comando_a(Tabuleiro *tabAtual, Historico *hist)
                     tabAtual->grelha[i][j] = toupper(atual);
                 }
 
-                else if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j) && !(tem_riscado_adjacente_coord(tabAtual, i, j)))
+                else if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j) && !(tem_riscado_adjacente_coord(tabAtual, i, j) || necessaria_para_conectividade(tabAtual, i, j)))
                 {
                     char original = tabAtual->grelha[i][j];
                     tabAtual->grelha[i][j] = '#';
-
-                    if (!verificarConectividade(tabAtual, 's'))
-                        tabAtual->grelha[i][j] = original;
-                    else
-                        guardar_estado(hist, tabAtual);
                 }
             }
         }
