@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include "generate.h"
 #include "board.h"
 #include "io.h"
 #include "game.h"
@@ -77,7 +78,11 @@ bool test_generate(void) {
     tab.linhas = 4;
     tab.colunas = 4;
 
-    generate(&tab);
+    Tabuleiro tabIO;
+    tabIO.linhas = 4;
+    tabIO.colunas = 4;
+
+    generate(&tab, &tabIO);
 
     for (int i = 0; i < tab.linhas; i++) {
         for (int j = 0; j < tab.colunas; j++) {

@@ -26,13 +26,13 @@ TEST_EXEC_VERIFICA = $(BIN_DIR)/test_verifica
 TEST_EXEC_SOLVER = $(BIN_DIR)/test_solver
 TEST_EXEC_GENERATE = $(BIN_DIR)/test_generate
 
-.PHONY: all jogo testar cobertura html-coverage limpa
+.PHONY: all jogo testar cobertura html-coverage complexidade limpa
 
 all: jogo
 
 # Compilar jogo
 $(EXEC): $(SRC) | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^
 
 jogo: $(EXEC)
 	clear; $(EXEC)
@@ -60,7 +60,7 @@ $(TEST_EXEC_SOLVER): $(SRC_NO_MAIN) $(TEST_DIR)/test_solver.c | $(BIN_DIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC_GENERATE): $(SRC_NO_MAIN) $(TEST_DIR)/test_generate.c | $(BIN_DIR)
-	clear; $(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 testar: $(TEST_EXEC_SOLVER) $(TEST_EXEC_GAME) $(TEST_EXEC_IO) $(TEST_EXEC_BOARD) $(TEST_EXEC_TIP) $(TEST_EXEC_UNDO) $(TEST_EXEC_VERIFICA) $(TEST_EXEC_GENERATE)
 	$(TEST_EXEC_SOLVER)
@@ -73,16 +73,26 @@ testar: $(TEST_EXEC_SOLVER) $(TEST_EXEC_GAME) $(TEST_EXEC_IO) $(TEST_EXEC_BOARD)
 	$(TEST_EXEC_GENERATE)
 
 cobertura: testar
-	echo "Capturando dados de cobertura com lcov..."
+	@echo "Capturando dados de cobertura com lcov..."
 	lcov --directory . --capture --output-file coverage.info
 	lcov --remove coverage.info '/usr/*' 'tests/*' --output-file coverage_filtered.info
-	echo "Gerando relatório HTML..."
+	@echo "Gerando relatório HTML..."
 	genhtml coverage_filtered.info --output-directory $(COVERAGE_DIR)
 	mv coverage.info coverage_filtered.info $(COVERAGE_DIR)
-	echo "Relatório disponível em $(COVERAGE_DIR)/index.html"
+	@echo "Relatório disponível em $(COVERAGE_DIR)/index.html"
 
 $(BIN_DIR):
 	@mkdir -p $@
+
+complexidade:
+	@printf "Modified McCabe Cyclomatic Complexity\n"
+	@printf "|   Traditional McCabe Cyclomatic Complexity\n"
+	@printf "|       |    n Statements in function\n"
+	@printf "|       |       |   First line of function\n"
+	@printf "|       |       |       |   n lines in function\n"
+	@printf "|       |       |       |       |  filename(definition line number):function\n"
+	@printf "|       |       |       |       |       |\n"
+	@pmccabe $(SRC)
 
 limpa:
 	clear; rm -rf $(BIN_DIR) *.gcno *.gcda $(COVERAGE_DIR)

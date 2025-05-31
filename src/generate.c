@@ -77,13 +77,13 @@ bool ser_resolvivel(Tabuleiro *tab, int l, int c, char sub)
     tab->grelha[l][c] = sub;
 
     tecnicas_iniciais(&tabOriginal, &histTemp);
-    comando_A(&tabOriginal, NULL, &histTemp);
+    comando_A(&tabOriginal, &histTemp);
     bool r = solve(&tabOriginal, 0, 0, false);
 
     return r;
 }
 
-bool generate(Tabuleiro *tab, Tabuleiro *tabIO)
+void generate(Tabuleiro *tab, Tabuleiro *tabIO)
 {
     Tabuleiro tabOriginal;
     bool stop_ciclo = false;
@@ -95,10 +95,10 @@ bool generate(Tabuleiro *tab, Tabuleiro *tabIO)
         inicializar_historico(&histTemp);
         tabOriginal = copiar_tabuleiro(tab);
         tecnicas_iniciais(&tabOriginal, &histTemp);
-        comando_A(&tabOriginal, NULL, &histTemp);
+        comando_A(&tabOriginal, &histTemp);
         stop_ciclo = solve(&tabOriginal, 0, 0, false);
     }
-    copiar_tabuleiro_para(tab,tabIO);
+    copiar_tabuleiro_para(tab, tabIO);
 }
 
 /* bool generate(Tabuleiro *tab, int l, int c)

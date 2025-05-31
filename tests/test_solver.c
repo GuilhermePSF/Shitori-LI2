@@ -23,13 +23,10 @@ void test_comando_R_simples_12x12(void)
             "bldehgeffkac",
             "hcbklckcggjg",
             "kgiglfehcbdl",
-            "dihjfkhbicge"
-        }
-    };
-    Tabuleiro tabIO = tabAtual;
+            "dihjfkhbicge"}};
     Historico hist = {0};
     guardar_estado(&hist, &tabAtual);
-    comando_R(&tabAtual, &tabIO, &hist, 'A');
+    comando_R(&tabAtual, &hist, 'A');
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "#BE#GI#LD#CH");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "C#FHE#JA#I#B");
@@ -63,13 +60,10 @@ void test_comando_R_tabuleiro_maisculas(void)
             "bldehgeffkac",
             "hcbklckcggjg",
             "kgiglfehcbdl",
-            "dihjfkhbicge"
-        }
-    };
-    Tabuleiro tabIO = tabAtual;
+            "dihjfkhbicge"}};
     Historico hist = {0};
-    guardar_estado (&hist,&tabAtual);
-    comando_R(&tabAtual, &tabIO, &hist, 'A');
+    guardar_estado(&hist, &tabAtual);
+    comando_R(&tabAtual, &hist, 'A');
     CU_ASSERT_PTR_NOT_NULL(tabAtual.grelha);
     CU_ASSERT_FALSE(ganhou(&tabAtual));
 }
@@ -101,7 +95,7 @@ void test_comando_R_com_modificacoes_12x12(void)
     modificarTabuleiro(&tabAtual, &hist, 'r', "i1");  
     desfazer (&hist, &tabAtual, &tabIO, NULL);
 
-    comando_R(&tabAtual, &tabIO, &hist, 'A');
+    comando_R(&tabAtual, &hist, 'A');
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "#BE#GI#LD#CH");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "C#FHE#JA#I#B");
@@ -118,7 +112,8 @@ void test_comando_R_com_modificacoes_12x12(void)
     CU_ASSERT_TRUE(ganhou(&tabAtual));
 }
 
-void test_comando_R_com_tabuleiro_sem_solucao(void) {
+void test_comando_R_com_tabuleiro_sem_solucao(void)
+{
     Tabuleiro tabAtual = {
         .linhas = 10,
         .colunas = 10,
@@ -132,17 +127,15 @@ void test_comando_R_com_tabuleiro_sem_solucao(void) {
             "eickkjaile",
             "heabbdekgl",
             "bldehgffkc",
-            "hcbklcgcgj"
-        }
-    };
-    Tabuleiro tabIO = tabAtual;
+            "hcbklcgcgj"}};
     Historico hist = {0};
     guardar_estado(&hist, &tabAtual);
-    comando_R(&tabAtual, &tabIO, &hist, 'A');
+    comando_R(&tabAtual, &hist, 'A');
     CU_ASSERT_FALSE(ganhou(&tabAtual));
 }
 
-void test_comando_R_com_tabuleiro_20x20(void) {
+void test_comando_R_com_tabuleiro_20x20(void)
+{
     Tabuleiro tabAtual = {
         .linhas = 20,
         .colunas = 20,
@@ -166,16 +159,13 @@ void test_comando_R_com_tabuleiro_20x20(void) {
             "mqscjdklpaffchjnerin",
             "fngsmhrclobafeckeijo",
             "oempnnbrckhsibadfqqj",
-            "rjtrldomkeqpsdacpkdp"
-        }
-    };
-    Tabuleiro tabIO = tabAtual;
+            "rjtrldomkeqpsdacpkdp"}};
     Historico hist = {0};
-    modificarTabuleiro(&tabAtual, &hist, 'b', "a10"); 
-    modificarTabuleiro(&tabAtual, &hist, 'r', "f7");  
-    modificarTabuleiro(&tabAtual, &hist, 'b', "c15"); 
-    modificarTabuleiro(&tabAtual, &hist, 'r', "i1"); 
-    comando_R(&tabAtual, &tabIO, &hist, 'A');
+    modificarTabuleiro(&tabAtual, &hist, 'b', "a10");
+    modificarTabuleiro(&tabAtual, &hist, 'r', "f7");
+    modificarTabuleiro(&tabAtual, &hist, 'b', "c15");
+    modificarTabuleiro(&tabAtual, &hist, 'r', "i1");
+    comando_R(&tabAtual, &hist, 'A');
 
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "QBN#TJM#F#KD#PHO#ALR");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "L#DHCT#IONQ#J#GBRSP#");
