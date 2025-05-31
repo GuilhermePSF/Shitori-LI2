@@ -282,7 +282,7 @@ int main()
         if (loaded && ganhou(&tabAtual) && !system("clear"))
         {
             mostrarTabuleiro(&tabAtual);
-            sleep(2);
+            sleep(1);
             printf("Pressione Enter para continuar...\n");
 
             char buffer[10];

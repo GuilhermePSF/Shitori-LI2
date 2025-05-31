@@ -109,7 +109,7 @@ void comando_a(Tabuleiro *tabAtual, Historico *hist)
 
             if (atual != '#' && !isupper(atual))
             {
-                if (tem_riscado_adjacente_coord(tabAtual, i, j) && !(existe_igual_na_linha_ou_coluna(tabAtual, i, j)))
+                if (tem_riscado_adjacente_coord(tabAtual, i, j) && !(existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j)))
                 {
                     guardar_estado(hist, tabAtual);
                     tabAtual->grelha[i][j] = toupper(atual);
