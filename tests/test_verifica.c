@@ -95,23 +95,3 @@ void test_verificarRestricoes_regra4(void)
     bool resultado = verificarRestricoes(&tabAtual);
     CU_ASSERT_FALSE(resultado); 
 }
-
-int main()
-{
-    CU_initialize_registry();
-
-    CU_pSuite suite = CU_add_suite("Testes_VerificarRestricoes", NULL, NULL);
-
-    CU_add_test(suite, "Tabuleiro válido", test_verificarRestricoes_valido);
-    CU_add_test(suite, "Violação da Regra 1", test_verificarRestricoes_regra1);
-    CU_add_test(suite, "Violação da Regra 2", test_verificarRestricoes_regra2);
-    CU_add_test(suite, "Violação da Regra 3", test_verificarRestricoes_regra3);
-    CU_add_test(suite, "Célula riscada com vizinhos válidos", test_verificarRestricoes_riscada_valida);
-    CU_add_test(suite, "Violação da Regra 4", test_verificarRestricoes_regra4);
-    
-    CU_basic_set_mode(CU_BRM_VERBOSE);
-    CU_basic_run_tests();
-    CU_cleanup_registry();
-
-    return 0;
-}

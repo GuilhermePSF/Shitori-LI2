@@ -1,5 +1,3 @@
-#include <CUnit/CUnit.h>
-#include <CUnit/Basic.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -111,20 +109,4 @@ void test_centrarLabel(void)
     buffer[len] = '\0';
     fclose(file);
     CU_ASSERT_STRING_EQUAL(buffer, "          "); 
-}
-
-int main()
-{
-    CU_initialize_registry();
-    CU_pSuite suite = CU_add_suite("Testes_Tabuleiro", NULL, NULL);
-
-    CU_add_test(suite, "Mostrar tabuleiro sem mudanças", test_mostrarTabuleiro_sem_mudancas);
-    CU_add_test(suite, "Mostrar tabuleiro com mudanças", test_mostrarTabuleiro_com_mudancas);
-    CU_add_test(suite, "Centrar Label", test_centrarLabel);
-
-    CU_basic_set_mode(CU_BRM_VERBOSE);
-    CU_basic_run_tests();
-    CU_cleanup_registry();
-
-    return 0;
 }

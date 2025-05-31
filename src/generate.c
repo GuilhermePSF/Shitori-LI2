@@ -42,6 +42,7 @@ void preencherGerador(Tabuleiro *tab)
     }
 }
 
+/*
 bool valida_quatro(Tabuleiro *tab, int l, int c, char letra)
 {
     int count = 0;
@@ -66,6 +67,7 @@ bool valida_quatro(Tabuleiro *tab, int l, int c, char letra)
 
     return true;
 }
+*/
 
 bool ser_resolvivel(Tabuleiro *tab, int l, int c, char sub)
 {

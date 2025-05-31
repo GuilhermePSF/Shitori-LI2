@@ -47,7 +47,7 @@ void test_preencherGerador(void) {
     }
 }
 
-
+/*
 void test_valida_quatro(void) {
     Tabuleiro tab;
     tab.linhas = 4;
@@ -61,6 +61,7 @@ void test_valida_quatro(void) {
     // Agora vamos testar a posição (3, 2), que está na coluna com 3 letras 'b'
     CU_ASSERT_FALSE(valida_quatro(&tab, 3, 2, 'b'));
 }
+*/
 
 
 void test_ser_resolvivel(void) {
@@ -73,7 +74,7 @@ void test_ser_resolvivel(void) {
     CU_ASSERT_TRUE(ser_resolvivel(&tab, 1, 1, 'a')); 
 }
 
-bool test_generate(void) {
+void test_generate(void) {
     Tabuleiro tab;
     tab.linhas = 4;
     tab.colunas = 4;
@@ -91,24 +92,4 @@ bool test_generate(void) {
     
         }
     }
-}
-
-
-int main()
-{
-    CU_initialize_registry();
-    CU_pSuite suite = CU_add_suite("Testes_Generate", NULL, NULL);
-
-    CU_add_test(suite, "Random letra minuscula", test_random_letra_minuscula);
-    CU_add_test(suite, "Inicializar gerador", test_inicializarGerador);
-    CU_add_test(suite, "Preencher gerador", test_preencherGerador);
-    CU_add_test(suite, "Valida quatro", test_valida_quatro);
-    CU_add_test(suite, "Ser resolvível", test_ser_resolvivel);
-    CU_add_test(suite, "Generate Tabuleiro", test_generate);
-
-    CU_basic_set_mode(CU_BRM_VERBOSE);
-    CU_basic_run_tests();
-    CU_cleanup_registry();
-
-    return 0;
 }

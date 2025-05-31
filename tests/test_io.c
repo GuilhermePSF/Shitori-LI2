@@ -140,24 +140,3 @@ void test_gravar_falha_abrir_ficheiro(void)
     CU_ASSERT_FALSE(gravarTabuleiro(&t, "/root/saida.txt"));
 
 }
-
-int main()
-{
-    CU_initialize_registry();
-    CU_pSuite suite = CU_add_suite("Testes_IO", NULL, NULL);
-
-    CU_add_test(suite, "Carregar ficheiro existente", test_carregarTabuleiro_ficheiro_existente);
-    CU_add_test(suite, "Carregar ficheiro inexistente", test_carregar_ficheiro_inexistente);
-    CU_add_test(suite, "Carregar ficheiro com formato inválido", test_carregarTabuleiro_invalido);
-    CU_add_test(suite, "Gravar sem carregar", test_gravar_sem_carregar);
-    CU_add_test(suite, "Gravar com mudanças", test_gravar_com_mudancas);
-    CU_add_test(suite, "Nome de ficheiro muito longo", test_nome_ficheiro_muito_longo);
-    CU_add_test(suite, "Falha na leitura de linha com fgets", test_fgets_falha);
-    CU_add_test(suite, "Linha com tamanho errado", test_linha_tamanho_errado);
-    CU_add_test(suite, "Falha ao abrir ficheiro para gravar", test_gravar_falha_abrir_ficheiro);
-
-    CU_basic_set_mode(CU_BRM_VERBOSE);
-    CU_basic_run_tests();
-    CU_cleanup_registry();
-    return 0;
-}
