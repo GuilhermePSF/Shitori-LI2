@@ -109,22 +109,27 @@ void comando_a(Tabuleiro *tabAtual, Historico *hist)
 
             if (atual != '#' && !isupper(atual))
             {
-                if (tem_riscado_adjacente_coord(tabAtual, i, j) && !(existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j)))
+                if (tem_riscado_adjacente_coord(tabAtual, i, j) && !(existe_igual_na_linha_ou_coluna(tabAtual, i, j)))
                 {
                     guardar_estado(hist, tabAtual);
                     tabAtual->grelha[i][j] = toupper(atual);
                 }
 
-                else if (necessaria_para_conectividade(tabAtual, i, j) && !(existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j)))
+                else if (necessaria_para_conectividade(tabAtual, i, j) && !(existe_igual_na_linha_ou_coluna(tabAtual, i, j)))
                 {
                     guardar_estado(hist, tabAtual);
                     tabAtual->grelha[i][j] = toupper(atual);
                 }
 
-                else if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j) && !(tem_riscado_adjacente(tabAtual) || !verificarConectividade(tabAtual, 's')))
+                else if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j) && !(tem_riscado_adjacente_coord(tabAtual, i, j)))
                 {
-                    guardar_estado(hist, tabAtual);
+                    char original = tabAtual->grelha[i][j];
                     tabAtual->grelha[i][j] = '#';
+
+                    if (!verificarConectividade(tabAtual, 's'))
+                        tabAtual->grelha[i][j] = original;
+                    else
+                        guardar_estado(hist, tabAtual);
                 }
             }
         }
