@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "board.h"
 
-// Função auxiliar para remover sequências ANSI
 void remover_ansi(char *dest, const char *src) {
     while (*src) {
         if (*src == '\033') {

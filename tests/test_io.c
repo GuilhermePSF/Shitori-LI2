@@ -24,7 +24,7 @@ void test_carregarTabuleiro_invalido(void)
 {
     FILE *f = fopen("boards/tabuleiroerrado.txt", "w");
     if (f) {
-        fprintf(f, "abc def\n"); // dimensões inválidas
+        fprintf(f, "abc def\n");
         fclose(f);
     }
 
@@ -90,7 +90,6 @@ void test_gravar_com_mudancas(void)
     }
 }
 
-// Teste: caminho muito longo (snprintf falha)
 void test_nome_ficheiro_muito_longo(void)
 {
     char nome[600];
@@ -104,12 +103,11 @@ void test_nome_ficheiro_muito_longo(void)
     CU_ASSERT_FALSE(gravarTabuleiro(&t, nome));
 }
 
-// Teste: fgets falha ao ler linha
 void test_fgets_falha(void)
 {
     FILE *f = fopen("boards/fgets_falha.txt", "w");
     if (f) {
-        fprintf(f, "3 3\nabc\ndef\n"); // falta a terceira linha
+        fprintf(f, "3 3\nabc\ndef\n"); 
         fclose(f);
     }
 
@@ -118,13 +116,11 @@ void test_fgets_falha(void)
     CU_ASSERT_FALSE(carregarTabuleiro(&t1, &t2, &h, "fgets_falha.txt"));
 }
 
-// Teste: linha com tamanho errado
 void test_linha_tamanho_errado(void)
 {
     FILE *f = fopen("boards/linha_curta.txt", "w");
     if (f) {
-        fprintf(f, "2 3\nabc\nde\n"); // segunda linha curta
-        fclose(f);
+        fprintf(f, "2 3\nabc\nde\n");
     }
 
     Tabuleiro t1, t2;
