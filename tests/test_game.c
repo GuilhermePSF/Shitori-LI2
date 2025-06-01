@@ -60,7 +60,7 @@ void test_riscar_coordenada_errada(void)
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
 }
 
-void test_riscar_coordenada_branca (void)
+void test_riscar_coordenada_branca(void)
 {
     Tabuleiro tabAtual = {
         .linhas = 3,
@@ -69,13 +69,13 @@ void test_riscar_coordenada_branca (void)
             "abC",
             "def",
             "ghi"}};
-        Historico hist = {0};
-        bool resultado = modificarTabuleiro (&tabAtual, &hist, 'r', "c1");
-        CU_ASSERT_FALSE(resultado);
-        CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "abC");
-        CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "def");
-        CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
- }
+    Historico hist = {0};
+    bool resultado = modificarTabuleiro(&tabAtual, &hist, 'r', "c1");
+    CU_ASSERT_FALSE(resultado);
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "abC");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "def");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
+}
 
 void test_riscar_fora_do_tabuleiro(void)
 {
@@ -109,7 +109,7 @@ void test_riscar_ja_riscado(void)
     CU_ASSERT_EQUAL(tabAtual.grelha[1][1], '#');
 }
 
-void test_comando_invalido (void)
+void test_comando_invalido(void)
 {
     Tabuleiro tabAtual = {
         .linhas = 3,
@@ -118,13 +118,13 @@ void test_comando_invalido (void)
             "abc",
             "def",
             "ghi"}};
-        Historico hist = {0};
-        bool resultado = modificarTabuleiro (&tabAtual, &hist, 'l', "c1");
-        CU_ASSERT_FALSE(resultado);
-        CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "abc");
-        CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "def");
-        CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
- }
+    Historico hist = {0};
+    bool resultado = modificarTabuleiro(&tabAtual, &hist, 'l', "c1");
+    CU_ASSERT_FALSE(resultado);
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[0], "abc");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[1], "def");
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
+}
 
 void test_pintar_ja_riscado(void)
 {
@@ -173,7 +173,8 @@ void test_pintar_fora_do_tabuleiro(void)
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "ghi");
 }
 
-void test_nao_ganhou(void) {
+void test_nao_ganhou(void)
+{
     Tabuleiro tabAtual = {
         .linhas = 10,
         .colunas = 10,
@@ -187,13 +188,12 @@ void test_nao_ganhou(void) {
             "eIC#KJa#LE",
             "#EAB#DeK#L",
             "BLD#HGF#KC",
-            "H#BKL#GC#J"
-        }
-    };
+            "H#BKL#GC#J"}};
     CU_ASSERT_FALSE(ganhou(&tabAtual));
 }
 
-void test_ganhou (void) {
+void test_ganhou(void)
+{
     Tabuleiro tabAtual = {
         .linhas = 9,
         .colunas = 9,
@@ -206,8 +206,6 @@ void test_ganhou (void) {
             "E#BGCFI#D",
             "#FE#GI#AB",
             "FE#HAGC#I",
-            "B#HE#ADI#"
-                }
-    };
-    CU_ASSERT_TRUE (ganhou(&tabAtual));
+            "B#HE#ADI#"}};
+    CU_ASSERT_TRUE(ganhou(&tabAtual));
 }

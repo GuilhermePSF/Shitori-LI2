@@ -20,7 +20,7 @@ void test_desfazer_sem_mudancas(void)
     Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
-        .grelha = { "abc", "def", "ghi" }};
+        .grelha = {"abc", "def", "ghi"}};
     Tabuleiro tabIO = tabAtual;
 
     bool resultado = desfazer(&hist, &tabAtual, &tabIO, NULL);
@@ -33,11 +33,11 @@ void test_desfazer_coordenada_com_mudanca(void)
     Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
-        .grelha = { "abc", "dEf", "gh#" }};
+        .grelha = {"abc", "dEf", "gh#"}};
     Tabuleiro tabIO = {
         .linhas = 3,
         .colunas = 3,
-        .grelha = { "abc", "def", "ghi" }};
+        .grelha = {"abc", "def", "ghi"}};
 
     guardar_estado(&hist, &tabAtual);
 
@@ -52,7 +52,7 @@ void test_desfazer_coordenada_sem_mudanca(void)
     Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
-        .grelha = { "abc", "def", "ghi" }};
+        .grelha = {"abc", "def", "ghi"}};
     Tabuleiro tabIO = tabAtual;
 
     bool resultado = desfazer(&hist, &tabAtual, &tabIO, "a1");
@@ -65,7 +65,7 @@ void test_desfazer_coordenada_errada(void)
     Tabuleiro tabAtual = {
         .linhas = 3,
         .colunas = 3,
-        .grelha = { "abc", "def", "ghi" }};
+        .grelha = {"abc", "def", "ghi"}};
     Tabuleiro tabIO = tabAtual;
 
     bool resultado = desfazer(&hist, &tabAtual, &tabIO, "z9");

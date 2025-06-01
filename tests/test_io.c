@@ -23,7 +23,8 @@ void test_carregarTabuleiro_ficheiro_existente(void)
 void test_carregarTabuleiro_invalido(void)
 {
     FILE *f = fopen("boards/tabuleiroerrado.txt", "w");
-    if (f) {
+    if (f)
+    {
         fprintf(f, "abc def\n");
         fclose(f);
     }
@@ -57,9 +58,7 @@ void test_gravar_com_mudancas(void)
         .grelha = {
             "abc",
             "def",
-            "ghi"
-        }
-    };
+            "ghi"}};
 
     tabAtual.grelha[1][1] = 'E';
     tabAtual.grelha[2][2] = '#';
@@ -68,7 +67,7 @@ void test_gravar_com_mudancas(void)
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[2], "gh#");
 
     const char *nomeFicheiro = "saida_test.txt";
-    bool resultado = gravarTabuleiro(&tabAtual, (char*)nomeFicheiro);
+    bool resultado = gravarTabuleiro(&tabAtual, (char *)nomeFicheiro);
     CU_ASSERT_TRUE_FATAL(resultado);
 
     char caminho[512];
@@ -76,7 +75,8 @@ void test_gravar_com_mudancas(void)
     FILE *f = fopen(caminho, "r");
     CU_ASSERT_PTR_NOT_NULL_FATAL(f);
 
-    if (f) {
+    if (f)
+    {
         char linha[64];
         CU_ASSERT_PTR_NOT_NULL_FATAL(fgets(linha, sizeof(linha), f));
         CU_ASSERT_STRING_EQUAL(linha, "3 3\n");
@@ -106,8 +106,9 @@ void test_nome_ficheiro_muito_longo(void)
 void test_fgets_falha(void)
 {
     FILE *f = fopen("boards/fgets_falha.txt", "w");
-    if (f) {
-        fprintf(f, "3 3\nabc\ndef\n"); 
+    if (f)
+    {
+        fprintf(f, "3 3\nabc\ndef\n");
         fclose(f);
     }
 
@@ -119,7 +120,8 @@ void test_fgets_falha(void)
 void test_linha_tamanho_errado(void)
 {
     FILE *f = fopen("boards/linha_curta.txt", "w");
-    if (f) {
+    if (f)
+    {
         fprintf(f, "2 3\nabc\nde\n");
     }
 
@@ -134,5 +136,4 @@ void test_gravar_falha_abrir_ficheiro(void)
     strcpy(t.grelha[0], "abc");
 
     CU_ASSERT_FALSE(gravarTabuleiro(&t, "/root/saida.txt"));
-
 }

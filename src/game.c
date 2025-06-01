@@ -59,5 +59,5 @@ bool ganhou(Tabuleiro *tabAtual)
             }
         }
     }
-    return true && verificarRestricoes(tabAtual,false);
+    return true && verificarRestricoes(tabAtual, false);
 }

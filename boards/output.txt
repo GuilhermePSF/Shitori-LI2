@@ -11,16 +11,4 @@
  3 ║[1;30m g [0m║ H ║[1;30m i [0m║
    ╚═══╩═══╩═══╝
 
-Comandos disponíveis:
-  g <ficheiro>   - gravar o estado atual do jogo num ficheiro
-  l <ficheiro>   - ler o estado do jogo de um ficheiro
-  <coord>        - jogar numa coordenada (ex: b3)
-  b <coord>      - pintar a letra da casa como branca (ex: b b3)
-  r <coord>      - riscar a casa (colocar # no local da letra)
-  v              - verificar restrições do tabuleiro
-  a              - aplicar ajuda (inferência simples)
-  A              - aplicar ajuda até não haver alterações
-  R              - resolver o jogo automaticamente
-  d              - desfazer o último comando
-  s              - sair do programa
-
+ ?                - Mostra tabela de ajuda

@@ -13,7 +13,7 @@ void test_verificarRestricoes_valido(void)
             "CDE",
             "FGH"}};
 
-    bool resultado = verificarRestricoes(&tabAtual, false); 
+    bool resultado = verificarRestricoes(&tabAtual, false);
     CU_ASSERT_TRUE(resultado);
 }
 
@@ -27,7 +27,7 @@ void test_verificarRestricoes_regra1(void)
             "cde",
             "fgh"}};
 
-    bool resultado = verificarRestricoes(&tabAtual, false); 
+    bool resultado = verificarRestricoes(&tabAtual, false);
     CU_ASSERT_FALSE(resultado);
 }
 
@@ -69,9 +69,9 @@ void test_verificarRestricoes_riscada_valida(void)
             "CDE",
             "FGH"}};
 
-    tabAtual.grelha[0][0] = 'A'; 
+    tabAtual.grelha[0][0] = 'A';
     tabAtual.grelha[0][2] = 'B';
-    bool resultado = verificarRestricoes(&tabAtual, false); 
+    bool resultado = verificarRestricoes(&tabAtual, false);
     CU_ASSERT_TRUE(resultado);
 }
 
@@ -85,6 +85,6 @@ void test_verificarRestricoes_regra4(void)
             "###",
             "CDE"}};
 
-    bool resultado = verificarRestricoes(&tabAtual, false); 
-    CU_ASSERT_FALSE(resultado); 
+    bool resultado = verificarRestricoes(&tabAtual, false);
+    CU_ASSERT_FALSE(resultado);
 }
