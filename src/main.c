@@ -71,12 +71,13 @@ int main()
         else if (cmd[0] == 'l')
         {
             char ficheiro[256];
+            if ((system("clear")))
+                printf("\033[1;31m ⚠ failed to clean ⚠ \n\n\033[0m");
+
             if (sscanf(cmd, "l %255s", ficheiro) == 1)
             {
                 if (carregarTabuleiro(&tabAtual, &tabIO, &hist, ficheiro))
                 {
-                    if ((system("clear")))
-                        printf("\033[1;31m ⚠ failed to clean ⚠ \n\n\033[0m");
                     mostrarTabuleiro(&tabAtual);
                     printf("\033[1;92m ✓ Tabuleiro carregado com sucesso. ✓\n\n\033[0m");
                     guardar_estado(&hist, &tabAtual);
@@ -106,6 +107,8 @@ int main()
         }
         else if (cmd[0] == 's')
         {
+            if ((system("clear")))
+                    printf("\033[1;31m ⚠ failed to clean ⚠ \n\n\033[0m");
             a_correr = false;
         }
         else if (loaded)
