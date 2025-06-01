@@ -81,7 +81,7 @@ void tecnicas_iniciais(Tabuleiro *tabAtual, Historico *hist) // cccac
                     guardar_estado(hist, tabAtual);
                     tabAtual->grelha[i][j] = toupper(atual);
                 }
-                if (regra3_horizontal(tabAtual, i, j) || regra3_vertical(tabAtual, i, j) && !(tem_riscado_adjacente_coord(tabAtual, i, j) || necessaria_para_conectividade(tabAtual, i, j)))
+                if ((regra3_horizontal(tabAtual, i, j) || regra3_vertical(tabAtual, i, j)) && !(tem_riscado_adjacente_coord(tabAtual, i, j) || necessaria_para_conectividade(tabAtual, i, j)))
                 {
                     guardar_estado(hist, tabAtual);
                     tabAtual->grelha[i][j] = '#';

@@ -24,7 +24,7 @@ void test_carregarTabuleiro_invalido(void)
 {
     FILE *f = fopen("boards/tabuleiroerrado.txt", "w");
     if (f) {
-        fprintf(f, "abc def\n"); // dimensões inválidas
+        fprintf(f, "abc def\n");
         fclose(f);
     }
 
@@ -90,7 +90,6 @@ void test_gravar_com_mudancas(void)
     }
 }
 
-// Teste: caminho muito longo (snprintf falha)
 void test_nome_ficheiro_muito_longo(void)
 {
     char nome[600];
@@ -104,12 +103,11 @@ void test_nome_ficheiro_muito_longo(void)
     CU_ASSERT_FALSE(gravarTabuleiro(&t, nome));
 }
 
-// Teste: fgets falha ao ler linha
 void test_fgets_falha(void)
 {
     FILE *f = fopen("boards/fgets_falha.txt", "w");
     if (f) {
-        fprintf(f, "3 3\nabc\ndef\n"); // falta a terceira linha
+        fprintf(f, "3 3\nabc\ndef\n"); 
         fclose(f);
     }
 
@@ -118,13 +116,11 @@ void test_fgets_falha(void)
     CU_ASSERT_FALSE(carregarTabuleiro(&t1, &t2, &h, "fgets_falha.txt"));
 }
 
-// Teste: linha com tamanho errado
 void test_linha_tamanho_errado(void)
 {
     FILE *f = fopen("boards/linha_curta.txt", "w");
     if (f) {
-        fprintf(f, "2 3\nabc\nde\n"); // segunda linha curta
-        fclose(f);
+        fprintf(f, "2 3\nabc\nde\n");
     }
 
     Tabuleiro t1, t2;
@@ -139,25 +135,4 @@ void test_gravar_falha_abrir_ficheiro(void)
 
     CU_ASSERT_FALSE(gravarTabuleiro(&t, "/root/saida.txt"));
 
-}
-
-int main()
-{
-    CU_initialize_registry();
-    CU_pSuite suite = CU_add_suite("Testes_IO", NULL, NULL);
-
-    CU_add_test(suite, "Carregar ficheiro existente", test_carregarTabuleiro_ficheiro_existente);
-    CU_add_test(suite, "Carregar ficheiro inexistente", test_carregar_ficheiro_inexistente);
-    CU_add_test(suite, "Carregar ficheiro com formato inválido", test_carregarTabuleiro_invalido);
-    CU_add_test(suite, "Gravar sem carregar", test_gravar_sem_carregar);
-    CU_add_test(suite, "Gravar com mudanças", test_gravar_com_mudancas);
-    CU_add_test(suite, "Nome de ficheiro muito longo", test_nome_ficheiro_muito_longo);
-    CU_add_test(suite, "Falha na leitura de linha com fgets", test_fgets_falha);
-    CU_add_test(suite, "Linha com tamanho errado", test_linha_tamanho_errado);
-    CU_add_test(suite, "Falha ao abrir ficheiro para gravar", test_gravar_falha_abrir_ficheiro);
-
-    CU_basic_set_mode(CU_BRM_VERBOSE);
-    CU_basic_run_tests();
-    CU_cleanup_registry();
-    return 0;
 }

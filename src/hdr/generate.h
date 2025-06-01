@@ -9,6 +9,8 @@ char random_letra_minuscula(int side);
 
 void inicializarGerador(Tabuleiro *tab);
 
+void preencherGerador(Tabuleiro *tab);
+
 bool ser_resolvivel(Tabuleiro *tab, int l, int c, char sub);
 
 void generate(Tabuleiro *tab, Tabuleiro *tabIO);

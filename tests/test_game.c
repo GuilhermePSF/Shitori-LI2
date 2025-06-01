@@ -211,29 +211,3 @@ void test_ganhou (void) {
     };
     CU_ASSERT_TRUE (ganhou(&tabAtual));
 }
-
-
-int main()
-{
-    CU_initialize_registry();
-    CU_pSuite suite = CU_add_suite("Testes_Game", NULL, NULL);
-
-    CU_add_test(suite, "Pintar de branco", test_modificarTabuleiro_pintardebranco);
-    CU_add_test(suite, "Risca", test_modificarTabuleiro_risca);
-    CU_add_test(suite, "Riscar sem tabuleiro", test_riscar_sem_tabuleiro);
-    CU_add_test(suite, "Riscar coordenada branca", test_riscar_coordenada_branca);
-    CU_add_test(suite, "Riscar coordenada errada", test_riscar_coordenada_errada);
-    CU_add_test(suite, "Riscar fora do tabuleiro", test_riscar_fora_do_tabuleiro);
-    CU_add_test(suite, "Comando Inválido", test_comando_invalido);
-    CU_add_test(suite, "Riscar já riscado", test_riscar_ja_riscado);
-    CU_add_test(suite, "Pintar já riscado", test_pintar_ja_riscado);
-    CU_add_test(suite, "Pintar já pintado", test_pintar_ja_pintado);
-    CU_add_test(suite, "Pintar fora do tabuleiro", test_pintar_fora_do_tabuleiro);
-    CU_add_test(suite, "Não Ganhou", test_nao_ganhou);
-    CU_add_test(suite, "Ganhou", test_ganhou);
-
-    CU_basic_set_mode(CU_BRM_VERBOSE);
-    CU_basic_run_tests();
-    CU_cleanup_registry();
-    return 0;
-}

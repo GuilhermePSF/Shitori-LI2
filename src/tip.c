@@ -25,6 +25,7 @@ bool tem_riscado_adjacente_coord(const Tabuleiro *tabAtual, int linha, int colun
     return false;
 }
 
+/*
 bool tem_riscado_adjacente(const Tabuleiro *tabAtual)
 {
     for (int i = 0; i < tabAtual->linhas; i++)
@@ -37,6 +38,7 @@ bool tem_riscado_adjacente(const Tabuleiro *tabAtual)
     }
     return false;
 }
+*/
 
 bool existe_maiuscula_igual_na_linha_ou_coluna(Tabuleiro *tabAtual, int linha, int coluna)
 {
@@ -123,7 +125,7 @@ void comando_a(Tabuleiro *tabAtual, Historico *hist)
 
                 else if (existe_maiuscula_igual_na_linha_ou_coluna(tabAtual, i, j) && !(tem_riscado_adjacente_coord(tabAtual, i, j) || necessaria_para_conectividade(tabAtual, i, j)))
                 {
-                    char original = tabAtual->grelha[i][j];
+                    // char original = tabAtual->grelha[i][j];
                     tabAtual->grelha[i][j] = '#';
                 }
             }
