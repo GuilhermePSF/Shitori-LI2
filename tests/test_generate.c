@@ -11,37 +11,45 @@
 #include "game.h"
 #include "undo.h"
 
-void test_random_letra_minuscula(void) {
-    srand(0);  
-    for (int i = 1; i <= 5; i++) {
+void test_random_letra_minuscula(void)
+{
+    srand(0);
+    for (int i = 1; i <= 5; i++)
+    {
         char letra = random_letra_minuscula(i);
         CU_ASSERT_TRUE(letra >= 'a' && letra < ('a' + i));
     }
 }
 
-void test_inicializarGerador(void) {
+void test_inicializarGerador(void)
+{
     Tabuleiro tab;
     tab.linhas = 3;
     tab.colunas = 3;
 
     inicializarGerador(&tab);
 
-    for (int i = 0; i < tab.linhas; i++) {
-        for (int j = 0; j < tab.colunas; j++) {
+    for (int i = 0; i < tab.linhas; i++)
+    {
+        for (int j = 0; j < tab.colunas; j++)
+        {
             CU_ASSERT_EQUAL(tab.grelha[i][j], '-');
         }
     }
 }
 
-void test_preencherGerador(void) {
+void test_preencherGerador(void)
+{
     Tabuleiro tab;
     tab.linhas = 3;
     tab.colunas = 3;
 
     preencherGerador(&tab);
 
-    for (int i = 0; i < tab.linhas; i++) {
-        for (int j = 0; j < tab.colunas; j++) {
+    for (int i = 0; i < tab.linhas; i++)
+    {
+        for (int j = 0; j < tab.colunas; j++)
+        {
             CU_ASSERT_TRUE(tab.grelha[i][j] >= 'a' && tab.grelha[i][j] <= 'z');
         }
     }
@@ -63,18 +71,19 @@ void test_valida_quatro(void) {
 }
 */
 
-
-void test_ser_resolvivel(void) {
+void test_ser_resolvivel(void)
+{
     Tabuleiro tab;
     tab.linhas = 3;
     tab.colunas = 3;
 
     inicializarGerador(&tab);
 
-    CU_ASSERT_TRUE(ser_resolvivel(&tab, 1, 1, 'a')); 
+    CU_ASSERT_TRUE(ser_resolvivel(&tab, 1, 1, 'a'));
 }
 
-void test_generate(void) {
+void test_generate(void)
+{
     Tabuleiro tab;
     tab.linhas = 4;
     tab.colunas = 4;
@@ -85,11 +94,11 @@ void test_generate(void) {
 
     generate(&tab, &tabIO);
 
-    for (int i = 0; i < tab.linhas; i++) {
-        for (int j = 0; j < tab.colunas; j++) {
+    for (int i = 0; i < tab.linhas; i++)
+    {
+        for (int j = 0; j < tab.colunas; j++)
+        {
             CU_ASSERT_TRUE(tab.grelha[i][j] >= 'a' && tab.grelha[i][j] <= 'z');
-
-    
         }
     }
 }

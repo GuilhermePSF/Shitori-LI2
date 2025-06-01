@@ -20,7 +20,8 @@ bool verificarLinhas(Tabuleiro *tabAtual, bool mostrarViolacoes)
                 int idx = c - 'A';
                 if (seen[idx])
                 {
-                    if (mostrarViolacoes) {
+                    if (mostrarViolacoes)
+                    {
                         char col_label = 'a' + j;
                         printf("\033[1;33m 💡 Violação: letra '%c' repetida na linha %d, coluna %c 💡\n\n\033[0m", c, i + 1, col_label);
                     }
@@ -50,7 +51,8 @@ bool verificarColunas(Tabuleiro *tabAtual, bool mostrarViolacoes)
                 int idx = c - 'A';
                 if (seen[idx])
                 {
-                    if (mostrarViolacoes) {
+                    if (mostrarViolacoes)
+                    {
                         char col_label = 'a' + j;
                         printf("\033[1;33m 💡 Violação: letra '%c' repetida na coluna %c, linha %d 💡\n\n\033[0m", c, col_label, i + 1);
                     }
@@ -90,7 +92,8 @@ bool verificarCelulasRiscadas(Tabuleiro *tabAtual, bool mostrarViolacoes)
                         char nb = tabAtual->grelha[ni][nj];
                         if (!(isupper(nb)))
                         {
-                            if (mostrarViolacoes) {
+                            if (mostrarViolacoes)
+                            {
                                 char neigh_col = 'a' + nj;
                                 int neigh_linha = ni + 1;
                                 printf("\033[1;33m 💡 Violação: célula riscada em %c%d tem vizinho inválido em %c%d: '%c' 💡\n\n\033[0m",
@@ -207,7 +210,8 @@ bool verificarConectividade(Tabuleiro *tabAtual, char modo)
 
     if (visitados != total_nao_riscadas)
     {
-        if (modo == 'w') {
+        if (modo == 'w')
+        {
             printf("\033[1;33m 💡 Violação: nem todas as casas não riscadas estão conectadas (visitadas %d, esperadas %d) 💡\n\n\033[0m", visitados, total_nao_riscadas);
         }
         return false;

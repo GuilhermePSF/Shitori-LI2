@@ -59,12 +59,11 @@ int main()
     CU_add_test(suite, "Comando R - Tabuleiro 20x20", test_comando_R_com_tabuleiro_20x20);
     CU_add_test(suite, "Comando R - Regra 1", test_comando_R_tabuleiro_maisculas);
 
-
     CU_add_test(suite, "Comando a - Sem Modificações", test_comando_a_sem_modificacoes);
     CU_add_test(suite, "Comando a - tabuleiro 5x5", test_comando_a_com_tabuleiro5x5);
     CU_add_test(suite, "Comando A - Sem Modificações", test_comando_A_sem_modificacoes);
     CU_add_test(suite, "Comando A - Conflitos Resolvidos", test_comando_A_com_tabuleiro5x5);
-    CU_add_test(suite, "Comando a - Tabuleiro Complexo", test_comando_a_com_tabuleiro_12x12);    
+    CU_add_test(suite, "Comando a - Tabuleiro Complexo", test_comando_a_com_tabuleiro_12x12);
     CU_add_test(suite, "Comando A - Tabuleiro Complexo", test_comando_A_com_tabuleiro_12x12);
     CU_add_test(suite, "Modificar Tabuleiro - Riscar Posições", test_comando_a_com_tabuleiro_apos_riscar);
     CU_add_test(suite, "Comando A - Após Riscar", test_comando_A_com_tabuleiro_apos_riscar);
@@ -73,15 +72,15 @@ int main()
     CU_add_test(suite, "Desfazer sem mudanças", test_desfazer_sem_mudancas);
     CU_add_test(suite, "Desfazer coordenada com mudança", test_desfazer_coordenada_com_mudanca);
     CU_add_test(suite, "Desfazer coordenada sem mudança", test_desfazer_coordenada_sem_mudanca);
-    CU_add_test(suite, "Desfazer coordenada errada", test_desfazer_coordenada_errada);  
-    
+    CU_add_test(suite, "Desfazer coordenada errada", test_desfazer_coordenada_errada);
+
     CU_add_test(suite, "Tabuleiro válido", test_verificarRestricoes_valido);
     CU_add_test(suite, "Violação da Regra 1", test_verificarRestricoes_regra1);
     CU_add_test(suite, "Violação da Regra 2", test_verificarRestricoes_regra2);
     CU_add_test(suite, "Violação da Regra 3", test_verificarRestricoes_regra3);
     CU_add_test(suite, "Célula riscada com vizinhos válidos", test_verificarRestricoes_riscada_valida);
     CU_add_test(suite, "Violação da Regra 4", test_verificarRestricoes_regra4);
-    
+
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
     CU_cleanup_registry();

@@ -14,9 +14,7 @@ void test_comando_a_sem_modificacoes(void)
         .grelha = {
             "ABC",
             "DEF",
-            "GHI"
-        }
-    };
+            "GHI"}};
     Historico hist = {0};
 
     comando_a(&tabAtual, &hist);
@@ -36,9 +34,7 @@ void test_comando_a_com_tabuleiro5x5(void)
             "dcdec",
             "bddce",
             "cdeeb",
-            "accbb"
-        }
-    };
+            "accbb"}};
     Historico hist = {0};
     modificarTabuleiro(&tabAtual, &hist, 'r', "a1");
     comando_a(&tabAtual, &hist);
@@ -67,9 +63,7 @@ void test_comando_a_com_tabuleiro_12x12(void)
             "bldehgeffkac",
             "hcbklckcggjg",
             "kgiglfehcbdl",
-            "dihjfkhbicge"
-        }
-    };
+            "dihjfkhbicge"}};
     Historico hist = {0};
 
     modificarTabuleiro(&tabAtual, &hist, 'r', "d7");
@@ -106,9 +100,7 @@ void test_comando_a_com_tabuleiro_apos_riscar(void)
             "bldehgeffkac",
             "hcbklckcggjg",
             "kgiglfehcbdl",
-            "dihjfkhbicge"
-        }
-    };
+            "dihjfkhbicge"}};
     Historico hist = {0};
 
     modificarTabuleiro(&tabAtual, &hist, 'r', "a10");
@@ -125,9 +117,9 @@ void test_comando_a_com_tabuleiro_apos_riscar(void)
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[6], "eeckkjaijlea");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[7], "heabbcdekgli");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[8], "Bldehgeffkac");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[9], "#Cbkl#K#G#J#"); 
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[9], "#Cbkl#K#G#J#");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[10], "KgiglFeHcBdL");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[11], "#Ihjfkhb#Cge"); 
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[11], "#Ihjfkhb#Cge");
 }
 
 void test_comando_A_sem_modificacoes(void)
@@ -138,9 +130,7 @@ void test_comando_A_sem_modificacoes(void)
         .grelha = {
             "ABC",
             "DEF",
-            "GHI"
-        }
-    };
+            "GHI"}};
     Historico hist = {0};
 
     comando_A(&tabAtual, &hist);
@@ -160,9 +150,7 @@ void test_comando_A_com_tabuleiro5x5(void)
             "dcdec",
             "bddce",
             "cdeeb",
-            "accbb"
-        }
-    };
+            "accbb"}};
     Historico hist = {0};
 
     comando_A(&tabAtual, &hist);
@@ -191,9 +179,7 @@ void test_comando_A_com_tabuleiro_12x12(void)
             "bldehgeffkac",
             "hcbklckcggjg",
             "kgiglfehcbdl",
-            "dihjfkhbicge"
-        }
-    };
+            "dihjfkhbicge"}};
     Historico hist = {0};
 
     modificarTabuleiro(&tabAtual, &hist, 'r', "a10");
@@ -230,9 +216,7 @@ void test_comando_A_com_tabuleiro_apos_riscar(void)
             "bldehgeffkac",
             "hcbklckcggjg",
             "kgiglfehcbdl",
-            "dihjfkhbicge"
-        }
-    };
+            "dihjfkhbicge"}};
     Historico hist = {0};
 
     modificarTabuleiro(&tabAtual, &hist, 'r', "a10");
@@ -249,7 +233,7 @@ void test_comando_A_com_tabuleiro_apos_riscar(void)
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[6], "#ECK#J#I#L#A");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[7], "H#A#B#DEKGL#");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[8], "BLDEHG#F#KAC");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[9], "#CB#L#K#G#J#"); 
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[9], "#CB#L#K#G#J#");
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[10], "KgiG#FEHCBDL");
-    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[11], "#IhJFKhB#C#E"); 
+    CU_ASSERT_STRING_EQUAL(tabAtual.grelha[11], "#IhJFKhB#C#E");
 }

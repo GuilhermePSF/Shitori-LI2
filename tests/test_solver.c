@@ -85,15 +85,13 @@ void test_comando_R_com_modificacoes_12x12(void)
             "bldehgeffkac",
             "hcbklckcggjg",
             "kgiglfehcbdl",
-            "dihjfkhbicge"
-        }
-    };
+            "dihjfkhbicge"}};
     Tabuleiro tabIO = tabAtual;
     Historico hist = {0};
 
-    modificarTabuleiro(&tabAtual, &hist, 'b', "a10"); 
-    modificarTabuleiro(&tabAtual, &hist, 'r', "i1");  
-    desfazer (&hist, &tabAtual, &tabIO, NULL);
+    modificarTabuleiro(&tabAtual, &hist, 'b', "a10");
+    modificarTabuleiro(&tabAtual, &hist, 'r', "i1");
+    desfazer(&hist, &tabAtual, &tabIO, NULL);
 
     comando_R(&tabAtual, &hist, 'A');
 

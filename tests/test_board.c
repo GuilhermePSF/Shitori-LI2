@@ -3,12 +3,19 @@
 #include <stdlib.h>
 #include "board.h"
 
-void remover_ansi(char *dest, const char *src) {
-    while (*src) {
-        if (*src == '\033') {
-            while (*src && *src != 'm') src++;
-            if (*src) src++;
-        } else {
+void remover_ansi(char *dest, const char *src)
+{
+    while (*src)
+    {
+        if (*src == '\033')
+        {
+            while (*src && *src != 'm')
+                src++;
+            if (*src)
+                src++;
+        }
+        else
+        {
             *dest++ = *src++;
         }
     }
@@ -25,18 +32,21 @@ void test_mostrarTabuleiro_sem_mudancas(void)
             "def",
             "ghi"}};
 
-    if (freopen("boards/output.txt", "w", stdout) == NULL) {
+    if (freopen("boards/output.txt", "w", stdout) == NULL)
+    {
         return;
     }
     mostrarTabuleiro(&tabAtual);
-    if (freopen("/dev/tty", "w", stdout) == NULL) {
+    if (freopen("/dev/tty", "w", stdout) == NULL)
+    {
         return;
     }
 
     FILE *file = fopen("boards/output.txt", "r");
     CU_ASSERT_PTR_NOT_NULL(file);
 
-    if (file) {
+    if (file)
+    {
         char buffer[8192];
         char limpo[8192];
         size_t len = fread(buffer, 1, sizeof(buffer) - 1, file);
@@ -62,18 +72,21 @@ void test_mostrarTabuleiro_com_mudancas(void)
             "d#f",
             "gHi"}};
 
-    if (freopen("boards/output.txt", "w", stdout) == NULL) {
+    if (freopen("boards/output.txt", "w", stdout) == NULL)
+    {
         return;
     }
     mostrarTabuleiro(&tabAtual);
-    if (freopen("/dev/tty", "w", stdout) == NULL) {
+    if (freopen("/dev/tty", "w", stdout) == NULL)
+    {
         return;
     }
 
     FILE *file = fopen("boards/output.txt", "r");
     CU_ASSERT_PTR_NOT_NULL(file);
 
-    if (file) {
+    if (file)
+    {
         char buffer[8192];
         char limpo[8192];
         size_t len = fread(buffer, 1, sizeof(buffer) - 1, file);
@@ -93,10 +106,11 @@ void test_centrarLabel(void)
     FILE *file = freopen("boards/output_centrarLabel.txt", "w", stdout);
     CU_ASSERT_PTR_NOT_NULL_FATAL(file);
 
-    centrarLabel(10); 
-    centrarLabel(5);  
+    centrarLabel(10);
+    centrarLabel(5);
 
-    if (freopen("/dev/tty", "w", stdout) == NULL) {
+    if (freopen("/dev/tty", "w", stdout) == NULL)
+    {
         return;
     }
 
@@ -107,7 +121,7 @@ void test_centrarLabel(void)
     size_t len = fread(buffer, 1, sizeof(buffer) - 1, file);
     buffer[len] = '\0';
     fclose(file);
-    CU_ASSERT_STRING_EQUAL(buffer, "          "); 
+    CU_ASSERT_STRING_EQUAL(buffer, "          ");
 }
 
 void test_mostrarAjuda(void)
@@ -115,9 +129,10 @@ void test_mostrarAjuda(void)
     FILE *file = freopen("boards/output_ajuda.txt", "w", stdout);
     CU_ASSERT_PTR_NOT_NULL_FATAL(file);
 
-    mostrarAjuda(); 
+    mostrarAjuda();
 
-    if (freopen("/dev/tty", "w", stdout) == NULL) {
+    if (freopen("/dev/tty", "w", stdout) == NULL)
+    {
         return;
     }
 
