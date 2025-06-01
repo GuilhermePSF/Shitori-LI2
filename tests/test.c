@@ -21,6 +21,7 @@ int main()
     CU_add_test(suite, "Mostrar tabuleiro sem mudanças", test_mostrarTabuleiro_sem_mudancas);
     CU_add_test(suite, "Mostrar tabuleiro com mudanças", test_mostrarTabuleiro_com_mudancas);
     CU_add_test(suite, "Centrar Label", test_centrarLabel);
+    CU_add_test(suite, "Mostrar ajuda", test_mostrarAjuda);
 
     CU_add_test(suite, "Pintar de branco", test_modificarTabuleiro_pintardebranco);
     CU_add_test(suite, "Risca", test_modificarTabuleiro_risca);

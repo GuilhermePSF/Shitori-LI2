@@ -8,6 +8,7 @@ void remover_ansi(char *dest, const char *src);
 void test_mostrarTabuleiro_sem_mudancas(void);
 void test_mostrarTabuleiro_com_mudancas(void);
 void test_centrarLabel(void);
+void test_mostrarAjuda(void);
 void test_modificarTabuleiro_pintardebranco(void);
 void test_modificarTabuleiro_risca(void);
 void test_riscar_sem_tabuleiro(void);
