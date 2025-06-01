@@ -49,6 +49,26 @@ int main()
                 loaded = true;
             }
         }
+        else if (cmd[0] == '?')
+        {
+            printf("\n\033[1;96m📖 LISTA DE COMANDOS DISPONÍVEIS 📖\033[0m\n");
+            printf("──────────────────────────────────────────────\n");
+            printf(" l <ficheiro>     - Carrega um tabuleiro de um ficheiro\n");
+            printf(" G <tamanho>      - Gera um tabuleiro aleatório (1 a 26)\n");
+            printf(" g <ficheiro>     - Grava o tabuleiro atual para um ficheiro\n");
+            printf(" b <coord>        - Pinta uma célula em branco (ex: b a3)\n");
+            printf(" r <coord>        - Risca uma célula (ex: r b4)\n");
+            printf(" d                - Desfaz o último movimento\n");
+            printf(" d <coord>        - Desfaz um movimento numa coordenada específica\n");
+            printf(" D                - Reverte o tabuleiro para o estado inicial\n");
+            printf(" a                - Aplica técnica A (validação por linha/coluna)\n");
+            printf(" A                - Aplica técnica A avançada\n");
+            printf(" v                - Verifica todas as restrições\n");
+            printf(" R                - Resolve o tabuleiro automaticamente\n");
+            printf(" ?                - Mostra esta tabela de ajuda\n");
+            printf(" s                - Sai do jogo\n");
+            printf("──────────────────────────────────────────────\n\n");
+        }
 
         else if (cmd[0] == 'l')
         {
