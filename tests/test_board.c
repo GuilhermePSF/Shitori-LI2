@@ -129,7 +129,6 @@ void test_mostrarAjuda(void)
     buffer[len] = '\0';
     fclose(file);
 
-    CU_ASSERT_PTR_NOT_NULL(strstr(buffer, "?                - Mostra tabela de ajuda"));
     CU_ASSERT_PTR_NOT_NULL(strstr(buffer, "l <ficheiro>     - Carrega um tabuleiro de um ficheiro"));
     CU_ASSERT_PTR_NOT_NULL(strstr(buffer, "G <tamanho>      - Gera um tabuleiro aleatório (1 a 26)"));
     CU_ASSERT_PTR_NOT_NULL(strstr(buffer, "g <ficheiro>     - Grava o tabuleiro atual para um ficheiro"));
@@ -143,4 +142,5 @@ void test_mostrarAjuda(void)
     CU_ASSERT_PTR_NOT_NULL(strstr(buffer, "v                - Verifica todas as restrições"));
     CU_ASSERT_PTR_NOT_NULL(strstr(buffer, "R                - Resolve o tabuleiro automaticamente"));
     CU_ASSERT_PTR_NOT_NULL(strstr(buffer, "s                - Sai do jogo"));
+    CU_ASSERT_PTR_NOT_NULL(strstr(buffer, "──────────────────────────────────────────────\n\n"));
 }

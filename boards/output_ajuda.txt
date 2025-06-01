@@ -1,4 +1,3 @@
- ?                - Mostra tabela de ajuda
  l <ficheiro>     - Carrega um tabuleiro de um ficheiro
  G <tamanho>      - Gera um tabuleiro aleatório (1 a 26)
  g <ficheiro>     - Grava o tabuleiro atual para um ficheiro
@@ -7,8 +6,10 @@
  d                - Desfaz o último movimento
  d <coord>        - Desfaz um movimento numa coordenada específica
  D                - Reverte o tabuleiro para o estado inicial
- a                - Aplica ajuda)
+ a                - Aplica ajuda
  A                - Aplica todas as ajudas possiveis
  v                - Verifica todas as restrições
  R                - Resolve o tabuleiro automaticamente
  s                - Sai do jogo
+──────────────────────────────────────────────
+

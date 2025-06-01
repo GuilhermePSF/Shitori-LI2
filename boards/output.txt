@@ -11,18 +11,4 @@
  3 ║[1;30m g [0m║ H ║[1;30m i [0m║
    ╚═══╩═══╩═══╝
 
-Comandos disponíveis:
  ?                - Mostra tabela de ajuda
- l <ficheiro>     - Carrega um tabuleiro de um ficheiro
- G <tamanho>      - Gera um tabuleiro aleatório (1 a 26)
- g <ficheiro>     - Grava o tabuleiro atual para um ficheiro
- b <coord>        - Pinta uma célula em branco (ex: b a3)
- r <coord>        - Risca uma célula (ex: r b4)
- d                - Desfaz o último movimento
- d <coord>        - Desfaz um movimento numa coordenada específica
- D                - Reverte o tabuleiro para o estado inicial
- a                - Aplica ajuda)
- A                - Aplica todas as ajudas possiveis
- v                - Verifica todas as restrições
- R                - Resolve o tabuleiro automaticamente
- s                - Sai do jogo
