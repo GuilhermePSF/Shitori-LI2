@@ -27,6 +27,11 @@ int main()
 
     srand(time(NULL));
 
+    printf("\n\033[1;96m📖 LISTA DE COMANDOS DISPONÍVEIS 📖\033[0m\n");
+    printf("──────────────────────────────────────────────\n");
+
+    mostrarAjuda();
+
     while (a_correr && !ganho)
     {
         if (cmd[0] == 'G' && !loaded)
@@ -51,12 +56,18 @@ int main()
         }
         else if (cmd[0] == '?')
         {
-            printf("\n\033[1;96m📖 LISTA DE COMANDOS DISPONÍVEIS 📖\033[0m\n");
-            printf("──────────────────────────────────────────────\n");
-            mostrarAjuda();
-            printf("──────────────────────────────────────────────\n\n");
-        }
+            if (system("clear"))
+                printf("\033[1;31m ⚠ Falha ao limpar o ecrã ⚠ \n\n\033[0m");
 
+            if (loaded)
+                mostrarTabuleiro(&tabAtual);
+            else
+            {
+                printf("\n\033[1;96m📖 LISTA DE COMANDOS DISPONÍVEIS 📖\033[0m\n");
+                printf("──────────────────────────────────────────────\n");
+            }
+            mostrarAjuda();
+        }
         else if (cmd[0] == 'l')
         {
             char ficheiro[256];
@@ -280,6 +291,8 @@ int main()
             {
                 if (loaded)
                     mostrarTabuleiro(&tabAtual);
+                if ((system("clear")))
+                    printf("\033[1;31m ⚠ failed to clean ⚠ \n\n\033[0m");
                 printf("\033[1;31m ⚠ Comando inválido. ⚠ \n\n\033[0m");
             }
         }

@@ -12,7 +12,6 @@ void centrarLabel(int colunas)
 
 void mostrarAjuda()
 {
-    printf(" ?                - Mostra tabela de ajuda\n");
     printf(" l <ficheiro>     - Carrega um tabuleiro de um ficheiro\n");
     printf(" G <tamanho>      - Gera um tabuleiro aleatório (1 a 26)\n");
     printf(" g <ficheiro>     - Grava o tabuleiro atual para um ficheiro\n");
@@ -21,11 +20,12 @@ void mostrarAjuda()
     printf(" d                - Desfaz o último movimento\n");
     printf(" d <coord>        - Desfaz um movimento numa coordenada específica\n");
     printf(" D                - Reverte o tabuleiro para o estado inicial\n");
-    printf(" a                - Aplica ajuda)\n");
+    printf(" a                - Aplica ajuda\n");
     printf(" A                - Aplica todas as ajudas possiveis\n");
     printf(" v                - Verifica todas as restrições\n");
     printf(" R                - Resolve o tabuleiro automaticamente\n");
     printf(" s                - Sai do jogo\n");
+    printf("──────────────────────────────────────────────\n\n");
 }
 
 void mostrarTabuleiro(const Tabuleiro *tabAtual)
@@ -103,8 +103,7 @@ void mostrarTabuleiro(const Tabuleiro *tabAtual)
     }
 
     printf("\n");
-    printf("Comandos disponíveis:\n");
-    mostrarAjuda();
+    printf(" ?                - Mostra tabela de ajuda\n");
 }
 
 Tabuleiro copiar_tabuleiro(Tabuleiro *orig)
