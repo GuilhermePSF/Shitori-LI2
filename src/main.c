@@ -279,8 +279,7 @@ int main()
         if (loaded && ganhou(&tabAtual) && !system("clear"))
         {
             mostrarTabuleiro(&tabAtual);
-            sleep(1);
-            printf("Pressione Enter para continuar...\n");
+            printf("Pressione Enter para continuar ou d/D para voltar a um estado anterior ...\n");
 
             char buffer[10];
             if (!fgets(buffer, sizeof(buffer), stdin))
@@ -290,6 +289,9 @@ int main()
             }
             else
             {
+                if ((system("clear")))
+                    printf("\033[1;31m ⚠ failed to clean ⚠ \n\n\033[0m");
+
                 buffer[strcspn(buffer, "\n")] = 0;
 
                 if (buffer[0] == 'd')
