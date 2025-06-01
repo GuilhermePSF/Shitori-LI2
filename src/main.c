@@ -229,6 +229,7 @@ int main()
             }
             else if (cmd[0] == 'R')
             {
+                guardar_estado(&hist, &tabAtual);
                 if (comando_R(&tabAtual, &hist, false))
                 {
                     mostrarTabuleiro(&tabAtual);
@@ -279,7 +280,7 @@ int main()
         if (loaded && ganhou(&tabAtual) && !system("clear"))
         {
             mostrarTabuleiro(&tabAtual);
-            printf("Pressione Enter para continuar ou d/D para voltar a um estado anterior ...\n");
+            printf("Pressione Enter para continuar ou d/D para voltar a um estado anterior ...\n> ");
 
             char buffer[10];
             if (!fgets(buffer, sizeof(buffer), stdin))
