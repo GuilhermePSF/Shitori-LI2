@@ -13,5 +13,5 @@ void mostrarTabuleiro(const Tabuleiro *tabAtual);
 void centrarLabel(int largura);
 Tabuleiro copiar_tabuleiro(Tabuleiro *orig);
 void copiar_tabuleiro_para(Tabuleiro *orig, Tabuleiro *dest);
-
+void mostrarAjuda();
 #endif

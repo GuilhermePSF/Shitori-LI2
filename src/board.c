@@ -10,6 +10,24 @@ void centrarLabel(int colunas)
     }
 }
 
+void mostrarAjuda()
+{
+    printf(" ?                - Mostra tabela de ajuda\n");
+    printf(" l <ficheiro>     - Carrega um tabuleiro de um ficheiro\n");
+    printf(" G <tamanho>      - Gera um tabuleiro aleatório (1 a 26)\n");
+    printf(" g <ficheiro>     - Grava o tabuleiro atual para um ficheiro\n");
+    printf(" b <coord>        - Pinta uma célula em branco (ex: b a3)\n");
+    printf(" r <coord>        - Risca uma célula (ex: r b4)\n");
+    printf(" d                - Desfaz o último movimento\n");
+    printf(" d <coord>        - Desfaz um movimento numa coordenada específica\n");
+    printf(" D                - Reverte o tabuleiro para o estado inicial\n");
+    printf(" a                - Aplica ajuda)\n");
+    printf(" A                - Aplica todas as ajudas possiveis\n");
+    printf(" v                - Verifica todas as restrições\n");
+    printf(" R                - Resolve o tabuleiro automaticamente\n");
+    printf(" s                - Sai do jogo\n");
+}
+
 void mostrarTabuleiro(const Tabuleiro *tabAtual)
 {
     centrarLabel(tabAtual->colunas);
@@ -85,20 +103,8 @@ void mostrarTabuleiro(const Tabuleiro *tabAtual)
     }
 
     printf("\n");
-
     printf("Comandos disponíveis:\n");
-    printf("  g <ficheiro>   - gravar o estado atual do jogo num ficheiro\n");
-    printf("  l <ficheiro>   - ler o estado do jogo de um ficheiro\n");
-    printf("  <coord>        - jogar numa coordenada (ex: b3)\n");
-    printf("  b <coord>      - pintar a letra da casa como branca (ex: b b3)\n");
-    printf("  r <coord>      - riscar a casa (colocar # no local da letra)\n");
-    printf("  v              - verificar restrições do tabuleiro\n");
-    printf("  a              - aplicar ajuda (inferência simples)\n");
-    printf("  A              - aplicar ajuda até não haver alterações\n");
-    printf("  R              - resolver o jogo automaticamente\n");
-    printf("  d              - desfazer o último comando\n");
-    printf("  s              - sair do programa\n");
-    printf("\n");
+    mostrarAjuda();
 }
 
 Tabuleiro copiar_tabuleiro(Tabuleiro *orig)
