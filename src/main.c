@@ -202,7 +202,7 @@ int main()
             else if (cmd[0] == 'v')
             {
                 mostrarTabuleiro(&tabAtual);
-                if (verificarRestricoes(&tabAtual))
+                if (verificarRestricoes(&tabAtual, true))
                 {
                     printf("\033[1;92m ✓ Todas as restrições estão satisfeitas. ✓\n\n\033[0m");
                 }

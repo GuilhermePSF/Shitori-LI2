@@ -189,19 +189,3 @@ void test_comando_R_com_tabuleiro_20x20(void)
     CU_ASSERT_STRING_EQUAL(tabAtual.grelha[19], "#JTRL#OM#E#PS#AC#KD#");
     CU_ASSERT_TRUE(ganhou(&tabAtual));
 }
-
-int main()
-{
-    CU_initialize_registry();
-    CU_pSuite suite = CU_add_suite("Testes_Solver", NULL, NULL);
-    CU_add_test(suite, "Comando R - Simples", test_comando_R_simples_12x12);
-    CU_add_test(suite, "Comando R - Com Modificações", test_comando_R_com_modificacoes_12x12);
-    CU_add_test(suite, "Comando R - Tabuleiro Sem Solução", test_comando_R_com_tabuleiro_sem_solucao);
-    CU_add_test(suite, "Comando R - Tabuleiro 20x20", test_comando_R_com_tabuleiro_20x20);
-    CU_add_test(suite, "Comando R - Regra 1", test_comando_R_tabuleiro_maisculas);
-    CU_basic_set_mode(CU_BRM_VERBOSE);
-    CU_basic_run_tests();
-    CU_cleanup_registry();
-
-    return 0;
-}
