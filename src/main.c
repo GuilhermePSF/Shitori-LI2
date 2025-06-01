@@ -276,7 +276,7 @@ int main()
             }
         }
 
-        /*if (loaded && ganhou(&tabAtual) && !system("clear"))
+        if (loaded && ganhou(&tabAtual) && !system("clear"))
         {
             mostrarTabuleiro(&tabAtual);
             sleep(1);
@@ -292,12 +292,13 @@ int main()
             {
                 buffer[strcspn(buffer, "\n")] = 0;
 
-                if (strcmp(buffer, "d") == 0)
+                if (buffer[0] == 'd')
                 {
                     if (hist.topo == 0)
                     {
+                        hist.topo = 0;
+                        copiar_tabuleiro_para(&tabIO, &tabAtual);
                         mostrarTabuleiro(&tabAtual);
-                        printf("\033[1;92m ✓ Não há movimentos para desfazer. ✓\n\n\033[0m");
                     }
                     else
                     {
@@ -305,23 +306,19 @@ int main()
                         mostrarTabuleiro(&tabAtual);
                     }
                 }
-                else if (strcmp(buffer, "D") == 0)
+                else if (buffer[0] == 'D')
                 {
-                    bool continuar = true;
-                    while (continuar)
-                    {
-                        continuar = desfazer(&hist, &tabAtual, &tabIO, NULL);
-                    }
+                    hist.topo = 0;
+                    copiar_tabuleiro_para(&tabIO, &tabAtual);
                     mostrarTabuleiro(&tabAtual);
                 }
                 else
                 {
+                    ganho = true;
                     a_correr = false;
                 }
             }
-
-            ganho = true;
-        }*/
+        }
 
         jogado = true;
         if (a_correr && !ganho)
