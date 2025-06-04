@@ -11,15 +11,19 @@ Para regras detalhadas do jogo, consulte a descrição oficial do projeto: [Desc
 - **Lucas Pinto**
 
 ## Funcionalidades
-- Interface interativa no terminal (REPL)
-- Visualização e manipulação do tabuleiro
-- Validação das restrições do jogo
-- Solucionador automático para dicas e resolução completa
-- Funcionalidade de desfazer/refazer
-- Possibilidade de salvar e carregar estados do jogo
+- Interface interativa via terminal (REPL)
+- Criação de puzzles aleatórios (`G <tamanho>`)
+- Carregamento e gravação de puzzles a partir de ficheiros
+- Visualização do tabuleiro
+- Validação de jogadas e restrições
+- Dicas automáticas com jogadas inferidas
+- Resolução automática (com e sem visualização passo a passo)
+- Suporte a desfazer (`d`) jogadas e repor o estado original (`D`)
+- Verificação de vitória e fim de jogo com mensagem de parabéns
+- Mensagens coloridas para melhor legibilidade
 
 ## Instalação
-Para compilar o projeto, certifique-se de que possui **GCC** instalado. Execute o seguinte comando:
+Para compilar o projeto, certifique-se que tem o **GCC** instalado. Execute o seguinte comando:
 
 ```sh
 make jogo
@@ -28,19 +32,25 @@ make jogo
 ## Comandos
 O jogo opera no estilo **REPL (Read-Eval-Print Loop)** e suporta(rá) os seguintes comandos:
 
-| Comando | Descrição |
-|---------|-------------|
-| `g <ficheiro>` | Guarda o estado atual do jogo num ficheiro |
-| `l <ficheiro>` | Carrega um estado do jogo de um ficheiro |
-| `<coord>` | Seleciona uma coordenada (exemplo: `b2`) |
-| `b <coord>` | Marca um símbolo como **branco** (maiúsculo) |
-| `r <coord>` | Marca um símbolo como **removido** (`#`) |
-| `v` | Verifica o estado atual do tabuleiro e aponta erros |
-| `a` | Aplica todas as jogadas inferíveis |
-| `A` | Aplica `a` repetidamente até que não ocorram mais alterações |
-| `R` | Resolve o puzzle automaticamente |
-| `d` | Desfaz a última jogada |
-| `s` | Sai do jogo |
+| Comando       | Descrição                                                                 |
+|---------------|---------------------------------------------------------------------------|
+| `?`           | Mostra novamente a lista de comandos                                       |
+| `G <tamanho>` | Gera um novo tabuleiro aleatório com o tamanho especificado (1 a 26)      |
+| `l <ficheiro>`| Carrega um tabuleiro a partir de um ficheiro                              |
+| `g <ficheiro>`| Guarda o estado atual do jogo num ficheiro                                |
+| `b <coord>`   | Marca a célula em `<coord>` como **branco** (maiúscula)             |
+| `r <coord>`   | Marca a célula em `<coord>` como **riscado** (`#`)                       |
+| `v`           | Verifica se as restrições do tabuleiro estão satisfeitas                  |
+| `a`           | Aplica todas as jogadas inferíveis                                        |
+| `A`           | Repete o comando `a` até não haver mais alterações                        |
+| `R`           | Tenta resolver o puzzle automaticamente                                   |
+| `P`           | Apresenta o processo de resolução passo a passo                           |
+| `t`           | Aplica técnicas iniciais de resolução                                     |
+| `S`           | Resolve o tabuleiro com força bruta (backtracking)                        |
+| `d [<coord>]` | Desfaz a última jogada ou até à jogada numa coordenada específica         |
+| `D`           | Restaura o tabuleiro ao estado original (carregado ou gerado)             |
+| `s`           | Sai do jogo                                                               |
+
 
 ## Testes
 O projeto inclui testes unitários utilizando **CUnit**. Para compilar e executar todos os testes, use:
@@ -58,7 +68,6 @@ make cobertura
 ## Qualidade do Código
 - Compilado com flags estritas: `-Wall -Wextra -pedantic -fsanitize=address`
 - Utiliza `lcov` para análise de cobertura
-- Detecção de vazamento de memória com `valgrind`
 
 ## Formato do Ficheiro
 Os estados do jogo são guardados num formato de texto simples:
